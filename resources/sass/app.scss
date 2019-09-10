@@ -6,3 +6,15 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+// FullCalendar
+@import '~@fullcalendar/core/main.css';
+@import '~@fullcalendar/daygrid/main.css';
+@import '~@fullcalendar/timeline/main.css';
+@import '~@fullcalendar/resource-timeline/main.css';
+
+@import '~jquery-ui/themes/base/all.css';
+@import '~timepicker/jquery.timepicker.css';
+
+// Customs
+@import 'base';

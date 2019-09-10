@@ -2,22 +2,25 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
+    @include('reservaciones.modal')
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    You are logged in!
-                </div>
-            </div>
-        </div>
-    </div>
+    <div id="hotelCalendar"></div>
 </div>
 @endsection
+
+@push('styles')
+    <style>
+        .table {
+            font-size: 13px;
+        }
+
+        .table th {
+            text-transform: uppercase;
+        }
+
+        #hotelCalendar {
+            max-width: 1200px;
+            margin: 40px auto;
+        }
+    </style>
+@endpush
