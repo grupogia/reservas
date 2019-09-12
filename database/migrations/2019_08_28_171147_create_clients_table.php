@@ -22,7 +22,6 @@ class CreateClientsTable extends Migration
             $table->string('address');
             $table->string('state');
             $table->string('country');
-            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }

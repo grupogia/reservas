@@ -21,10 +21,10 @@ class ReservationsTableSeeder extends Seeder
             'folio' => 1,
             'checkin' => Carbon::today(),
             'checkout' => Carbon::tomorrow(),
-            'expiration' => Carbon::tomorrow(),
             'payment_method' => 'Tarjeta',
             'start' => Carbon::today(),
             'end' => Carbon::tomorrow(),
+            'notes' => 'Notas de prueba',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);

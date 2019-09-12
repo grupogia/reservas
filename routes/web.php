@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('index');
+Route::get('/', 'HomeController@index')->name('index');
 
 Auth::routes();
 
@@ -26,3 +24,4 @@ Route::apiResource('/reservaciones', 'ReservationController');
 Route::get('/carrito-habitaciones', 'ShoppingCartController@index');
 Route::post('/carrito-habitaciones/{product}', 'ShoppingCartController@add');
 Route::delete('/carrito-habitaciones/{product}', 'ShoppingCartController@remove');
+Route::get('/vaciar-carrito', 'ShoppingCartController@trash');

@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             SuiteTableSeeder::class,
             ReservationsTableSeeder::class,
             ClientsTableSeeder::class,
+            RatesTableSeeder::class,
         ]);
     }
 }

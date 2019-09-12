@@ -30,14 +30,14 @@
     <div class="col-3">
         <div class="form-group">
             <label for="adultos">Adultos</label>
-            <input class="form-control" type="text" name="adultos">
+            <input class="form-control" type="number" name="adultos" value="1">
         </div>
     </div>
 
     <div class="col-3">
         <div class="form-group">
             <label for="ninos">Niños</label>
-            <input class="form-control" type="text" name="ninos">
+            <input class="form-control" type="number" name="ninos" value="0">
         </div>
     </div>
 </div>
@@ -49,6 +49,7 @@
         <thead>
             <tr>
                 <th>Habitación</th>
+                <th>Cantidad</th>
                 <th>Tarifa</th>
                 <th>Tipo cama</th>
                 <th>Precio</th>
@@ -56,17 +57,12 @@
         </thead>
     
         <tbody id="tbody_habitaciones_cargadas">
-            <tr>
-                <td>Villa</td>
-                <td>Bar 1</td>
-                <td>King / Queen</td>
-                <td>$ 4,469</td>
-            </tr>
+            {{-- habitaciones con js --}}
         </tbody>
     
         <tfoot>
             <tr>
-                <td colspan="2"></td>
+                <td colspan="3"></td>
                 <td><strong>TOTAL</strong></td>
                 <td id="total_carga" class="bg-success">$ 4,469</td>
             </tr>

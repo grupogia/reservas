@@ -25,16 +25,60 @@ export class ModalReserva {
         })
     }
 
+    changeSelectEventListener() {
+        $('#modalRegistrar select').on('change', e => {
+            let name = e.target.name;
+            let value = e.target.value;
+
+            if (name == 'habitacion') {
+                console.log(value);
+            }
+            
+            if (name == 'tarifa') {
+                console.log(value)
+            }
+
+            if (name == 'tipo_pago') {
+                this.toggleTipoPago(value);
+            }
+
+            if (name == 'tipo_de_reserva') {
+                this.toggleTipoDeReserva(value);
+            }
+        })
+    }
+
+    toggleTipoPago(value) {
+        let selected = '.' + value + '-selected';
+        console.log(selected)
+
+        document.querySelector('div[class*="selected"].tipo-pago').style.display = 'none'
+        document.querySelector(selected).style.display = 'block';
+    }
+
+    toggleTipoDeReserva(value) {
+        let selected = '.' + value + '-selected';
+        console.log(selected)
+
+        document.querySelector('div[class*="selected"].tipo-de-reserva').style.display = 'none'
+        document.querySelector(selected).style.display = 'block';
+    }
+
     printTbodyHab(json) {
         let tbody = document.getElementById('tbody_habitaciones_cargadas');
         let cartContent = json.data.content;
-        let total = json.data.total;
+        let total = json.data.initial;
         let tbodyHTML = '';
 
-        for (item in cartContent) {
-            tbodyHTML += item
-            console.log(item);
-            
+        for (let index in cartContent) {
+            let prod = cartContent[index]
+            tbodyHTML += `<tr>
+            <td>${prod.name}</td>
+            <td>${prod.qty}</td>
+            <td>${prod.options.tarifa.toUpperCase()}</td>
+            <td>${prod.options.bed_type.toUpperCase()}</td>
+            <td>$ ${new Intl.NumberFormat().format(prod.price)}</td>
+            </tr>`;
         }
         tbody.innerHTML = tbodyHTML;
         total_carga.innerHTML = '$ ' + total
@@ -55,8 +99,6 @@ export class ModalReserva {
         $('#modalRegistrar input[name=fecha_de_entrada]').val(date_start)
         $('#modalRegistrar input[name=hora_de_salida]').val(time_end)
         $('#modalRegistrar input[name=fecha_de_salida]').val(date_end)
-
-        console.log(date.resource._resource);
     }
 
     printModalUpdateEvent(event) {

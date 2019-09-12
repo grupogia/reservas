@@ -1,61 +1,66 @@
 <div class="form-row">
     <div class="col-6">
         <div class="form-group">
-            <label for="tipo_habitacion">Tipo de reserva</label>
+            <label for="tipo_reserva">Tipo de reserva</label>
             <select class="form-control" name="tipo_de_reserva" id="">
                 <option value="">- Elegir -</option>
-                <option value="">Individual</option>
-                <option value="">Grupal</option>
+                <option value="individual">Individual</option>
+                <option value="grupal">Grupal</option>
             </select>
         </div>
     </div>
 
-    <div class="col-6">
-        <div class="form-group">
-            <label for="apellidos">Directas</label>
-            <select class="form-control" name="tipo_de_reserva" id="">
-                <option value="">- Elegir -</option>
-                <option value="">Telefono</option>
-                <option value="">Correo</option>
-                <option value="">Redes Sociales</option>
-                <option value="">Pagina Web</option>
-                <option value="">Telvisión</option>
-            </select>
+    <div class="individual-selected tipo-de-reserva">
+        <div class="col-6">
+            <div class="form-group">
+                <label for="directas">Directas</label>
+                <select class="form-control" name="directas" id="">
+                    <option value="">- Elegir -</option>
+                    <option value="telefono">Telefono</option>
+                    <option value="correo">Correo</option>
+                    <option value="redes_sociales">Redes Sociales</option>
+                    <option value="pagina_web">Pagina Web</option>
+                    <option value="">Telvisión</option>
+                </select>
+            </div>
+        </div>
+    
+        <div class="col-6">
+            <div class="form-group">
+                <label for="agencia">Agencias</label>
+                <select class="form-control" name="agencia" id="">
+                    <option value="">- Elegir -</option>
+                    <option value="gds">GDS</option>
+                    <option value="expedia">Expedia</option>
+                    <option value="bodas.com">bodas.com</option>
+                    <option value="bestday">Best Day</option>
+                    <option value="price_travel">Price Travel</option>
+                </select>
+            </div>
         </div>
     </div>
 
-    <div class="col-6">
-        <div class="form-group">
-            <label for="apellidos">Agencias</label>
-            <select class="form-control" name="tipo_de_reserva" id="">
-                <option value="">- Elegir -</option>
-                <option value="">GDS</option>
-                <option value="">Expedia</option>
-                <option value="">bodas.com</option>
-                <option value="">Best Day</option>
-                <option value="">Price Travel</option>
-            </select>
+    <div class="grupal-selected tipo-de-reserva">
+        <div class="col-6">
+            <div class="form-group">
+                <label for="sociales">Sociales</label>
+                <select class="form-control" name="sociales" id="">
+                    <option value="">- Elegir -</option>
+                    <option value="boda">Boda</option>
+                    <option value="bautizo">Bautizo</option>
+                    <option value="xv_anios">XV Años</option>
+                </select>
+            </div>
         </div>
-    </div>
-
-    <div class="col-6">
-        <div class="form-group">
-            <label for="apellidos">Sociales</label>
-            <select class="form-control" name="tipo_de_reserva" id="">
-                <option value="">- Elegir -</option>
-                <option value="">Boda</option>
-                <option value="">Bautizo</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="col-6">
-        <div class="form-group">
-            <label for="email">Empresariales</label>
-            <select class="form-control" name="tipo_de_reserva" id="">
-                <option value="">- Elegir -</option>
-                <option value="">Evento empresarial</option>
-            </select>
+    
+        <div class="col-6">
+            <div class="form-group">
+                <label for="empresariales">Empresariales</label>
+                <select class="form-control" name="empresariales" id="">
+                    <option value="">- Elegir -</option>
+                    <option value="">Evento empresarial</option>
+                </select>
+            </div>
         </div>
     </div>
 

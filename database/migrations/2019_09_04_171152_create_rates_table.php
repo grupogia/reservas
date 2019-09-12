@@ -19,6 +19,8 @@ class CreateRatesTable extends Migration
             $table->string('type');
             $table->float('price');
             $table->timestamps();
+
+            $table->foreign('suite_id')->references('id')->on('suites');
         });
     }
 

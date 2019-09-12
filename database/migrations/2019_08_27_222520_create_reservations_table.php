@@ -22,10 +22,10 @@ class CreateReservationsTable extends Migration
             $table->string('folio')->nullable();
             $table->string('checkin');
             $table->string('checkout');
-            $table->string('expiration');
             $table->string('payment_method');
             $table->dateTime('start');
             $table->dateTime('end');
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }

@@ -14,6 +14,5 @@ $factory->define(Client::class, function (Faker $faker) {
         'address' => $faker->address,
         'state' => $faker->word,
         'country' => $faker->country,
-        'notes' => $faker->sentence(),
     ];
 });

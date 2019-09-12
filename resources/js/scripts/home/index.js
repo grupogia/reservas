@@ -73,3 +73,5 @@ calendar.render();
 form.submitEventListener();
 
 formCargar.submitEventListener();
+
+modal.changeSelectEventListener();

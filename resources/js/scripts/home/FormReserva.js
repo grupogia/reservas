@@ -24,15 +24,14 @@ export class FormReserva
         let errorText = ''
 
         for (let i in errors) {
-            errorText += errors[i][0]
+            errorText += errors[i][0] + '<br>'
         }
         Swal.fire({
             type: 'error',
             title: errorTitle,
-            text: errorText
+            html: errorText
         });
         console.log(errors);
-        
     }
 
     sendData(url, data) {

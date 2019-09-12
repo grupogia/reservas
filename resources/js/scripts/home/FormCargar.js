@@ -7,9 +7,7 @@ export class FormCargar
         this.form = document.getElementById(formName)
     }
 
-    successMessage(res) {
-        console.log(res.data);
-        
+    successMessage(res) {               
         Swal.fire({
             type: 'success',
             title: 'Exito',
@@ -64,15 +62,22 @@ export class FormCargar
         })
     }
 
-    printTbodyHab(json) {
+    printTbodyHab(json) {        
         let tbody = document.getElementById('tbody_habitaciones_cargadas');
         let cartContent = json.data.content;
         let total = json.data.total;
         let tbodyHTML = '';
 
-        for (item in cartContent) {
-            // tbodyHTML += item;
-            console.log(item);
+        for (let index in cartContent) {
+            let prod = cartContent[index]
+            
+            tbodyHTML += `<tr>
+            <td>${prod.name}</td>
+            <td>${prod.qty}</td>
+            <td>${prod.options.tarifa.toUpperCase()}</td>
+            <td>${prod.options.bed_type.toUpperCase()}</td>
+            <td>$ ${new Intl.NumberFormat().format(prod.price)}</td>
+            </tr>`;
         }
         tbody.innerHTML = tbodyHTML;
         total_carga.innerHTML = '$ ' + total
