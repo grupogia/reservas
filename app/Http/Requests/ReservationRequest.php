@@ -48,7 +48,9 @@ class ReservationRequest extends FormRequest
             'titular' => 'required',
 
             // Datos de segmentación
-            'tipo_de_reserva' => 'nullable',
+            'tipo_de_reserva' => 'required',
+            'directas' => 'nullable',
+            'sociales' => 'nullable',
             'notas' => 'nullable',
         ];
     }

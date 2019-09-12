@@ -39,28 +39,24 @@ export class ModalReserva {
             }
 
             if (name == 'tipo_pago') {
-                this.toggleTipoPago(value);
+                this.toggleInputs(value, 'tipo-pago');
             }
 
             if (name == 'tipo_de_reserva') {
-                this.toggleTipoDeReserva(value);
+                this.toggleInputs(value, 'tipo-de-reserva');
             }
         })
     }
 
-    toggleTipoPago(value) {
+    toggleInputs(value = '', divClass) {
+        let divs = document.querySelectorAll('div[class*="selected"].' + divClass);
         let selected = '.' + value + '-selected';
-        console.log(selected)
 
-        document.querySelector('div[class*="selected"].tipo-pago').style.display = 'none'
-        document.querySelector(selected).style.display = 'block';
-    }
+        for (let i = 0; i < divs.length; i++) {
+            divs[i].style.display = 'none';
+        }
 
-    toggleTipoDeReserva(value) {
-        let selected = '.' + value + '-selected';
-        console.log(selected)
-
-        document.querySelector('div[class*="selected"].tipo-de-reserva').style.display = 'none'
+        if (value)
         document.querySelector(selected).style.display = 'block';
     }
 
