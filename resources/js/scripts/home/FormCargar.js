@@ -44,6 +44,7 @@ export class FormCargar
             this.successMessage(res)
         })
         .catch(res => {
+            console.log(res)
             this.errorMessage(res)
         })
     }
