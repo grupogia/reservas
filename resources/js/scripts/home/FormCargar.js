@@ -38,6 +38,9 @@ export class FormCargar
     sendData(habitacionId, formData) {
         Axios.post('carrito-habitaciones/' + habitacionId, formData)
         .then(res => {
+            if (res.data.price == '')
+            console.log(res.data.price);
+            
             this.successMessage(res)
         })
         .catch(res => {
