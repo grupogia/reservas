@@ -28,8 +28,8 @@
     </div>
 </div>
 
-<a id="btnVaciarReservas" class="btn btn-danger float-right" href="vaciar-carrito">Vaciar</a>
-<a class="btn btn-primary float-right mr-1" href="#submodalHabitacion" data-toggle="submodal">Cargar habitación</a>
+<a id="btnVaciarReservas" class="btn btn-danger float-right" href="vaciar-carrito"><i class="fas fa-trash-alt"></i> Vaciar</a>
+<a class="btn btn-primary float-right mr-1" href="#submodalHabitacion" data-toggle="submodal"><i class="far fa-calendar-plus"></i> Cargar habitación</a>
 
 <div class="table-responsive text-center">
     <table class="table table-striped mt-2">

@@ -23,9 +23,10 @@ const calendar = new Calendar(calendarEl, {
     locale: esLocale,
     resourceAreaWidth: '310px',
     slotWidth: 100,
+    titleFormat: { year: 'numeric', month: 'short' },
 
     header: {
-        left: 'resourceTimelineMonth,resourceTimelineWeek',
+        left: 'resourceTimelineYear,resourceTimelineMonth',
         center: 'title',
         right: 'today prev,next'
     },
@@ -33,10 +34,15 @@ const calendar = new Calendar(calendarEl, {
     views: {
         resourceTimelineMonth: {
             slotLabelFormat: [
+                { month: 'long' },
                 { weekday: 'short', day: 'numeric' } // top of text
             ]
         },
-        resourceTimelineWeek: {
+        resourceTimelineYear: {
+            slotLabelFormat: [
+                { month: 'long' }, // top of text
+                { weekday: 'short', day: 'numeric' }
+            ]
         }
     },
 

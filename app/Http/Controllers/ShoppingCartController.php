@@ -41,7 +41,7 @@ class ShoppingCartController extends Controller
                 $price = floatval($rate->price);
 
                 Cart::add($suite->id, $suite->id. ' ' .$suite->title, 1, $price, 0, ['tarifa' => $rate->type, 'bed_type' => $suite->bed_type, 'adultos' => $request->adultos, 'ninios' => $request->ninios]);
-                return response()->json(['price' => number_format($price, 2)]);
+                return response()->json(['message' => 'Habitación agregada', 'price' => number_format($price, 2)]);
             }
         }
     }

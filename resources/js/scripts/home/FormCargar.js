@@ -10,8 +10,7 @@ export class FormCargar
     successMessage(res) {               
         Swal.fire({
             type: 'success',
-            title: 'Exito',
-            text: res.data
+            title: res.data.message
         })
         .then(() => {
             this.getShoppingCartContent()

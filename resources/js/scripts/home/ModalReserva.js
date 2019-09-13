@@ -40,7 +40,7 @@ export class ModalReserva {
                 .then(() => {
                     Swal.fire({
                         type: 'success',
-                        title: 'Completado'
+                        title: 'El carrito está vacío'
                     })
                     .then(() => this.getShoppingCartContent())
                 })
