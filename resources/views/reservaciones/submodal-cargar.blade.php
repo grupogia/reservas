@@ -27,6 +27,22 @@
                         </select>
                     </div>
 
+                    <div class="form-row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="adultos">Adultos</label>
+                                <input class="form-control" type="number" name="adultos" value="1">
+                            </div>
+                        </div>
+                    
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="ninos">Niños</label>
+                                <input class="form-control" type="number" name="ninios" value="0">
+                            </div>
+                        </div>
+                    </div>
+
                     <button class="btn btn-success" type="submit">Cargar</button>
                     <button class="btn btn-secondary" type="button" data-dismiss="submodal">Cancel</button>
                 </form>

@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
             UsersTableSeeder::class,
             SuiteTableSeeder::class,
             ReservationsTableSeeder::class,
+            ReservationDetailsTableSeeder::class,
             ClientsTableSeeder::class,
             RatesTableSeeder::class,
         ]);

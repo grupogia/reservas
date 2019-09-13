@@ -37,8 +37,6 @@ class ReservationRequest extends FormRequest
             'fecha_de_salida' => 'required',
             'hora_de_entrada' => 'required',
             'hora_de_salida' => 'required',
-            'adultos' => 'required',
-            'ninos' => 'required',
 
             // Datos del pago
             'tipo_pago' => 'required',

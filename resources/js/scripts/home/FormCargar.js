@@ -63,9 +63,10 @@ export class FormCargar
     }
 
     printTbodyHab(json) {        
+        // Los cambios de este método afectan a la clase ModalCargar
         let tbody = document.getElementById('tbody_habitaciones_cargadas');
         let cartContent = json.data.content;
-        let total = json.data.total;
+        let total = json.data.initial;
         let tbodyHTML = '';
 
         for (let index in cartContent) {
@@ -74,6 +75,8 @@ export class FormCargar
             tbodyHTML += `<tr>
             <td>${prod.name}</td>
             <td>${prod.qty}</td>
+            <td>${prod.options.adultos}</td>
+            <td>${prod.options.ninios}</td>
             <td>${prod.options.tarifa.toUpperCase()}</td>
             <td>${prod.options.bed_type.toUpperCase()}</td>
             <td>$ ${new Intl.NumberFormat().format(prod.price)}</td>

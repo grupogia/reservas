@@ -8,13 +8,13 @@ export class FormReserva
     }
 
     successMessage(successObj) {
-        console.log(successObj)
+        console.log(successObj.data)
         Swal.fire({
             type: 'success',
             title: 'Completado'
         })
         .then(() => {
-            getShoppingCartContent();
+            location.reload();
         })
     }
 

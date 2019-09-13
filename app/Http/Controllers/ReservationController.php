@@ -2,25 +2,55 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
 use App\Client;
-use App\Http\Requests\ReservationRequest;
 use App\Reservation;
-use Gloudemans\Shoppingcart\Facades\Cart;
+use App\Http\Requests\ReservationRequest;
+use App\ReservationDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Gloudemans\Shoppingcart\Facades\Cart;
 
 class ReservationController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Muestra todas las reservaciones registradas con sus habitaciones
+     * para ser mostradas en el calendario
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $reservations = DB::table('reservations')
-        ->join('clients', 'reservations.client_id', '=', 'clients.id')
-        ->get();
+        $table = 'reservations';
+        $columns = [
+            'reservations.*',
+            'reservation_details.suite_id as resourceId',
+            'reservation_details.adults',
+            'reservation_details.children',
+            'clients.name',
+            'clients.surname',
+            'clients.email',
+            'clients.phone',
+            'clients.address',
+            'clients.country',
+        ];
+
+        if (!empty($_GET['start']) && !empty($_GET['end'])) {
+            $reservations = DB::table($table)
+            ->select($columns)
+            ->join('clients', 'reservations.client_id', '=', 'clients.id')
+            ->join('reservation_details', 'reservations.id', '=', 'reservation_details.reservation_id')
+            ->whereBetween($table . '.start', [$_GET['start'], $_GET['end']])
+            ->orWhereBetween($table . '.end', [$_GET['start'], $_GET['end']])
+            ->get();
+            
+        } else {
+            $reservations = DB::table($table)
+            ->select($columns)
+            ->join('clients', 'reservations.client_id', '=', 'clients.id')
+            ->join('reservation_details', 'reservations.id', '=', 'reservation_details.reservation_id')
+            ->get();
+        }
 
         return response()->json($reservations);
     }
@@ -33,11 +63,16 @@ class ReservationController extends Controller
      */
     public function store(ReservationRequest $request)
     {
+        // Inicializa variables básicas
+        $start = new DateTime($request->fecha_de_entrada . ' ' . $request->hora_de_entrada);
+        $end = new DateTime($request->fecha_de_salida . ' ' . $request->hora_de_salida);
+
         // Validar cliente
         $is_client = DB::table('clients')
         ->select()
         ->where('email', '=', $request->email)->get();
 
+        // Busca o crea el cliente en la DB
         if (count($is_client)) {
             $client = Client::find($is_client[0]->id);
 
@@ -54,26 +89,34 @@ class ReservationController extends Controller
             $client->save();
         }
 
+        // Crea la reservación
+        $reservation = new Reservation();
+        $reservation->user_id = auth()->user()->id;
+        $reservation->client_id = $client->id;
+
+        $reservation->title = 'Reserva de Habitación';
+        $reservation->folio = 2;
+        $reservation->checkin = $request->fecha_de_entrada . ' ' . $request->hora_de_entrada;
+        $reservation->checkout = $request->fecha_de_salida . ' ' . $request->hora_de_salida;
+        $reservation->payment_method = $request->tipo_pago;
+        $reservation->start = $start->format('Y-d-m H:i:s');
+        $reservation->end = $end->format('Y-d-m H:i:s');
+        
+        $reservation->save();
+
+        // Recopila los ids de las suites cargadas
         foreach (Cart::content() as $suite) {
-            $start = new \DateTime($request->fecha_de_entrada . ' ' . $request->hora_de_entrada);
-            $end = new \DateTime($request->fecha_de_salida. ' ' . $request->hora_de_salida);
+            $detail = new ReservationDetail();
+            $detail->reservation_id = $reservation->id;
+            $detail->suite_id = $suite->id;
+            $detail->adults = $suite->options->adultos;
+            $detail->children = $suite->options->ninios;
+            $detail->subtotal = $suite->subtotal;
 
-            $reservation = new Reservation();
-            $reservation->user_id = auth()->user()->id;
-            $reservation->client_id = $client->id;
-            $reservation->resourceId = $suite->id;
-
-            $reservation->title = 'Reserva de Habitación';
-            $reservation->folio = 2;
-            $reservation->checkin = $request->fecha_de_entrada . ' ' . $request->hora_de_entrada;
-            $reservation->checkout = $request->fecha_de_salida . ' ' . $request->hora_de_salida;
-            $reservation->payment_method = $request->tipo_pago;
-            $reservation->start = $start->format('Y-d-m H:i:s');
-            $reservation->end = $end->format('Y-d-m H:i:s');
-            
-            $reservation->save();
+            $detail->save();
         }
 
+        // Vacía el carrito
         Cart::destroy();
         return response()->json(['success' => 'Reservación correcta']);
     }
@@ -113,5 +156,10 @@ class ReservationController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    private function createClient($request)
+    {
+        return $request;
     }
 }

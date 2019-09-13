@@ -19,7 +19,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/deptos', 'SuiteController@index');
 
-Route::apiResource('/reservaciones', 'ReservationController');
+Route::apiResource('reservaciones', 'ReservationController');
 
 Route::get('/carrito-habitaciones', 'ShoppingCartController@index');
 Route::post('/carrito-habitaciones/{product}', 'ShoppingCartController@add');

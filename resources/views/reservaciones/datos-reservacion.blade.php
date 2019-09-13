@@ -26,30 +26,18 @@
             </div>
         </div>
     </div>
-
-    <div class="col-3">
-        <div class="form-group">
-            <label for="adultos">Adultos</label>
-            <input class="form-control" type="number" name="adultos" value="1">
-        </div>
-    </div>
-
-    <div class="col-3">
-        <div class="form-group">
-            <label for="ninos">Niños</label>
-            <input class="form-control" type="number" name="ninos" value="0">
-        </div>
-    </div>
 </div>
 
 <a class="btn btn-primary float-right" href="#submodalHabitacion" data-toggle="submodal">Cargar habitación</a>
 
-<div class="table-responsive">
+<div class="table-responsive text-center">
     <table class="table table-striped mt-2">
         <thead>
             <tr>
                 <th>Habitación</th>
-                <th>Cantidad</th>
+                <th>Cant</th>
+                <th>Adultos</th>
+                <th>Niños</th>
                 <th>Tarifa</th>
                 <th>Tipo cama</th>
                 <th>Precio</th>
@@ -62,9 +50,9 @@
     
         <tfoot>
             <tr>
-                <td colspan="3"></td>
+                <td colspan="5"></td>
                 <td><strong>TOTAL</strong></td>
-                <td id="total_carga" class="bg-success">$ 4,469</td>
+                <td id="total_carga" class="bg-success">$ 0.00</td>
             </tr>
         </tfoot>
     </table>

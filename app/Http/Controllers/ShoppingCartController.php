@@ -28,7 +28,9 @@ class ShoppingCartController extends Controller
     public function add(Request $request, $product) {
         $request->validate([
             'habitacion' => 'required',
-            'tarifa' => 'required'
+            'tarifa' => 'required',
+            'adultos' => 'required|numeric',
+            'ninios' => 'required|numeric',
         ]);
 
         $suite = Suite::find($product);
@@ -38,7 +40,7 @@ class ShoppingCartController extends Controller
             if ($rate->type == strtolower($request->tarifa)) {
                 $price = floatval($rate->price);
 
-                Cart::add($suite->id, $suite->id. ' ' .$suite->title, 1, $price, 0, ['tarifa' => $rate->type, 'bed_type' => $suite->bed_type]);
+                Cart::add($suite->id, $suite->id. ' ' .$suite->title, 1, $price, 0, ['tarifa' => $rate->type, 'bed_type' => $suite->bed_type, 'adultos' => $request->adultos, 'ninios' => $request->ninios]);
                 return response()->json(['price' => number_format($price, 2)]);
             }
         }
