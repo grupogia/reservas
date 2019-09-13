@@ -25,7 +25,7 @@ class ReservationDetailsTableSeeder extends Seeder
                 'suite_id' => 2,
                 'adults' => 2,
                 'children' => 1,
-                'subtotal' => 2000,
+                'subtotal' => 2000
             ],
         ]);
     }
