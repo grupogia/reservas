@@ -28,7 +28,8 @@
     </div>
 </div>
 
-<a class="btn btn-primary float-right" href="#submodalHabitacion" data-toggle="submodal">Cargar habitación</a>
+<a id="btnVaciarReservas" class="btn btn-danger float-right" href="vaciar-carrito">Vaciar</a>
+<a class="btn btn-primary float-right mr-1" href="#submodalHabitacion" data-toggle="submodal">Cargar habitación</a>
 
 <div class="table-responsive text-center">
     <table class="table table-striped mt-2">

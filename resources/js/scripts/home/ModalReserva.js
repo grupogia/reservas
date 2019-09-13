@@ -1,5 +1,6 @@
 import moment from 'moment';
 import Axios from 'axios';
+import Swal from 'sweetalert2';
 
 export class ModalReserva {
     constructor(modalName) {
@@ -22,6 +23,28 @@ export class ModalReserva {
         Axios.get('carrito-habitaciones')
         .then(res => {
             this.printTbodyHab(res)
+        })
+    }
+
+    clickEventListener(btnName) {
+        let btn = document.getElementById(btnName);
+
+        btn.addEventListener('click', e => {
+            e.preventDefault();
+            let classList = btn.classList;
+            
+            if (classList.contains('btn-danger')) {
+                let url = e.target.href;
+                
+                Axios.get(url)
+                .then(() => {
+                    Swal.fire({
+                        type: 'success',
+                        title: 'Completado'
+                    })
+                    .then(() => this.getShoppingCartContent())
+                })
+            }
         })
     }
 
