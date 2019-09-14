@@ -18,15 +18,15 @@ const calendar = new Calendar(calendarEl, {
     schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
 
     plugins: [ resourceTimelinePlugin, interactionPlugin ],
-    aspectRatio: 1.5,
+    height: 550,
     defaultView: 'resourceTimelineMonth',
     locale: esLocale,
     resourceAreaWidth: '310px',
-    slotWidth: 100,
+    //slotWidth: 100,
     titleFormat: { year: 'numeric', month: 'short' },
 
     header: {
-        left: 'resourceTimelineYear,resourceTimelineMonth',
+        left: 'resourceTimelineYear,resourceTimelineMonth,resourceTimelineWeek',
         center: 'title',
         right: 'today prev,next'
     },
@@ -39,9 +39,22 @@ const calendar = new Calendar(calendarEl, {
             ]
         },
         resourceTimelineYear: {
+            buttonText: 'Año',
             slotLabelFormat: [
                 { month: 'long' }, // top of text
                 { weekday: 'short', day: 'numeric' }
+            ]
+        },
+        resourceTimelineWeek: {
+            type: 'resourceTimelineWeek',
+            buttonText: 'Semana',
+            dateAlignment: 'week',
+            duration: { day: 7 },
+            slotWidth: 50,
+            //dayCount: 1,
+            slotLabelFormat: [
+                { weekday: 'long', day: 'numeric' },
+                { hour: 'numeric', minute: 'numeric' }
             ]
         }
     },

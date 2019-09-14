@@ -15,8 +15,8 @@
         <div class="form-row">
             <div class="col-3">
                 <div class="form-group">
-                    <label for="n_tarjeta">Num. Tarjeta</label>
-                    <input class="form-control" type="text" name="n_tarjeta">
+                    <label for="numero_tarjeta">Num. Tarjeta</label>
+                    <input class="form-control" type="text" name="numero_tarjeta">
                 </div>
             </div>
         
@@ -37,7 +37,13 @@
         </div>
     </div>
 
-    <div class="efectivo-selected tipo-pago"></div>
+    <div class="efectivo-selected tipo-pago" style="display: none">
+        <label for="monto">Monto</label>
+        <input class="form-control" type="text" name="monto" placeholder="$ 0.00">
+    </div>
 
-    <div class="deposito-selected tipo-pago"></div>
+    <div class="deposito-selected tipo-pago" style="display: none">
+        <label for="monto">Monto</label>
+        <input class="form-control" type="text" name="monto" placeholder="$ 0.00">
+    </div>
 </div>

@@ -28,10 +28,10 @@ export class FormReserva
         }
         Swal.fire({
             type: 'error',
-            title: errorTitle,
+            title: 'Datos inválidos',
             html: errorText
         });
-        console.log(errors);
+        console.log(errorObj);
     }
 
     sendData(url, data) {

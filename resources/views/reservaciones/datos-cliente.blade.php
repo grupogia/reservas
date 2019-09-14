@@ -16,7 +16,7 @@
     <div class="col-6">
         <div class="form-group">
             <label for="email">Correo</label>
-            <input class="form-control" type="email" name="email">
+            <input class="form-control" type="text" name="email">
         </div>
     </div>
 
