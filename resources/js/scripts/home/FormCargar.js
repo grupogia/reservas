@@ -29,8 +29,8 @@ export class FormCargar
 
         Swal.fire({
             type: 'error',
-            title: 'No se realizó la operación',
-            text: errorsText
+            title: 'No se cargó',
+            html: errorsText
         })
     }
 

@@ -44,6 +44,11 @@ class ShoppingCartController extends Controller
                 return response()->json(['message' => 'Habitación asignada', 'price' => number_format($price, 2)]);
             }
         }
+        return response()->json([
+            'errors' => [
+                0 => 'No se encontró una tarifa para esta habitación'
+            ]
+        ], 422);
     }
 
     /**
