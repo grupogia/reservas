@@ -16,14 +16,6 @@ class SuiteTableSeeder extends Seeder
         DB::table('suites')->insert([
             [
                 'title' => 'TULIPAN',
-                'number' => 1,
-                'bed_number' => 1,
-                'bed_type' => 'King',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'title' => 'TULIPAN',
                 'number' => 2,
                 'bed_number' => 1,
                 'bed_type' => 'King',
@@ -130,7 +122,7 @@ class SuiteTableSeeder extends Seeder
                 'title' => 'NUPCIAL',
                 'number' => 11,
                 'bed_number' => 1,
-                'bed_type' => 'Matri',
+                'bed_type' => 'King',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],

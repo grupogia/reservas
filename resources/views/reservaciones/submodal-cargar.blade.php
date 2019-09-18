@@ -11,7 +11,7 @@
                             <option value="">- Elegir -</option>
             
                             @foreach ($suites as $suite)
-                                <option value="{{ $suite->id }}">{{ $suite->id . ' ' . $suite->title }}</option>
+                                <option value="{{ $suite->id }}">{{ $suite->number . ' ' . $suite->title }}</option>
                             @endforeach
                         </select>
                     </div>

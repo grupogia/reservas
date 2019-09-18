@@ -3,6 +3,7 @@
 @section('content')
 <div class="container">
     @include('reservaciones.modal')
+    @include('reservaciones.modal-editar')
 
     <div id="hotelCalendar"></div>
 </div>

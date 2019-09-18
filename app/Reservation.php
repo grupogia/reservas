@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reservation extends Model
 {
-    public function reservationDetails()
+    public function details()
     {
         return $this->hasMany('App\ReservationDetail');
     }
