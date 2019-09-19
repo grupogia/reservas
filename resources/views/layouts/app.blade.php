@@ -10,16 +10,16 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-    <script src="{{ asset('plugins/submodaljs/src/bs.sm.js') }}" defer></script>
+    <script src="{{ mix('js/app.js') }}" async></script>
+    <script src="{{ mix('plugins/submodaljs/src/bs.sm.js') }}" defer></script>
     @stack('scripts')
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('plugins/submodaljs/src/bs.sm.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('plugins/submodaljs/src/bs.sm.css') }}" rel="stylesheet">
     @stack('styles')
 </head>
 <body>
