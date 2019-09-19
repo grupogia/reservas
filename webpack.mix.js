@@ -15,7 +15,6 @@ mix.js([
     'resources/js/app.js',
     'resources/js/custom.js'
 ], 'public/js')
-.extract()
 
 .sass('resources/sass/app.scss', 'public/css')
 .version().sourceMaps();
