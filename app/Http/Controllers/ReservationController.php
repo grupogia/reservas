@@ -173,7 +173,9 @@ class ReservationController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $reservation = Reservation::find($id);
+        
+        return $reservation;
     }
 
     private function createClient($request)

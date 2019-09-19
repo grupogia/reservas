@@ -8,6 +8,7 @@ export class ModalReserva {
         this.bootstrapModal = $('#' + modalName)
     }
 
+    /** Muestra el modal */
     show(dataJson) {
         this.getShoppingCartContent()
         this.printModalStoreEvent(dataJson)
@@ -19,6 +20,7 @@ export class ModalReserva {
         this.bootstrapModal.modal('show')
     }
 
+    /** Devuelve las habitaciones cargadas en el carrito */
     getShoppingCartContent() {
         Axios.get('carrito-habitaciones')
         .then(res => {
@@ -26,6 +28,7 @@ export class ModalReserva {
         })
     }
 
+    /** Activa los eventos de hacer click */
     clickEventListener(btnName) {
         let btn = document.getElementById(btnName);
 
@@ -48,6 +51,7 @@ export class ModalReserva {
         })
     }
 
+    /** Muestra u oculta los selects al realizar cambio en ellos */
     changeSelectEventListener() {
         $('#modalRegistrar select').on('change', e => {
             let name = e.target.name;

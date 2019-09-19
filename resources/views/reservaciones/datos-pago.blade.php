@@ -37,12 +37,7 @@
         </div>
     </div>
 
-    <div class="efectivo-selected tipo-pago" style="display: none">
-        <label for="monto">Monto</label>
-        <input class="form-control" type="text" name="monto" placeholder="$ 0.00">
-    </div>
-
-    <div class="deposito-selected tipo-pago" style="display: none">
+    <div class="efectivo-selected deposito-selected tipo-pago" style="display: none">
         <label for="monto">Monto</label>
         <input class="form-control" type="text" name="monto" placeholder="$ 0.00">
     </div>

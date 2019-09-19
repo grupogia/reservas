@@ -12,18 +12,6 @@
 
     <div class="individual-selected tipo-de-reserva col-12" style="display: none">
         <div class="form-row">
-            {{-- <div class="col-12">
-                <div class="form-group">
-                    <label for="tipo">Tipo</label>
-
-                    <select class="form-control" name="tipo" id="">
-                        <option value="">- Elegir -</option>
-                        <option value="directas">Directas</option>
-                        <option value="agencias">Agencias</option>
-                    </select>
-                </div>
-            </div> --}}
-
             <div class="col-6">
                 <div class="form-group">
                     <label for="directas">Directas</label>
@@ -42,20 +30,6 @@
                     </select>
                 </div>
             </div>
-        
-            {{-- <div class="col-6">
-                <div class="form-group">
-                    <label for="agencia">Agencias</label>
-                    <select class="form-control" name="agencia" id="">
-                        <option value="">- Elegir -</option>
-                        <option value="gds">GDS</option>
-                        <option value="expedia">Expedia</option>
-                        <option value="bodas.com">bodas.com</option>
-                        <option value="bestday">Best Day</option>
-                        <option value="price_travel">Price Travel</option>
-                    </select>
-                </div>
-            </div> --}}
         </div>
     </div>
 
