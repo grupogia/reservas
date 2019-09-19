@@ -10,16 +10,15 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ mix('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('plugins/submodaljs/src/bs.sm.js') }}" defer></script>
     @stack('scripts')
 
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="http://reservas.operadoralasmananitas.com.mx">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('plugins/submodaljs/src/bs.sm.css') }}" rel="stylesheet">
     @stack('styles')
 </head>
