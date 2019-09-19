@@ -9,7 +9,8 @@ export class ModalEditarReserva {
     }
 
     show(dataJson) {
-        this.printReservationOnModal(dataJson)
+        this.printReservationModal(dataJson)
+        this.getDetailReserva(formEditarReserva)
         this.bootstrapModal.modal('show')
     }
 
@@ -21,15 +22,15 @@ export class ModalEditarReserva {
             let classList = btn.classList;
             
             if (classList.contains('btn-danger')) {
-                let url = e.target.href;
+                let url = document.getElementById('formEditarReserva').action;
                 
-                Axios.get(url)
-                .then(() => {
+                Axios.delete(url)
+                .then(res => {                    
                     Swal.fire({
                         type: 'success',
-                        title: 'El carrito está vacío'
+                        title: res.data.message
                     })
-                    .then(() => this.getShoppingCartContent())
+                    .then(() => location.reload())
                 })
             }
         })
@@ -70,42 +71,47 @@ export class ModalEditarReserva {
         document.querySelector(selected).style.display = 'block';
     }
 
-    getDetailReserva() {
+    getDetailReserva(form) {
+        let url = form.action;
+        
+        Axios.get(url)
+        .then(res => {
+            this.printTbodyHab(res)
+        })
         return true;
     }
 
     printTbodyHab(json) {
         // Los cambios de este método afectan a la clase FormCargar
-        let tbody = document.getElementById('tbody_habitaciones_cargadas');
-        let cartContent = json.data.content;
+        let tbody = document.getElementById('tbody_editar_habitaciones_cargadas');
+        let cartContent = json.data.detalle;
         let total = json.data.initial;
         let tbodyHTML = '';
 
         for (let index in cartContent) {
             let prod = cartContent[index]
+            
             tbodyHTML += `<tr>
-            <td>${prod.name}</td>
-            <td>${prod.qty}</td>
-            <td>${prod.options.adultos}</td>
-            <td>${prod.options.ninios}</td>
-            <td>${prod.options.tarifa.toUpperCase()}</td>
-            <td>${prod.options.bed_type.toUpperCase()}</td>
-            <td>$ ${new Intl.NumberFormat().format(prod.price)}</td>
+            <td>${prod.suite.title}</td>
+            <td>${prod.adults}</td>
+            <td>${prod.children}</td>
+            <td>${prod.suite.bed_type.toUpperCase()}</td>
+            <td>$ ${new Intl.NumberFormat().format(prod.subtotal)}</td>
             </tr>`;
         }
         tbody.innerHTML = tbodyHTML;
-        total_carga.innerHTML = '$ ' + total
+        total_editar_carga.innerHTML = '$ ' + total
     }
 
-    printReservationOnModal(event) {
+    printReservationModal(event) {
         let start_date = moment(event.start).format('DD/MM/YYYY');
-        let end_date = moment(event.start).format('DD/MM/YYYY');
+        let end_date   = moment(event.start).format('DD/MM/YYYY');
         let start_time = moment(event.start).format('hh:mm A');
-        let end_time = moment(event.start).format('hh:mm A');
-        let resource = event.getResources()[0];
-        let props = event.extendedProps;
-        let form = $('#modalEditar #formEditarReserva')[0]
-        let isMethod = $('#modalEditar input[name=_method]').length;
+        let end_time   = moment(event.start).format('hh:mm A');
+        let resource   = event.getResources()[0];
+        let props      = event.extendedProps;
+        let form       = $('#modalEditar #formEditarReserva')[0]
+        let isMethod   = $('#modalEditar input[name=_method]').length;
         
         form.reset();
         form.action = form.dataset.url + '/' + event.id;
@@ -113,20 +119,20 @@ export class ModalEditarReserva {
         if (!isMethod)
         form.innerHTML += `<input type="hidden" name="_method" value="PUT"/>`;
 
-        $('#modalEditar input[name=nombre]').val(props.name)
-        $('#modalEditar input[name=apellidos]').val(props.surname)
-        $('#modalEditar input[name=email]').val(props.email)
-        $('#modalEditar input[name=direccion]').val(props.address)
-        $('#modalEditar input[name=telefono]').val(props.phone)
+        $('#modalEditar input[name=nombre]')     .val(props.name)
+        $('#modalEditar input[name=apellidos]')  .val(props.surname)
+        $('#modalEditar input[name=email]')      .val(props.email)
+        $('#modalEditar input[name=direccion]')  .val(props.address)
+        $('#modalEditar input[name=telefono]')   .val(props.phone)
         $('#modalEditar input[name=procedencia]').val(props.country)
         $('#modalEditar input[name=vencimiento]').val(props.expiration)
-        $('#modalEditar select[name=tipo_pago]').val(props.payment_method.toLowerCase())
-        $('#modalEditar input[name=tipo_pago]').val(props.payment_method.toLowerCase())
-        $('#modalEditar input[name=habitacion]').val(resource.title + ' ' + resource.id)
+        $('#modalEditar select[name=tipo_pago]') .val(props.payment_method.toLowerCase())
+        $('#modalEditar input[name=tipo_pago]')  .val(props.payment_method.toLowerCase())
+        $('#modalEditar input[name=habitacion]') .val(resource.title + ' ' + resource.id)
         $('#modalEditar input[name=fecha_de_entrada]').val(start_date)
-        $('#modalEditar input[name=fecha_de_salida]').val(end_date)
-        $('#modalEditar input[name=hora_de_entrada]').val(start_time)
-        $('#modalEditar input[name=hora_de_salida]').val(end_time)
+        $('#modalEditar input[name=fecha_de_salida]') .val(end_date)
+        $('#modalEditar input[name=hora_de_entrada]') .val(start_time)
+        $('#modalEditar input[name=hora_de_salida]')  .val(end_time)
         $('#modalEditar textarea[name=notas]').html(props.notes)
     }
 }

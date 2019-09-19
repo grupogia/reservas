@@ -69,7 +69,7 @@ class ReservationController extends Controller
         $checkout = $request->fecha_de_salida . ' ' . $request->hora_de_salida;
 
         // Validar cliente
-        $is_client = DB::table('clients')->select('email')
+        $is_client = DB::table('clients')->select('id')
         ->where('email', '=', $request->email)
         ->get();
 
@@ -112,7 +112,22 @@ class ReservationController extends Controller
      */
     public function show($id)
     {
-        //
+        $reservation = Reservation::find($id);
+        $initial = 0;
+        $suites_array = [];
+
+        foreach ($reservation->details as $detail) {
+            $initial += $detail->subtotal;
+            $suites_array[] = $detail->suite;
+        }
+
+        $data = [
+            'reservation' => $reservation,
+            'detalle' => $reservation->details,
+            //'suites' => $suites_array,
+            'initial' => $initial,
+        ];
+        return response()->json($data);
     }
 
     /**
@@ -132,7 +147,7 @@ class ReservationController extends Controller
         $checkout    = $request->fecha_de_salida . ' ' . $request->hora_de_salida;
 
         // Validar cliente
-        $is_client = DB::table('clients')->select('email')
+        $is_client = DB::table('clients')->select('id')
         ->where('email', '=', $request->email)
         ->get();
 
@@ -174,8 +189,10 @@ class ReservationController extends Controller
     public function destroy($id)
     {
         $reservation = Reservation::find($id);
-        
-        return $reservation;
+        $reservation->details()->delete();
+        $reservation->delete();
+
+        return response()->json(['message' => 'Reservación eliminada']);
     }
 
     private function createClient($request)

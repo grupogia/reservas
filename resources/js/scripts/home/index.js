@@ -43,3 +43,5 @@ formCargar.submitEventListener();
 modal.changeSelectEventListener();
 
 modal.clickEventListener('btnVaciarReservas');
+
+modalEditar.clickEventListener('btnDeleteReservacion');

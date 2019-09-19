@@ -33,24 +33,22 @@
         <thead>
             <tr>
                 <th>Habitación</th>
-                <th>Cant</th>
                 <th>Adultos</th>
                 <th>Niños</th>
-                <th>Tarifa</th>
                 <th>Tipo cama</th>
                 <th>Precio</th>
             </tr>
         </thead>
     
-        <tbody id="tbody_habitaciones_cargadas">
+        <tbody id="tbody_editar_habitaciones_cargadas">
             {{-- habitaciones con js --}}
         </tbody>
     
         <tfoot>
             <tr>
-                <td colspan="5"></td>
+                <td colspan="3"></td>
                 <td><strong>TOTAL</strong></td>
-                <td id="total_carga" class="bg-success">$ 0.00</td>
+                <td id="total_editar_carga" class="bg-success">$ 0.00</td>
             </tr>
         </tfoot>
     </table>

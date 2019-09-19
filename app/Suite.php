@@ -15,4 +15,9 @@ class Suite extends Model
     {
         return $this->hasMany('App\Rate');
     }
+
+    public function reservation_details()
+    {
+        return $this->hasMany('App\ReservationDetail');
+    }
 }

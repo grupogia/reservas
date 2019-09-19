@@ -16,4 +16,9 @@ class ReservationDetail extends Model
     {
         return $this->belongsTo('App\Reservation');
     }
+
+    public function suite()
+    {
+        return $this->belongsTo('App\Suite');
+    }
 }

@@ -71,7 +71,7 @@
 
                     <div class="pt-3">
                         <button type="submit" class="btn btn-warning">Actualizar reservación</button>
-                        <button type="button" class="btn btn-danger">Eliminar reservación</button>
+                        <button id="btnDeleteReservacion" type="button" class="btn btn-danger">Eliminar reservación</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </form>
