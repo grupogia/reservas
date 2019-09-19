@@ -13,8 +13,12 @@
 @import '~@fullcalendar/timeline/main.css';
 @import '~@fullcalendar/resource-timeline/main.css';
 
+// Jquery UI
 @import '~jquery-ui/themes/base/all.css';
 @import '~timepicker/jquery.timepicker.css';
+
+// Submodal
+@import '../bower_components/submodaljs/dist/bs.sm.css';
 
 // Customs
 @import 'base';

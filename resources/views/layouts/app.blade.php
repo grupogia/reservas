@@ -10,8 +10,9 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ mix('js/app.js') }}" async></script>
-    <script src="{{ mix('plugins/submodaljs/src/bs.sm.js') }}" defer></script>
+    <script src="{{ asset('js/manifest.js') }}" async></script>
+    <script src="{{ asset('js/vendor.js') }}" defer></script>
+    <script src="{{ mix('js/app.js') }}" defer></script>
     @stack('scripts')
 
     <!-- Fonts -->
@@ -19,7 +20,6 @@
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-    <link href="{{ mix('plugins/submodaljs/src/bs.sm.css') }}" rel="stylesheet">
     @stack('styles')
 </head>
 <body>
