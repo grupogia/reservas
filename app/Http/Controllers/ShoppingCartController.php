@@ -40,7 +40,7 @@ class ShoppingCartController extends Controller
             if ($rate->type == strtolower($request->tarifa)) {
                 $price = floatval($rate->price);
 
-                Cart::add($suite->id, $suite->id. ' ' .$suite->title, 1, $price, 0, ['tarifa' => $rate->type, 'bed_type' => $suite->bed_type, 'adultos' => $request->adultos, 'ninios' => $request->ninios]);
+                Cart::add($suite->id, $suite->number. ' ' .$suite->title, 1, $price, 0, ['tarifa' => $rate->type, 'bed_type' => $suite->bed_type, 'adultos' => $request->adultos, 'ninios' => $request->ninios]);
                 return response()->json(['message' => 'Habitación asignada', 'price' => number_format($price, 2)]);
             }
         }

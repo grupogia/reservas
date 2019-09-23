@@ -17,6 +17,7 @@ class CreateReservationDetailsTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('reservation_id')->unsigned();
             $table->bigInteger('suite_id')->unsigned();
+            $table->string('rate_type');
             $table->integer('adults');
             $table->integer('children');
             $table->decimal('subtotal');

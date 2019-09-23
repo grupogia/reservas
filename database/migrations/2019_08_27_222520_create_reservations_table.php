@@ -22,8 +22,10 @@ class CreateReservationsTable extends Migration
             $table->string('checkin');
             $table->string('checkout');
             $table->string('payment_method');
+            $table->string('segmentation');
             $table->dateTime('start');
             $table->dateTime('end');
+            $table->decimal('total');
             $table->text('notes')->nullable();
             $table->timestamps();
         });

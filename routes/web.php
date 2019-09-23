@@ -19,6 +19,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/deptos', 'SuiteController@index');
 
+Route::post('/calcular-precio', 'ReservationController@calculatePrice');
 Route::apiResource('reservaciones', 'ReservationController');
 
 Route::get('/carrito-habitaciones', 'ShoppingCartController@index');

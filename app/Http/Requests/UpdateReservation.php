@@ -27,10 +27,10 @@ class UpdateReservation extends FormRequest
             /*
              * Datos del cliente
              */
-            'nombre' => 'required|string',
+            'nombre'    => 'required|string',
             'apellidos' => 'required|string',
-            'email' => 'required|email',
-            'telefono' => 'required|string|size:10',
+            'email'     => 'required|email',
+            'telefono'  => 'required|string|size:10',
             'direccion' => 'required|string|min:4',
             'procedencia' => 'required|min:4',
 
@@ -40,7 +40,7 @@ class UpdateReservation extends FormRequest
             'fecha_de_entrada' => 'required',
             'fecha_de_salida' => 'required',
             'hora_de_entrada' => 'required',
-            'hora_de_salida' => 'required',
+            'hora_de_salida'  => 'required',
 
             /*
              * Datos del pago
@@ -62,10 +62,11 @@ class UpdateReservation extends FormRequest
             /*
              * Datos de segmentación
              */
-            'tipo_de_reserva' => 'required',
+            'tipo_de_reserva' => 'nullable',
             /*
             'directas' => 'required_if:tipo_de_reserva,==,individual',
             'sociales' => 'required_if:tipo_de_reserva,==,grupal',*/
+            'canal' => 'required',
             'notas' => 'nullable|string|max:100',
         ];
     }

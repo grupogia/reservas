@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Client;
+use App\Http\Requests\CalculateReservation;
 use App\Reservation;
 use App\ReservationDetail;
 use App\Http\Requests\CreateReservation;
@@ -63,17 +64,29 @@ class ReservationController extends Controller
     public function store(CreateReservation $request)
     {
         // Inicializa variables básicas
-        $start    = date_create_from_format('d/m/Y h:i A', $request->fecha_de_entrada . ' ' . $request->hora_de_entrada);
-        $end      = date_create_from_format('d/m/Y h:i A', $request->fecha_de_salida . ' ' . $request->hora_de_salida);
-        $checkin  = $request->fecha_de_entrada . ' ' . $request->hora_de_entrada;
-        $checkout = $request->fecha_de_salida . ' ' . $request->hora_de_salida;
+        $dates = $this->getArrayDates(
+            $request->fecha_de_entrada,
+            $request->fecha_de_salida,
+            $request->hora_de_entrada,
+            $request->hora_de_salida
+        );
+        $total = Cart::initial();
 
-        // Validar cliente
-        $is_client = DB::table('clients')->select('id')
-        ->where('email', '=', $request->email)
-        ->get();
+        // Valida si el tipo de págo es depósito o tarjeta
+        if ($this->loadTax($request->tipo_pago)) {
+            $total = Cart::total();
 
-        // Busca o crea el cliente en la DB
+            if ($this->loadCommission($request->tipo)) {
+                $total = str_replace(',', '', $total) * 1.2;
+                die ('paga impuestos y comisión ' . $total);
+            }
+            die('paga impuestos ' . $total);
+        }
+
+        // Valida si ya existe el cliente
+        $is_client = $this->getClientsByEmail($request->email);
+
+        // Obtiene o crea el cliente en la DB
         if (count($is_client)) {
             $client = Client::find($is_client[0]->id);
 
@@ -85,18 +98,19 @@ class ReservationController extends Controller
         $reservation = new Reservation();
         $reservation->user_id   = auth()->user()->id;
         $reservation->client_id = $client->id;
-
-        $reservation->title    = 'Reserva de Habitación';
+        $reservation->title    = 'Reservación';
         $reservation->folio    = 2;
-        $reservation->checkin  = $checkin;
-        $reservation->checkout = $checkout;
+        $reservation->checkin  = $dates['checkin'];
+        $reservation->checkout = $dates['checkout'];
+        $reservation->start    = $dates['start']->format('Y-m-d H:i:s');
+        $reservation->end      = $dates['end']  ->format('Y-m-d H:i:s');
+        $reservation->segmentation = $request->canal . $request->canal_grupal;
         $reservation->payment_method = $request->tipo_pago;
-        $reservation->start    = $start->format('Y-m-d H:i:s');
-        $reservation->end      = $end->format('Y-m-d H:i:s');
+        $reservation->total = $total;
         
         $reservation->save();
 
-        // Inserta las habitaciones cargadas en el carrito
+        // Inserta las habitaciones cargadas del carrito a la DB
         $this->insertReservationDetails(Cart::content(), $reservation->id);
 
         // Vacía el carrito
@@ -141,15 +155,16 @@ class ReservationController extends Controller
     {
         // Inicializa variables básicas
         $reservation = Reservation::find($id);
-        $start       = date_create_from_format('d/m/Y h:i A', $request->fecha_de_entrada . ' ' . $request->hora_de_entrada);
-        $end         = date_create_from_format('d/m/Y h:i A', $request->fecha_de_salida . ' ' . $request->hora_de_salida);
-        $checkin     = $request->fecha_de_entrada . ' ' . $request->hora_de_entrada;
-        $checkout    = $request->fecha_de_salida . ' ' . $request->hora_de_salida;
+        $dates = $this->getArrayDates(
+            $request->fecha_de_entrada,
+            $request->fecha_de_salida,
+            $request->hora_de_entrada,
+            $request->hora_de_salida
+        );
+        return response(['data' => $request], 422);
 
         // Validar cliente
-        $is_client = DB::table('clients')->select('id')
-        ->where('email', '=', $request->email)
-        ->get();
+        $is_client = $this->getClientsByEmail($request->email);
 
         // Busca o crea el cliente en la DB
         if (count($is_client)) {
@@ -162,13 +177,14 @@ class ReservationController extends Controller
         // Actualiza la reservación
         $reservation->user_id   = auth()->user()->id;
         $reservation->client_id = $client->id;
-        $reservation->title     = 'Reserva de Habitación';
+        $reservation->title     = 'Reservación';
         $reservation->folio     = 2;
-        $reservation->checkin   = $checkin;
-        $reservation->checkout  = $checkout;
-        $reservation->payment_method = $request->tipo_pago;
-        $reservation->start     = $start->format('Y-m-d H:i:s');
-        $reservation->end       = $end->format('Y-m-d H:i:s');
+        $reservation->checkin   = $dates['checkin'];
+        $reservation->checkout  = $dates['checkout'];
+        $reservation->start     = $dates['start']->format('Y-m-d H:i:s');
+        $reservation->end       = $dates['end']  ->format('Y-m-d H:i:s');
+        $reservation->payment_method = $request  ->tipo_pago;
+        //$reservation->segmentation = $request->segmentation;
         
         $reservation->save();
 
@@ -195,12 +211,36 @@ class ReservationController extends Controller
         return response()->json(['message' => 'Reservación eliminada']);
     }
 
+    /**
+     * Calcula el precio de la reservación
+     */
+    public function calculatePrice(CalculateReservation $request)
+    {
+        // Inicializa variables básicas
+        $total = Cart::initial();
+        $msg = 'No paga impuestos ni comisión';
+
+        // Valida si el tipo de págo es depósito o tarjeta
+        if ($this->loadTax($request->tipo_pago)) {
+            $total = Cart::total();
+
+            if ($this->loadCommission($request->tipo)) {
+                $total = number_format(str_replace(',', '', $total) * 1.2);
+                $msg = 'Paga 16% de impuestos y  20% de comisión por OTAs';
+
+                return response()->json(['message' => $msg, 'total' => $total]);
+            }
+            $msg = 'Paga 16% de impuestos';
+        }
+        return response()->json(['message' => $msg, 'total' => $total]);
+    }
+
     private function createClient($request)
     {
         $client = new Client();
         $client->name    = $request->nombre;
         $client->surname = $request->apellidos;
-        $client->email   = $request->email;
+        $client->email   = strtolower($request->email);
         $client->phone   = $request->telefono;
         $client->address = $request->direccion;
         $client->state   = $request->procedencia;
@@ -216,11 +256,45 @@ class ReservationController extends Controller
             $detail = new ReservationDetail();
             $detail->reservation_id = $reservation_id;
             $detail->suite_id = $suite->id;
+            $detail->rate_type = $suite->options->tarifa;
             $detail->adults   = $suite->options->adultos;
             $detail->children = $suite->options->ninios;
             $detail->subtotal = $suite->subtotal;
 
             $detail->save();
         }
+    }
+
+    private function getClientsByEmail($email)
+    {
+        $clients = DB::table('clients')->select('id')
+        ->where('email', '=', $email)
+        ->get();
+        return $clients;
+    }
+
+    private function getArrayDates($start_date, $end_date, $start_time, $end_time)
+    {
+        $arrayDates = [
+            'checkin'  => $start_date . ' ' . $start_time,
+            'checkout' => $end_date . ' ' . $end_time,
+            'start'    => date_create_from_format('d/m/Y h:i A', $start_date . ' ' . $start_time),
+            'end'      => date_create_from_format('d/m/Y h:i A', $end_date . ' ' . $end_time),
+        ];
+        return $arrayDates;
+    }
+
+    private function loadTax($payment_method)
+    {
+        if ($payment_method == 'deposito' || $payment_method == 'tarjeta')
+        return true;
+        else return false;
+    }
+
+    private function loadCommission($channel)
+    {
+        if ($channel == 'otas')
+        return true;
+        else return false;
     }
 }

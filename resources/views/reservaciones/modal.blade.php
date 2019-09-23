@@ -73,6 +73,7 @@
 
                     <div class="pt-3">
                         <button type="submit" class="btn btn-success">Procesar reservación</button>
+                        <button type="button" class="btn btn-primary calculate">Calcular precio</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </form>

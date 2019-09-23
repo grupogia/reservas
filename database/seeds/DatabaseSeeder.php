@@ -14,9 +14,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UsersTableSeeder::class,
             SuiteTableSeeder::class,
-            ReservationsTableSeeder::class,
-            ReservationDetailsTableSeeder::class,
-            ClientsTableSeeder::class,
+            // ReservationsTableSeeder::class,
+            // ReservationDetailsTableSeeder::class,
+            // ClientsTableSeeder::class,
             RatesTableSeeder::class,
         ]);
     }

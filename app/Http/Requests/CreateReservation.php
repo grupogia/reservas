@@ -28,20 +28,20 @@ class CreateReservation extends FormRequest
             /*
              * Datos del cliente
              */
-            'nombre' => 'required|string',
-            'apellidos' => 'required|string',
-            'email' => 'required|email',
-            'telefono' => 'required|string|size:10',
-            'direccion' => 'required|string|min:4',
+            'nombre'      => 'required|string',
+            'apellidos'   => 'required|string',
+            'email'       => 'required|email',
+            'telefono'    => 'required|digits:10',
+            'direccion'   => 'required|string|min:4',
             'procedencia' => 'required|min:4',
 
             /* 
              * Datos de la reserva
              */
             'fecha_de_entrada' => 'required',
-            'fecha_de_salida' => 'required',
-            'hora_de_entrada' => 'required',
-            'hora_de_salida' => 'required',
+            'fecha_de_salida'  => 'required',
+            'hora_de_entrada'  => 'required',
+            'hora_de_salida'   => 'required',
 
             /*
              * Datos del pago
@@ -49,10 +49,10 @@ class CreateReservation extends FormRequest
             'tipo_pago' => 'required',
 
             // Tarjeta
-            'numero_tarjeta' => 'required_if:tipo_pago,==,tarjeta|nullable|numeric',
-            'vencimiento' => 'required_if:tipo_pago,==,tarjeta',
-            'codigo_seguridad' => 'required_if:tipo_pago,==,tarjeta|nullable|min:3|max:3',
-            'titular' => 'required_if:tipo_pago,==,tarjeta',
+            'numero_tarjeta'   => 'required_if:tipo_pago,==,tarjeta|nullable|digits_between:15,16',
+            'vencimiento'      => 'required_if:tipo_pago,==,tarjeta|nullable|max:5',
+            'codigo_seguridad' => 'required_if:tipo_pago,==,tarjeta|nullable|digits:3',
+            'titular'          => 'required_if:tipo_pago,==,tarjeta|nullable|min:4',
 
             // Efectivo o depósito
             'monto' => 'required_if:tipo_pago,==,efectivo|required_if:tipo_pago,==,deposito|nullable|numeric',
@@ -60,10 +60,11 @@ class CreateReservation extends FormRequest
             /*
              * Datos de segmentación
              */
-            'tipo_de_reserva' => 'required',
-            'directas' => 'required_if:tipo_de_reserva,==,individual',
-            'sociales' => 'required_if:tipo_de_reserva,==,grupal',
-            'notas' => 'nullable|string|max:100',
+            'tipo_de_segmentacion' => 'required',
+            'canal_grupal' => 'required_if:tipo_de_segmentacion,==,grupal',
+            'tipo'     => 'required_if:tipo_de_segmentacion,==,individual',
+            'canal'    => 'required_with:tipo',
+            'notas'    => 'nullable|string|max:100',
         ];
     }
 
@@ -71,10 +72,10 @@ class CreateReservation extends FormRequest
      * Valida que el carrito de compras no esté vacio
      */
     public function withValidator($validator)
-    {
+    {        
         $validator->after(function ($validator) {
             if (Cart::initial() == 0) {
-                $validator->errors()->add('field', 'Debe asignar almenos una habitación.');
+                $validator->errors()->add('field', '<strong>Debe reservar al menos una habitación.</strong>');
             }
         });
     }

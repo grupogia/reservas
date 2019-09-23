@@ -14,11 +14,11 @@ let calendarEl = document.getElementById('hotelCalendar');
 const calendar = new Calendar(calendarEl, CalendarSettings);
 
 // Mis librerias
-const modal = new ModalReserva('modalRegistrar');
+const modal       = new ModalReserva('modalRegistrar');
 const modalEditar = new ModalEditarReserva('modalEditar');
-const formAdd = new FormReserva('formReserva');
-const formEditar = new FormEditarReserva('formEditarReserva');
-const formCargar = new FormCargar('formCargarHab');
+const formAdd     = new FormReserva('formReserva');
+const formEditar  = new FormEditarReserva('formEditarReserva');
+const formCargar  = new FormCargar('formCargarHab');
 
 /** 
  * Eventos de fullcalendar 

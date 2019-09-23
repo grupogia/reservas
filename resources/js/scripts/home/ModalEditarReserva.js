@@ -105,9 +105,9 @@ export class ModalEditarReserva {
 
     printReservationModal(event) {
         let start_date = moment(event.start).format('DD/MM/YYYY');
-        let end_date   = moment(event.start).format('DD/MM/YYYY');
+        let end_date   = moment(event.end)  .format('DD/MM/YYYY');
         let start_time = moment(event.start).format('hh:mm A');
-        let end_time   = moment(event.start).format('hh:mm A');
+        let end_time   = moment(event.end)  .format('hh:mm A');
         let resource   = event.getResources()[0];
         let props      = event.extendedProps;
         let form       = $('#modalEditar #formEditarReserva')[0]
@@ -133,6 +133,8 @@ export class ModalEditarReserva {
         $('#modalEditar input[name=fecha_de_salida]') .val(end_date)
         $('#modalEditar input[name=hora_de_entrada]') .val(start_time)
         $('#modalEditar input[name=hora_de_salida]')  .val(end_time)
+        $('#modalEditar select[name=canal]')  .val(props.segmentation)
+        $('#modalEditar input[name=canal]')   .val(props.segmentation)
         $('#modalEditar textarea[name=notas]').html(props.notes)
     }
 }
