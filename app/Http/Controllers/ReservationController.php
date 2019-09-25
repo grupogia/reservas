@@ -102,7 +102,7 @@ class ReservationController extends Controller
         $reservation->client_id = $client->id;
         $reservation->credit_card_id = $card_id;
         $reservation->title     = 'Reservación';
-        $reservation->folio     = 2;
+        $reservation->folio     = time();
         $reservation->checkin   = $dates['checkin'];
         $reservation->checkout  = $dates['checkout'];
         $reservation->start     = $dates['start']->format('Y-m-d H:i:s');
