@@ -17,12 +17,12 @@ class CreateReservationsTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('client_id')->unsigned();
+            $table->bigInteger('credit_card_id')->unsigned()->nullable();
             $table->string('title');
             $table->string('folio')->nullable();
             $table->string('checkin');
             $table->string('checkout');
             $table->string('payment_method');
-            $table->string('segmentation');
             $table->dateTime('start');
             $table->dateTime('end');
             $table->decimal('total');

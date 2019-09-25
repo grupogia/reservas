@@ -14,4 +14,9 @@ class Client extends Model
     {
         return $this->hasMany('App\Reservation');
     }
+
+    public function creditCards()
+    {
+        return $this->hasMany('App\CreditCard');
+    }
 }

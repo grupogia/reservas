@@ -77,7 +77,6 @@ export class FormCargar
             
             tbodyHTML += `<tr>
             <td>${prod.name}</td>
-            <td>${prod.qty}</td>
             <td>${prod.options.adultos}</td>
             <td>${prod.options.ninios}</td>
             <td>${prod.options.tarifa.toUpperCase()}</td>

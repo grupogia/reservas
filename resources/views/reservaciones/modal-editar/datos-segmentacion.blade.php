@@ -1,14 +1,14 @@
 <div class="form-row">
-    {{-- <div class="col-6">
+    <div class="col-6">
         <div class="form-group">
             <label for="tipo_reserva">Tipo de reserva</label>
-            <select class="form-control" name="tipo_de_reserva" id="">
+            <select class="form-control" name="tipo_de_reserva" id="" disabled>
                 <option value="">- Elegir -</option>
                 <option value="individual">Individual</option>
                 <option value="grupal">Grupal</option>
             </select>
         </div>
-    </div> --}}
+    </div>
 
     <div class="individual-selected tipo-de-reserva col-12" style="display: block">
         <div class="form-row">

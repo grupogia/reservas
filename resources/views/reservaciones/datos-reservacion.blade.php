@@ -36,7 +36,6 @@
         <thead>
             <tr>
                 <th>Habitación</th>
-                <th>Cant</th>
                 <th>Adultos</th>
                 <th>Niños</th>
                 <th>Tarifa</th>
@@ -51,7 +50,7 @@
     
         <tfoot>
             <tr>
-                <td colspan="5"></td>
+                <td colspan="4"></td>
                 <td><strong>TOTAL</strong></td>
                 <td id="total_carga" class="bg-success">$ 0.00</td>
             </tr>

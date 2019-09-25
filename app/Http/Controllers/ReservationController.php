@@ -3,16 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Client;
-use App\Http\Requests\CalculateReservation;
+use App\CreditCard;
 use App\Reservation;
+use App\Segmentation;
 use App\ReservationDetail;
 use App\Http\Requests\CreateReservation;
 use App\Http\Requests\UpdateReservation;
+use App\Http\Requests\CalculateReservation;
 use Illuminate\Support\Facades\DB;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
 class ReservationController extends Controller
 {
+    private $impuesto_sobre_hospedaje = 0.03;
+    private $comision_por_otas = 0.2;
+
     /**
      * Muestra todas las reservaciones registradas con sus habitaciones
      * para ser mostradas en el calendario
@@ -33,6 +38,7 @@ class ReservationController extends Controller
             'clients.phone',
             'clients.address',
             'clients.country',
+            'credit_cards.number',
         ];
 
         if (!empty($_GET['start']) && !empty($_GET['end'])) {
@@ -40,6 +46,7 @@ class ReservationController extends Controller
             ->select($columns)
             ->join('clients', 'reservations.client_id', '=', 'clients.id')
             ->join('reservation_details', 'reservations.id', '=', 'reservation_details.reservation_id')
+            ->leftjoin('credit_cards', 'reservations.credit_card_id', '=', 'credit_cards.id')
             ->whereBetween($table . '.start', [$_GET['start'], $_GET['end']])
             ->orWhereBetween($table . '.end', [$_GET['start'], $_GET['end']])
             ->get();
@@ -56,7 +63,9 @@ class ReservationController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Crea una nueva reservación y la guarda en la base de datos.
+     * Puede crear clientes, tarjetas de crédito y reservas con
+     * sus detalles y datos de segmentación
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -64,29 +73,16 @@ class ReservationController extends Controller
     public function store(CreateReservation $request)
     {
         // Inicializa variables básicas
-        $dates = $this->getArrayDates(
-            $request->fecha_de_entrada,
-            $request->fecha_de_salida,
-            $request->hora_de_entrada,
-            $request->hora_de_salida
-        );
-        $total = Cart::initial();
-
-        // Valida si el tipo de págo es depósito o tarjeta
-        if ($this->loadTax($request->tipo_pago)) {
-            $total = Cart::total();
-
-            if ($this->loadCommission($request->tipo)) {
-                $total = str_replace(',', '', $total) * 1.2;
-                die ('paga impuestos y comisión ' . $total);
-            }
-            die('paga impuestos ' . $total);
-        }
-
-        // Valida si ya existe el cliente
+        $arrTotal  = $this->getArrayTotalReservation($request->tipo_pago, $request->tipo);
         $is_client = $this->getClientsByEmail($request->email);
+        $card_id   = '';
 
-        // Obtiene o crea el cliente en la DB
+        $dates = $this->getArrayDates(
+            $request->fecha_de_entrada, $request->fecha_de_salida,
+            $request->hora_de_entrada, $request->hora_de_salida
+        );
+        
+        // Valida si ya existe el cliente
         if (count($is_client)) {
             $client = Client::find($is_client[0]->id);
 
@@ -94,23 +90,31 @@ class ReservationController extends Controller
             $client = $this->createClient($request);
         }
 
-        // Crea la reservación
+        // Registra la tarjeta de crédito
+        if ($request->tipo_pago == 'tarjeta') {
+            $credit_card = $this->insertCreditCard($request, $client->id);
+            $card_id = $credit_card->id;
+        }
+
+        // Registra la reservación
         $reservation = new Reservation();
         $reservation->user_id   = auth()->user()->id;
         $reservation->client_id = $client->id;
-        $reservation->title    = 'Reservación';
-        $reservation->folio    = 2;
-        $reservation->checkin  = $dates['checkin'];
-        $reservation->checkout = $dates['checkout'];
-        $reservation->start    = $dates['start']->format('Y-m-d H:i:s');
-        $reservation->end      = $dates['end']  ->format('Y-m-d H:i:s');
-        $reservation->segmentation = $request->canal . $request->canal_grupal;
+        $reservation->credit_card_id = $card_id;
+        $reservation->title     = 'Reservación';
+        $reservation->folio     = 2;
+        $reservation->checkin   = $dates['checkin'];
+        $reservation->checkout  = $dates['checkout'];
+        $reservation->start     = $dates['start']->format('Y-m-d H:i:s');
+        $reservation->end       = $dates['end']  ->format('Y-m-d H:i:s');
+        $reservation->total     = str_replace(',', '', $arrTotal['value']);
         $reservation->payment_method = $request->tipo_pago;
-        $reservation->total = $total;
-        
         $reservation->save();
 
-        // Inserta las habitaciones cargadas del carrito a la DB
+        // Registra datos de segmentación
+        $this->insertSegmentation($request, $reservation->id);
+
+        // Registra las habitaciones cargadas del carrito de compras
         $this->insertReservationDetails(Cart::content(), $reservation->id);
 
         // Vacía el carrito
@@ -119,7 +123,7 @@ class ReservationController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Devuelve todas las reservaciones con sus detalles.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -139,6 +143,7 @@ class ReservationController extends Controller
             'reservation' => $reservation,
             'detalle' => $reservation->details,
             //'suites' => $suites_array,
+            'segmentation' => $reservation->segmentation,
             'initial' => $initial,
         ];
         return response()->json($data);
@@ -155,6 +160,8 @@ class ReservationController extends Controller
     {
         // Inicializa variables básicas
         $reservation = Reservation::find($id);
+        $is_client   = $this->getClientsByEmail($request->email);
+
         $dates = $this->getArrayDates(
             $request->fecha_de_entrada,
             $request->fecha_de_salida,
@@ -164,9 +171,6 @@ class ReservationController extends Controller
         return response(['data' => $request], 422);
 
         // Validar cliente
-        $is_client = $this->getClientsByEmail($request->email);
-
-        // Busca o crea el cliente en la DB
         if (count($is_client)) {
             $client = Client::find($is_client[0]->id);
 
@@ -185,14 +189,12 @@ class ReservationController extends Controller
         $reservation->end       = $dates['end']  ->format('Y-m-d H:i:s');
         $reservation->payment_method = $request  ->tipo_pago;
         //$reservation->segmentation = $request->segmentation;
-        
         $reservation->save();
 
         $collected = [
             'reservation' => $reservation,
             'details' => $reservation->details,
         ];
-        
         return response()->json($collected);
     }
 
@@ -212,29 +214,26 @@ class ReservationController extends Controller
     }
 
     /**
-     * Calcula el precio de la reservación
+     * Devuelve el precio de una reservación
+     * 
+     * @param \App\Http\Requests\CalculateReservation
+     * @return \Illuminate\Http\Response
      */
     public function calculatePrice(CalculateReservation $request)
     {
-        // Inicializa variables básicas
-        $total = Cart::initial();
-        $msg = 'No paga impuestos ni comisión';
+        $arrTotal = $this->getArrayTotalReservation($request->tipo_pago, $request->tipo);
 
-        // Valida si el tipo de págo es depósito o tarjeta
-        if ($this->loadTax($request->tipo_pago)) {
-            $total = Cart::total();
-
-            if ($this->loadCommission($request->tipo)) {
-                $total = number_format(str_replace(',', '', $total) * 1.2);
-                $msg = 'Paga 16% de impuestos y  20% de comisión por OTAs';
-
-                return response()->json(['message' => $msg, 'total' => $total]);
-            }
-            $msg = 'Paga 16% de impuestos';
-        }
-        return response()->json(['message' => $msg, 'total' => $total]);
+        return response()->json([
+            'message' => $arrTotal['message'],
+            'total'   => $arrTotal['value']
+        ]);
     }
 
+    /**
+     * Crea un cliente en la base de datos con información
+     * proveniente de un request
+     * 
+     */
     private function createClient($request)
     {
         $client = new Client();
@@ -245,9 +244,25 @@ class ReservationController extends Controller
         $client->address = $request->direccion;
         $client->state   = $request->procedencia;
         $client->country = $request->procedencia;
-
         $client->save();
+
         return $client;
+    }
+
+    /**
+     * Registra una tarjeta de crédito en base a un cliente
+     */
+    private function insertCreditCard($request, $client_id)
+    {
+        $creditCard = new CreditCard();
+        $creditCard->client_id     = $client_id;
+        $creditCard->number        = $request->numero_tarjeta;
+        $creditCard->expiration    = $request->vencimiento;
+        $creditCard->security_code = $request->codigo_seguridad;
+        $creditCard->holder        = $request->titular;
+        $creditCard->save();
+
+        return $creditCard;
     }
 
     private function insertReservationDetails($details, $reservation_id)
@@ -255,14 +270,25 @@ class ReservationController extends Controller
         foreach ($details as $suite) {
             $detail = new ReservationDetail();
             $detail->reservation_id = $reservation_id;
-            $detail->suite_id = $suite->id;
+            $detail->suite_id  = $suite->id;
             $detail->rate_type = $suite->options->tarifa;
-            $detail->adults   = $suite->options->adultos;
-            $detail->children = $suite->options->ninios;
-            $detail->subtotal = $suite->subtotal;
-
+            $detail->adults    = $suite->options->adultos;
+            $detail->children  = $suite->options->ninios;
+            $detail->subtotal  = $suite->subtotal;
             $detail->save();
         }
+    }
+
+    private function insertSegmentation($request, $reservation_id)
+    {
+        $segmentation = new Segmentation();
+        $segmentation->reservation_id = $reservation_id;
+        $segmentation->name = $request->tipo_de_segmentacion;
+        $segmentation->type = $request->tipo;
+        $segmentation->channel = $request->canal . $request->canal_grupal;
+        $segmentation->save();
+
+        return $segmentation;
     }
 
     private function getClientsByEmail($email)
@@ -284,6 +310,12 @@ class ReservationController extends Controller
         return $arrayDates;
     }
 
+    /**
+     * Varifica si se debe cargar impuestos
+     * 
+     * @var string $payment_method
+     * @return boolean
+     */
     private function loadTax($payment_method)
     {
         if ($payment_method == 'deposito' || $payment_method == 'tarjeta')
@@ -291,10 +323,49 @@ class ReservationController extends Controller
         else return false;
     }
 
+    /**
+     * Verifica si se debe cargar comisiones
+     * 
+     * @var string $channel
+     * @return boolean
+     */
     private function loadCommission($channel)
     {
         if ($channel == 'otas')
         return true;
         else return false;
+    }
+
+    /**
+     * Devuelve un array con el total de una reservación
+     * dependiendo el método de pago y el canal de segmentación
+     * 
+     * @var string $payment_method, $sementation_channel
+     * @return array
+     */
+    private function getArrayTotalReservation($payment_method, $sementation_channel)
+    {
+        // Inicializa variables básicas
+        $total          = str_replace(',', '', Cart::initial());
+        $total_with_iva = str_replace(',', '', Cart::total());
+        $other_taxes    = $total * $this->impuesto_sobre_hospedaje;
+        $commissions    = $total * $this->comision_por_otas;
+        $msg            = 'No paga impuestos ni comisión';
+
+        // Valida si el tipo de págo es depósito o tarjeta
+        if ($this->loadTax($payment_method)) {
+
+            // Total mas impuestos
+            $total = $total_with_iva + $other_taxes;
+            $msg   = 'Paga IVA 16%, HSH 3%';
+
+            if ($this->loadCommission($sementation_channel)) {
+
+                // Total mas impuestos mas comisión
+                $total = $total + $commissions;
+                $msg  .= ' y 20% comisión por OTAs';
+            }
+        }
+        return [ 'message' => $msg, 'value' => number_format($total, 2) ];
     }
 }

@@ -74,7 +74,7 @@ class CreateReservation extends FormRequest
     public function withValidator($validator)
     {        
         $validator->after(function ($validator) {
-            if (Cart::initial() == 0) {
+            if (Cart::initial() >= 0) {
                 $validator->errors()->add('field', '<strong>Debe reservar al menos una habitación.</strong>');
             }
         });

@@ -17,7 +17,7 @@ export class ModalReserva {
 
     showEvent(dataJson) {
         this.printModalUpdateEvent(dataJson);
-        this.bootstrapModal.modal('show')
+        this.bootstrapModal.modal('show');
     }
 
     /** Devuelve las habitaciones cargadas en el carrito */
@@ -57,7 +57,7 @@ export class ModalReserva {
             .then(response => {
                 Swal.fire({
                     type: 'success',
-                    title: '$' + response.data.total,
+                    title: '$ ' + response.data.total,
                     text: response.data.message
                 })
             })
@@ -149,7 +149,6 @@ export class ModalReserva {
             let prod = cartContent[index]
             tbodyHTML += `<tr>
             <td>${prod.name}</td>
-            <td>${prod.qty}</td>
             <td>${prod.options.adultos}</td>
             <td>${prod.options.ninios}</td>
             <td>${prod.options.tarifa.toUpperCase()}</td>

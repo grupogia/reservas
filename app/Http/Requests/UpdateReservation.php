@@ -65,8 +65,8 @@ class UpdateReservation extends FormRequest
             'tipo_de_reserva' => 'nullable',
             /*
             'directas' => 'required_if:tipo_de_reserva,==,individual',
-            'sociales' => 'required_if:tipo_de_reserva,==,grupal',*/
-            'canal' => 'required',
+            'sociales' => 'required_if:tipo_de_reserva,==,grupal',
+            'canal' => 'required',*/
             'notas' => 'nullable|string|max:100',
         ];
     }

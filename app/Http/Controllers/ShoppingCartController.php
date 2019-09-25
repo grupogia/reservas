@@ -28,10 +28,18 @@ class ShoppingCartController extends Controller
     public function add(Request $request, $product) {
         $request->validate([
             'habitacion' => 'required',
-            'tarifa' => 'required',
-            'adultos' => 'required|numeric',
-            'ninios' => 'required|numeric',
+            'tarifa'     => 'required',
+            'adultos'    => 'required|numeric|min:1',
+            'ninios'     => 'required|numeric',
         ]);
+
+        $is_product = Cart::content()->where('id', '=', $product);
+
+        if (count($is_product)) {
+            return response()->json([
+                'errors' => [ 0 => 'Habitación ya asignada' ]
+            ], 422);
+        }
 
         $suite = Suite::find($product);
 
@@ -39,15 +47,26 @@ class ShoppingCartController extends Controller
             
             if ($rate->type == strtolower($request->tarifa)) {
                 $price = floatval($rate->price);
+                $adultos = $request->adultos;
 
-                Cart::add($suite->id, $suite->number. ' ' .$suite->title, 1, $price, 0, ['tarifa' => $rate->type, 'bed_type' => $suite->bed_type, 'adultos' => $request->adultos, 'ninios' => $request->ninios]);
-                return response()->json(['message' => 'Habitación asignada', 'price' => number_format($price, 2)]);
+                $options = [
+                    'tarifa'   => $rate->type,
+                    'bed_type' => $suite->bed_type,
+                    'adultos'  => $adultos,
+                    'ninios'   => $request->ninios
+                ];
+
+                if ($adultos > 2) {
+                    $personas_extra = 700 * ($adultos - 2);
+                    $price = $price + $personas_extra;
+                }
+
+                Cart::add($suite->id, $suite->number. ' ' .$suite->title, 1, $price, 0, $options);
+                return response()->json([ 'message' => 'Habitación asignada', 'price' => number_format($price, 2) ]);
             }
         }
         return response()->json([
-            'errors' => [
-                0 => 'No se encontró una tarifa para esta habitación'
-            ]
+            'errors' => [ 0 => 'No se encontró una tarifa para esta habitación' ]
         ], 422);
     }
 

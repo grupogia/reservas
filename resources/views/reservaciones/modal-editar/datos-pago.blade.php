@@ -11,39 +11,17 @@
             <input type="hidden" name="tipo_pago">
         </div>
     </div>
-
-    <div class="tarjeta-selected tipo-pago" style="display: none">
+    
+    <div class="tarjeta-selected tipo-pago" style="display: block">     
         <div class="form-row">
-            <div class="col-3">
-                <div class="form-group">
-                    <label for="numero_tarjeta">Num. Tarjeta</label>
-                    <input class="form-control" type="text" name="numero_tarjeta">
-                </div>
-            </div>
-        
-            <div class="col-3">
-                <label for="form-group">Vencimiento</label>
-                <input class="form-control" type="text" name="vencimiento">
-            </div>
-        
-            <div class="col-3">
-                <label for="form-group">Codigo seguridad</label>
-                <input class="form-control" type="text" name="codigo_seguridad">
-            </div>
-        
-            <div class="col-3">
-                <label for="form-group">Titular</label>
-                <input class="form-control" type="text" name="titular">
+            <div class="col-12">
+                <label for="numero_tarjeta">Terminación</label>
+                <span class="form-control" data-name="no_tarjeta" disabled></span>
             </div>
         </div>
     </div>
 
-    <div class="efectivo-selected tipo-pago" style="display: none">
-        <label for="monto">Monto</label>
-        <input class="form-control" type="text" name="monto" placeholder="$ 0.00">
-    </div>
-
-    <div class="deposito-selected tipo-pago" style="display: none">
+    <div class="efectivo-selected deposito-selected tipo-pago" style="display: none">
         <label for="monto">Monto</label>
         <input class="form-control" type="text" name="monto" placeholder="$ 0.00">
     </div>

@@ -73,6 +73,7 @@
                         <button type="submit" class="btn btn-warning">Actualizar reservación</button>
                         <button id="btnDeleteReservacion" type="button" class="btn btn-danger">Eliminar reservación</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <input id="totalConImpuestos" type="text" disabled>
                     </div>
                 </form>
             </div>

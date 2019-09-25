@@ -11,6 +11,11 @@ class Reservation extends Model
         return $this->hasMany('App\ReservationDetail');
     }
 
+    public function segmentation()
+    {
+        return $this->hasOne('App\Segmentation');
+    }
+
     public function client()
     {
         return $this->belongsTo('App\Client');
