@@ -199,11 +199,11 @@ class ReservationController extends Controller
     {
         $reservation = Reservation::find($id);
 
-        if ($reservation->user->id === auth()->user()->id)
+        if ($reservation->user->id != auth()->user()->id)
         return response()->json(['message' => 'Usuario no autorizado'], 401);
-        //if (auth()->user()->can('update-reservation', $reservation))
 
         $reservation->details()->delete();
+        $reservation->segmentation()->delete();
         $reservation->delete();
 
         return response()->json(['message' => 'Reservación eliminada']);
