@@ -25,4 +25,9 @@ class Reservation extends Model
     {
         return $this->belongsTo('App\Suite', 'resourceId');
     }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 }

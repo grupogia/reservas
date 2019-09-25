@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Reservation;
+use Illuminate\Auth\Access\Gate;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateReservation extends FormRequest
@@ -13,7 +15,11 @@ class UpdateReservation extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        // return $reservation->user->id === auth()->user()->id;
+        // return auth()->user()->can('update-reservation', $reservation);
+        // return Gate::allows('update-reservation', Reservation::find($_REQUEST['']));
+        $reservation = Reservation::find($this->route('reservacione'));
+        return $this->user()->id == $reservation->user_id;
     }
 
     /**
@@ -27,20 +33,20 @@ class UpdateReservation extends FormRequest
             /*
              * Datos del cliente
              */
-            'nombre'    => 'required|string',
-            'apellidos' => 'required|string',
-            'email'     => 'required|email',
-            'telefono'  => 'required|string|size:10',
-            'direccion' => 'required|string|min:4',
+            'nombre'      => 'required|string',
+            'apellidos'   => 'required|string',
+            'email'       => 'required|email',
+            'telefono'    => 'required|string|size:10',
+            'direccion'   => 'required|string|min:4',
             'procedencia' => 'required|min:4',
 
             /* 
              * Datos de la reserva
              */
             'fecha_de_entrada' => 'required',
-            'fecha_de_salida' => 'required',
-            'hora_de_entrada' => 'required',
-            'hora_de_salida'  => 'required',
+            'fecha_de_salida'  => 'required',
+            'hora_de_entrada'  => 'required',
+            'hora_de_salida'   => 'required',
 
             /*
              * Datos del pago

@@ -15,7 +15,7 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 
 class ReservationController extends Controller
 {
-    private $impuesto_sobre_hospedaje = 0.03;
+    private $impuesto_sobre_hospedaje = 0.0375;
     private $comision_por_otas = 0.2;
 
     /**
@@ -207,6 +207,11 @@ class ReservationController extends Controller
     public function destroy($id)
     {
         $reservation = Reservation::find($id);
+
+        if ($reservation->user->id === auth()->user()->id)
+        return response()->json(['message' => 'Usuario no autorizado'], 401);
+        //if (auth()->user()->can('update-reservation', $reservation))
+
         $reservation->details()->delete();
         $reservation->delete();
 
