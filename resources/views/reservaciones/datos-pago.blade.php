@@ -22,12 +22,12 @@
         
             <div class="col-3">
                 <label for="form-group">Vencimiento</label>
-                <input class="form-control" type="text" name="vencimiento">
+                <input class="form-control" type="text" name="vencimiento" placeholder="mm/yy">
             </div>
         
             <div class="col-3">
                 <label for="form-group">Codigo seguridad</label>
-                <input class="form-control" type="text" name="codigo_seguridad">
+                <input class="form-control" type="text" name="codigo_seguridad" placeholder="ccv">
             </div>
         
             <div class="col-3">

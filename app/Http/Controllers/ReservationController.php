@@ -160,7 +160,6 @@ class ReservationController extends Controller
     {
         // Inicializa variables básicas
         $reservation = Reservation::find($id);
-        $is_client   = $this->getClientsByEmail($request->email);
 
         $dates = $this->getArrayDates(
             $request->fecha_de_entrada,
@@ -168,34 +167,26 @@ class ReservationController extends Controller
             $request->hora_de_entrada,
             $request->hora_de_salida
         );
-        return response(['data' => $request], 422);
-
-        // Validar cliente
-        if (count($is_client)) {
-            $client = Client::find($is_client[0]->id);
-
-        } else {
-            $client = $this->createClient($request);
-        }
         
         // Actualiza la reservación
-        $reservation->user_id   = auth()->user()->id;
-        $reservation->client_id = $client->id;
-        $reservation->title     = 'Reservación';
-        $reservation->folio     = 2;
-        $reservation->checkin   = $dates['checkin'];
-        $reservation->checkout  = $dates['checkout'];
-        $reservation->start     = $dates['start']->format('Y-m-d H:i:s');
-        $reservation->end       = $dates['end']  ->format('Y-m-d H:i:s');
-        $reservation->payment_method = $request  ->tipo_pago;
+        $reservation->title    = 'Reservación';
+        $reservation->checkin  = $dates['checkin'];
+        $reservation->checkout = $dates['checkout'];
+        $reservation->start    = $dates['start']->format('Y-m-d H:i:s');
+        $reservation->end      = $dates['end']  ->format('Y-m-d H:i:s');
         //$reservation->segmentation = $request->segmentation;
         $reservation->save();
 
-        $collected = [
-            'reservation' => $reservation,
-            'details' => $reservation->details,
-        ];
-        return response()->json($collected);
+        $reservation->client->update([
+            'name'     => $request->nombre,
+            'surname'  => $request->apellidos,
+            'email'    => $request->email,
+            'telefono' => $request->phone,
+            'address'  => $request->direccion,
+            'state'    => $request->procedencia,
+            'country'  => $request->procedencia,
+        ]);
+        return response()->json(['message' => 'Datos actualizados']);
     }
 
     /**

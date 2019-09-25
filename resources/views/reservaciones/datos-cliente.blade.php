@@ -16,7 +16,7 @@
     <div class="col-6">
         <div class="form-group">
             <label for="email">Correo</label>
-            <input class="form-control" type="text" name="email">
+            <input class="form-control" type="text" name="email" placeholder="E-mail">
         </div>
     </div>
 
@@ -37,7 +37,7 @@
     <div class="col-6">
         <div class="form-group">
             <label for="procedencia">Procedencia</label>
-            <input class="form-control" type="text" name="procedencia">
+            <input class="form-control" type="text" name="procedencia" placeholder="País / Estado">
         </div>
     </div>
 </div>

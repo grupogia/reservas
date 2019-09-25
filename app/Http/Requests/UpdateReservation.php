@@ -15,9 +15,6 @@ class UpdateReservation extends FormRequest
      */
     public function authorize()
     {
-        // return $reservation->user->id === auth()->user()->id;
-        // return auth()->user()->can('update-reservation', $reservation);
-        // return Gate::allows('update-reservation', Reservation::find($_REQUEST['']));
         $reservation = Reservation::find($this->route('reservacione'));
         return $this->user()->id == $reservation->user_id;
     }
@@ -33,8 +30,8 @@ class UpdateReservation extends FormRequest
             /*
              * Datos del cliente
              */
-            'nombre'      => 'required|string',
-            'apellidos'   => 'required|string',
+            'nombre'      => 'required|string|min:4',
+            'apellidos'   => 'required|string|min:4',
             'email'       => 'required|email',
             'telefono'    => 'required|string|size:10',
             'direccion'   => 'required|string|min:4',
@@ -51,7 +48,7 @@ class UpdateReservation extends FormRequest
             /*
              * Datos del pago
              */
-            'tipo_pago' => 'required',
+            'tipo_pago' => 'required|min:3',
 
             // Tarjeta
             /*

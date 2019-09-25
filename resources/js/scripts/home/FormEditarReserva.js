@@ -7,32 +7,32 @@ export class FormEditarReserva
         this.form = document.getElementById(formName)
     }
 
-    successMessage(successObj) {
-        console.log(successObj)
-        console.log(successObj.data)
+    successMessage(msgObj) {
         Swal.fire({
             type: 'success',
-            title: 'Completado'
+            title: msgObj.message
         })
         .then(() => {
-            //location.reload();
+            location.reload();
         })
     }
 
-    errorMessage(errorObj) {
-        let errors = errorObj.response.data.errors
-        let errorTitle = errorObj.response.data.message
+    errorMessage(msgObj) {
+        let errors = msgObj.response.data.errors
         let errorText = ''
 
         for (let i in errors) {
-            errorText += errors[i][0] + '<br>'
+            errorText += errors[i][0] + '<br>';
+        }
+
+        if (msgObj.response.status === 403) {
+            errorText = 'No tiene permisos sobre este registro.';
         }
         Swal.fire({
             type: 'error',
-            title: 'Datos inválidos',
+            title: 'No se aplicaron cambios',
             html: errorText
         });
-        console.log(errorObj);
     }
 
     sendData(url, data) {
