@@ -17,7 +17,7 @@ class CreateSegmentationsTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('reservation_id')->unsigned();
             $table->string('name');
-            $table->string('type');
+            $table->string('type')->nullable();
             $table->string('channel');
             $table->timestamps();
 

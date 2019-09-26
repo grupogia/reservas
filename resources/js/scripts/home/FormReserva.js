@@ -11,7 +11,7 @@ export class FormReserva
         Swal.fire({
             type: 'success',
             title: response.data.success
-        })
+        }).then(() => location.reload())
     }
 
     errorMessage(errorObj) {
@@ -33,7 +33,7 @@ export class FormReserva
 
         Axios.post(url, data)
         .then(response => {
-            this.successMessage(response.data)
+            this.successMessage(response)
         })
         .catch(errors => {
             this.errorMessage(errors)

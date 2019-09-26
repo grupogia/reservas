@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Suite extends Model
 {
+    protected $fillable = [
+        'title', 'number', 'bed_number', 'bed_type',
+    ];
+
     public function reservations()
     {
         return $this->hasMany('App\Reservation', 'resourceId');

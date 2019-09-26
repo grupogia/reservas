@@ -75,7 +75,7 @@ class ReservationController extends Controller
         // Inicializa variables básicas
         $arrTotal  = $this->getArrayTotalReservation($request->tipo_pago, $request->tipo);
         $is_client = $this->getClientsByEmail($request->email);
-        $card_id   = '';
+        $card_id   = null;
 
         $dates = $this->getArrayDates(
             $request->fecha_de_entrada, $request->fecha_de_salida,
@@ -339,7 +339,7 @@ class ReservationController extends Controller
      * @var string $payment_method, $sementation_channel
      * @return array
      */
-    private function getArrayTotalReservation($payment_method, $sementation_channel)
+    public function getArrayTotalReservation($payment_method, $sementation_channel)
     {
         // Inicializa variables básicas
         $total          = str_replace(',', '', Cart::initial());
@@ -353,7 +353,7 @@ class ReservationController extends Controller
 
             // Total mas impuestos
             $total = $total_with_iva + $other_taxes;
-            $msg   = 'Paga IVA 16%, HSH 3%';
+            $msg   = 'Paga IVA 16%, HSH 3.75%';
 
             if ($this->loadCommission($sementation_channel)) {
 

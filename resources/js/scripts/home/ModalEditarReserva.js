@@ -126,6 +126,8 @@ export class ModalEditarReserva {
         if (!isMethod)
         form.innerHTML += `<input type="hidden" name="_method" value="PUT"/>`;
 
+        $('#modalEditar a.btn-warning')[0].href = $('#modalEditar a.btn-warning')[0].dataset.url + '/' + event.id
+        
         $('#modalEditar input[name=nombre]')         .val(props.name)
         $('#modalEditar input[name=apellidos]')      .val(props.surname)
         $('#modalEditar input[name=email]')          .val(props.email)
