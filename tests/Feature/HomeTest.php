@@ -8,6 +8,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class HomeTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * Usuario no autenticado
      *
@@ -28,6 +30,7 @@ class HomeTest extends TestCase
      */
     public function authenticatedUserTest()
     {
+        $this->seed();
         $response = $this->actingAs(User::first())
         ->get('/');
 

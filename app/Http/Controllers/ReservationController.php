@@ -18,6 +18,11 @@ class ReservationController extends Controller
     private $impuesto_sobre_hospedaje = 0.0375;
     private $comision_por_otas = 0.2;
 
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Muestra todas las reservaciones registradas con sus habitaciones
      * para ser mostradas en el calendario
@@ -73,10 +78,12 @@ class ReservationController extends Controller
     public function store(CreateReservation $request)
     {
         // Inicializa variables básicas
-        $arrTotal  = $this->getArrayTotalReservation($request->tipo_pago, $request->tipo);
+        $data      = $request->validated();
         $is_client = $this->getClientsByEmail($request->email);
+        $nights    = $this->getNights($data['fecha_de_entrada'], $data['fecha_de_salida']);
         $card_id   = null;
-
+        $arrTotal  = $this->getArrayTotalReservation($request->tipo_pago, $request->tipo, $nights);
+        
         $dates = $this->getArrayDates(
             $request->fecha_de_entrada, $request->fecha_de_salida,
             $request->hora_de_entrada, $request->hora_de_salida
@@ -119,7 +126,7 @@ class ReservationController extends Controller
 
         // Vacía el carrito
         Cart::destroy();
-        return response()->json(['success' => 'Reservación correcta']);
+        return response()->json([ 'success' => 'Reservación correcta', 'price' => $reservation->total ]);
     }
 
     /**
@@ -339,7 +346,7 @@ class ReservationController extends Controller
      * @var string $payment_method, $sementation_channel
      * @return array
      */
-    public function getArrayTotalReservation($payment_method, $sementation_channel)
+    public function getArrayTotalReservation($payment_method, $sementation_channel, $nights = 1)
     {
         // Inicializa variables básicas
         $total          = str_replace(',', '', Cart::initial());
@@ -362,6 +369,23 @@ class ReservationController extends Controller
                 $msg  .= ' y 20% comisión por OTAs';
             }
         }
+
+        $total = $total * $nights;
         return [ 'message' => $msg, 'value' => number_format($total, 2) ];
+    }
+
+    /**
+     * Obtiene el número de noches dependiendo de un rango de fechas.
+     * 
+     * @param $start
+     * @param $end
+     */
+    public function getNights($start, $end)
+    {
+        $start_date = date_create_from_format('d/m/Y', $start);
+        $end_date   = date_create_from_format('d/m/Y', $end);
+        
+        $nights = $start_date->diff($end_date)->d;
+        return $nights;
     }
 }

@@ -8,6 +8,11 @@ use Spipu\Html2Pdf\Html2Pdf;
 
 class PrintReservationController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Handle the incoming request.
      *

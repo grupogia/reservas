@@ -2,21 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddSuiteToCart;
 use App\Suite;
 use Gloudemans\Shoppingcart\Facades\Cart;
-use Illuminate\Http\Request;
 
 class ShoppingCartController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     /**
      * Devuelve los datos del carrito
+     * 
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
         $dataCart = [
             'content' => Cart::content(),
             'initial' => Cart::initial(),
-            'total' => Cart::total(),
+            'total'   => Cart::total(),
         ];
 
         return response()->json($dataCart);
@@ -24,54 +32,36 @@ class ShoppingCartController extends Controller
 
     /**
      * Agrega una habitación al carrito
+     * 
+     * @param \App\Http\Requests\AddSuiteToCart
+     * @return \Illuminate\Http\Response
      */
-    public function add(Request $request, $product) {
-        $request->validate([
-            'habitacion' => 'required',
-            'tarifa'     => 'required',
-            'adultos'    => 'required|numeric|min:1',
-            'ninios'     => 'required|numeric',
-        ]);
-
-        $is_product = Cart::content()->where('id', '=', $product);
-
-        if (count($is_product)) {
-            return response()->json([
-                'errors' => [ 0 => 'Habitación ya asignada' ]
-            ], 422);
-        }
-
+    public function add(AddSuiteToCart $request, $product) {
         $suite = Suite::find($product);
+        $data  = $request->validated();
 
-        foreach ($suite->rates as $rate) {
-            
-            if ($rate->type == strtolower($request->tarifa)) {
-                $price = floatval($rate->price);
-                $adultos = $request->adultos;
+        // Tarifa
+        $rate          = $suite->rates->where('type', '=', $data['tarifa'])->first();
+        $adultos       = $data['adultos'];
+        $extra_persons = $this->getPricePerPerson($adultos);
 
-                $options = [
-                    'tarifa'   => $rate->type,
-                    'bed_type' => $suite->bed_type,
-                    'adultos'  => $adultos,
-                    'ninios'   => $request->ninios
-                ];
+        $price = floatval($rate->price) + $extra_persons;
 
-                if ($adultos > 2) {
-                    $personas_extra = 700 * ($adultos - 2);
-                    $price = $price + $personas_extra;
-                }
+        $options = [
+            'tarifa'   => $rate->type,
+            'bed_type' => $suite->bed_type,
+            'adultos'  => $adultos,
+            'ninios'   => $data['ninios'],
+        ];
 
-                Cart::add($suite->id, $suite->number. ' ' .$suite->title, 1, $price, 0, $options);
-                return response()->json([ 'message' => 'Habitación asignada', 'price' => number_format($price, 2) ]);
-            }
-        }
-        return response()->json([
-            'errors' => [ 0 => 'No se encontró una tarifa para esta habitación' ]
-        ], 422);
+        Cart::add($suite->id, $suite->number . ' ' . $suite->title, 1, $price, 0, $options);
+        return response()->json([ 'message' => 'Habitación asignada', 'price' => number_format($price, 2) ]);
     }
 
     /**
      * Elimina una habitación cargada en el carrito
+     * 
+     * @param $product
      */
     public function remove($product) {
         return response($product);
@@ -79,10 +69,23 @@ class ShoppingCartController extends Controller
 
     /**
      * Vacia el carrito
+     * 
+     * @return \Illuminate\Http\Response
      */
     public function trash()
     {
         Cart::destroy();
         return response()->json(['success' => 'Carrito vacio']);
+    }
+
+    public function getPricePerPerson($persons)
+    {
+        $price_per_person = 0;
+
+        if ($persons > 2) {
+            $price_per_person = 700 * ($persons - 2);
+        }
+
+        return $price_per_person;
     }
 }

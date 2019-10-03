@@ -10,6 +10,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ReservationPriceTest extends TestCase
 {
+    use RefreshDatabase, WithFaker;
+
     /**
      * Prueba que calcule correctamente los precios de la reservaciones
      *
@@ -18,13 +20,16 @@ class ReservationPriceTest extends TestCase
      */
     public function calculateReservationPrice()
     {
+        $this->seed();
         $controller = new ReservationController;
-        $success    = [ 'message' => 'No paga impuestos ni comisión', 'value' => '1,700.00' ];
+        $tipo_pago  = 'efectivo';
+        $canal      = 'otas';
+        $noches     = 4;
+        $success    = [ 'message' => 'No paga impuestos ni comisión', 'value' => '6,800.00' ];
 
         Cart::add('1', '2 TULIPAN', 1, 1700, 0);
 
-        $result = $controller->getArrayTotalReservation('efectivo', 'otas');
-
+        $result = $controller->getArrayTotalReservation($tipo_pago, $canal, $noches);
         $this->assertEquals($result, $success);
     }
 
@@ -36,13 +41,15 @@ class ReservationPriceTest extends TestCase
      */
     public function calculateReservationPriceWithTaxes()
     {
+        $this->seed();
         $controller = new ReservationController;
+        $tipo_pago  = 'tarjeta';
+        $canal      = 'directas';
         $success    = [ 'message' => 'Paga IVA 16%, HSH 3.75%', 'value' => '2,035.75' ];
 
         Cart::add('1', '2 TULIPAN', 1, 1700, 0);
 
-        $result = $controller->getArrayTotalReservation('tarjeta', 'directas');
-
+        $result = $controller->getArrayTotalReservation($tipo_pago, $canal);
         $this->assertEquals($result, $success);
     }
 
@@ -54,13 +61,15 @@ class ReservationPriceTest extends TestCase
      */
     public function calculateReservationPriceWithTaxesAndComissions()
     {
+        $this->seed();
         $controller = new ReservationController;
+        $tipo_pago  = 'tarjeta';
+        $canal      = 'otas';
         $success    = [ 'message' => 'Paga IVA 16%, HSH 3.75% y 20% comisión por OTAs', 'value' => '2,375.75' ];
 
         Cart::add('1', '2 TULIPAN', 1, 1700, 0);
 
-        $result = $controller->getArrayTotalReservation('tarjeta', 'otas');
-
+        $result = $controller->getArrayTotalReservation($tipo_pago, $canal);
         $this->assertEquals($result, $success);
     }
 }

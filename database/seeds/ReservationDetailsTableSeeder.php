@@ -1,5 +1,7 @@
 <?php
 
+use App\Reservation;
+use App\Suite;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -14,18 +16,20 @@ class ReservationDetailsTableSeeder extends Seeder
     {
         DB::table('reservation_details')->insert([
             [
-                'reservation_id' => 1,
-                'suite_id' => 1,
-                'adults' => 2,
-                'children' => 1,
-                'subtotal' => 3387,
+                'reservation_id' => Reservation::first()->id,
+                'suite_id'  => Suite::where('number', '=', 2)->first()->id,
+                'adults'    => 2,
+                'rate_type' => 'rack',
+                'children'  => 1,
+                'subtotal'  => 3387,
             ],
             [
-                'reservation_id' => 1,
-                'suite_id' => 2,
-                'adults' => 2,
-                'children' => 1,
-                'subtotal' => 3387
+                'reservation_id' => Reservation::first()->id,
+                'suite_id'  => Suite::where('number', '=', 5)->first()->id,
+                'adults'    => 2,
+                'rate_type' => 'rack',
+                'children'  => 1,
+                'subtotal'  => 3387
             ],
         ]);
     }

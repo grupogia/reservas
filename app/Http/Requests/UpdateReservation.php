@@ -40,10 +40,10 @@ class UpdateReservation extends FormRequest
             /* 
              * Datos de la reserva
              */
-            'fecha_de_entrada' => 'required',
-            'fecha_de_salida'  => 'required',
-            'hora_de_entrada'  => 'required',
-            'hora_de_salida'   => 'required',
+            'fecha_de_entrada' => 'required|date_format:d/m/Y',
+            'fecha_de_salida'  => 'required|date_format:d/m/Y',
+            'hora_de_entrada'  => 'required|date_format:h:i A',
+            'hora_de_salida'   => 'required|date_format:h:i A',
 
             /*
              * Datos del pago

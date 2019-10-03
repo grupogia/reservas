@@ -185,6 +185,8 @@ return [
         'terms_and_conditions'  => 'términos y condiciones',
         'guests'                => 'invitados',
         'start_time'            => 'hora de inicio',
+        'ninios'                => 'niños',
+        'habitacion'            => 'habitación',
     ],
 
 ];

@@ -14,7 +14,7 @@ class CreateReservation extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return $this->user()->can('create.reservation');
     }
 
     /**
@@ -38,10 +38,10 @@ class CreateReservation extends FormRequest
             /* 
              * Datos de la reserva
              */
-            'fecha_de_entrada' => 'required',
-            'fecha_de_salida'  => 'required',
-            'hora_de_entrada'  => 'required',
-            'hora_de_salida'   => 'required',
+            'fecha_de_entrada' => 'required|date_format:d/m/Y',
+            'fecha_de_salida'  => 'required|date_format:d/m/Y',
+            'hora_de_entrada'  => 'required|date_format:h:i A',
+            'hora_de_salida'   => 'required|date_format:h:i A',
 
             /*
              * Datos del pago
@@ -75,7 +75,7 @@ class CreateReservation extends FormRequest
     {        
         $validator->after(function ($validator) {
             if (Cart::initial() <= 0) {
-                $validator->errors()->add('field', '<strong>Debe reservar al menos una habitación.</strong>');
+                $validator->errors()->add('cart', '<strong>Debe reservar al menos una habitación.</strong>');
             }
         });
     }
