@@ -30,7 +30,5 @@ class UsersTableSeeder extends Seeder
                 'updated_at' => Carbon::now(),                
             ]
         ],);
-
-        User::where('email', '=', 'desarrollo@lasmananitas.com.mx')->first()->assignRoles('admin');
     }
 }
