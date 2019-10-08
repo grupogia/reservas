@@ -26,7 +26,7 @@ class AddSuiteToCart extends FormRequest
     public function rules()
     {
         return [
-            'habitacion' => 'required|string|min:2',
+            'habitacion' => 'required|numeric|min:1',
             'tarifa'     => 'required|string',
             'adultos'    => 'required|numeric|min:1|max:10',
             'ninios'     => 'required|numeric|max:10',
