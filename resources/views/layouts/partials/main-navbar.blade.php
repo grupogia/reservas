@@ -9,9 +9,25 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
-            <ul class="navbar-nav mr-auto">
-
-            </ul>
+            @auth
+                <ul class="navbar-nav mr-auto">
+                    <li><a
+                        class="nav-link @if(request()->is('home')) active @endif"
+                        href="{{ route('home') }}">Sábana</a></li>
+                    <li><a
+                        class="nav-link @if(request()->routeIs('suites')) active @endif"
+                        href="{{ route('suites') }}">Habitaciones</a></li>
+                    <li><a
+                        class="nav-link @if(request()->RouteIs('log')) active @endif"
+                        href="{{ route('log') }}">Eventos</a></li>
+                    <li><a
+                        class="nav-link @if(request()->routeIs('users')) active @endif"
+                        href="{{ route('users') }}">Usuarios</a></li>
+                    <li><a
+                        class="nav-link @if(request()->routeIs('dashboard')) active @endif"
+                        href="{{ route('dashboard') }}">Panel de Control</a></li>
+                </ul>
+            @endauth
 
             <!-- Right Side Of Navbar -->
             <ul class="navbar-nav ml-auto">

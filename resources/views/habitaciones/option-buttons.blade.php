@@ -1,0 +1,1 @@
+<a class="btn btn-warning py-1 edit-suite" href="{{ route('suites.edit', ['suite' => $id]) }}" data-item="{{ $id }}">Cambiar</a>

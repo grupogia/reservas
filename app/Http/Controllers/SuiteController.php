@@ -2,11 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateSuite;
+use App\Http\Requests\UpdateSuite;
 use App\Suite;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\Facades\DataTables;
 
 class SuiteController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    public function getArraySuites()
+    {
+        return Suite::all();
+    }
+
+    /**
+     * Devuelve una vista de las habitaciones del sistemas
+     */
+    public function suitesView()
+    {
+        return view('habitaciones.index');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,8 +35,12 @@ class SuiteController extends Controller
      */
     public function index()
     {
-        $suites = Suite::all();
-        return response()->json($suites);
+        $suites = DataTables::eloquent(Suite::query())
+        ->addColumn('options', 'habitaciones.option-buttons')
+        ->rawColumns([ 'options' ])
+        ->toJson();
+
+        return $suites;
     }
 
     /**
@@ -25,7 +50,7 @@ class SuiteController extends Controller
      */
     public function create()
     {
-        //
+        return view('habitaciones.create-suite');
     }
 
     /**
@@ -34,9 +59,18 @@ class SuiteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateSuite $request)
     {
-        //
+        $data = $request->validated();
+
+        $suite = new Suite();
+        $suite->number = $data['number'];
+        $suite->title = $data['title'];
+        $suite->bed_type = $data['bed_type'];
+        $suite->bed_number = $data['bed_number'];
+        $suite->save();
+
+        return redirect()->route('suites')->with([ 'success' => 'Habitación creada correctamente' ]);
     }
 
     /**
@@ -58,7 +92,7 @@ class SuiteController extends Controller
      */
     public function edit(Suite $suite)
     {
-        //
+        return view('habitaciones.edit-suite', compact('suite'));
     }
 
     /**
@@ -68,9 +102,17 @@ class SuiteController extends Controller
      * @param  \App\Suite  $suite
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Suite $suite)
+    public function update(UpdateSuite $request, Suite $suite)
     {
-        //
+        $data = $request->validated();
+
+        $suite->number = $data['number'];
+        $suite->title = $data['title'];
+        $suite->bed_type = $data['bed_type'];
+        $suite->bed_number = $data['bed_number'];
+        $suite->save();
+
+        return redirect()->route('suites')->with([ 'success' => 'Editado correctamente' ]);
     }
 
     /**
@@ -81,6 +123,18 @@ class SuiteController extends Controller
      */
     public function destroy(Suite $suite)
     {
-        //
+        $validator = Validator::make([], []);
+
+        $validator->after(function ($validator) {
+            if (!auth()->user()->can('suites.destroy'))
+            $validator->errors()->add('permission', 'No tiene permiso de eliminar esta habitación');
+        });
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator, 'delete');
+        }
+
+        $suite->delete();
+        return redirect()->route('suites')->with([ 'success' => 'Elemento borrado' ]);
     }
 }
