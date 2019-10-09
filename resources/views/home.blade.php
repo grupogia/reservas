@@ -2,10 +2,17 @@
 
 @section('content')
 <div class="container">
-    @include('reservaciones.modal')
-    @include('reservaciones.modal-editar')
+    @can('index.reservations')
+        @include('reservaciones.modal')
+        @include('reservaciones.modal-editar')
 
-    <div id="hotelCalendar"></div>
+        <div id="hotelCalendar"></div>
+    @else
+        <div class="card p-3 mt-3 text-center">
+            <h1>Sistema de reservaciones</h1>
+            <h2>Jardín Meliar</h2>
+        </div>
+    @endcan
 </div>
 @endsection
 

@@ -35,6 +35,9 @@ class SuiteController extends Controller
      */
     public function index()
     {
+        if (!auth()->user()->can('index.suites'))
+        abort(404);
+
         $suites = DataTables::eloquent(Suite::query())
         ->addColumn('options', 'habitaciones.option-buttons')
         ->rawColumns([ 'options' ])
@@ -50,6 +53,9 @@ class SuiteController extends Controller
      */
     public function create()
     {
+        if (!auth()->user()->can('create.suite'))
+        abort(401);
+
         return view('habitaciones.create-suite');
     }
 
@@ -92,6 +98,9 @@ class SuiteController extends Controller
      */
     public function edit(Suite $suite)
     {
+        if (!auth()->user()->can('edit.suite'))
+        abort(401);
+
         return view('habitaciones.edit-suite', compact('suite'));
     }
 

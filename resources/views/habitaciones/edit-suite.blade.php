@@ -54,7 +54,7 @@
             </div>
     
             <div class="row col-12">
-                <button class="btn btn-warning col-5 col-md-3" type="submit">Send</button>
+                <button class="btn btn-warning col-5 col-md-3" type="submit">Actualizar</button>
                 <button class="btn btn-secondary col-5 col-md-3 ml-2" type="button" onclick="history.back()">Cancelar</button>
             </div>
         </form>

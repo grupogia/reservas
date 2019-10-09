@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateRole;
 use Caffeinated\Shinobi\Models\Role;
 use Illuminate\Http\Request;
 
@@ -27,15 +28,23 @@ class RoleController extends Controller
         return view('roles.create-role');
     }
 
-    public function store()
+    public function store(CreateRole $request)
     {
-        return 'store';
+        $data = $request->validated();
+
+        $role = new Role();
+        $role->slug = $data['slug'];
+        $role->name = $data['name'];
+        $role->description = $data['description'];
+        $role->save();
+
+        return redirect()->route('roles')->with('success', 'Role creado correctamente');
     }
 
     public function edit(Role $role)
     {
         if (!auth()->user()->can('edit.role'))
-        abort(404);
+        abort(401);
 
         return view('roles.edit-role', compact('role'));
     }

@@ -69,3 +69,7 @@ Route::put('/roles/{role}', 'RoleController@update')->name('roles.update');
 Route::delete('/roles/{role}', 'RoleController@destroy')->name('roles.destroy');
 
 Route::post('/roles/asignar-permiso/{role}', 'RoleController@assignPermission')->name('roles.assign.permission');
+
+// Perfil
+Route::get('/perfil', 'Auth\ProfileController@index')->name('profile');
+Route::put('/perfil/actualizar', 'Auth\ProfileController@update')->name('profile.update');

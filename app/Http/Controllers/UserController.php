@@ -25,7 +25,7 @@ class UserController extends Controller
     public function create()
     {
         if (!auth()->user()->can('create.user'))
-        abort(404);
+        abort(401);
 
         return view('usuarios.create-user');
     }
@@ -46,7 +46,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
         if (!auth()->user()->can('edit.user'))
-        abort(404);
+        abort(401);
 
         return view('usuarios.edit-user', compact('user'));
     }
@@ -59,7 +59,7 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         if (!auth()->user()->can('destroy.user'))
-        abort(404);
+        abort(401);
 
         $user->delete();
         return redirect()->route('users')->with('success', 'Se eliminó el usuario');
@@ -72,7 +72,7 @@ class UserController extends Controller
         ]);
 
         if (!auth()->user()->can('assign.role.user'))
-        abort(404);
+        abort(401);
 
         $data = $request->all();
 
@@ -87,7 +87,7 @@ class UserController extends Controller
         ]);
 
         if (!auth()->user()->can('assign.role.user'))
-        abort(404);
+        abort(401);
 
         $data = $request->all();
         $slug = $data['slug'];

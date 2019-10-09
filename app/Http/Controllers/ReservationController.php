@@ -31,6 +31,9 @@ class ReservationController extends Controller
      */
     public function index()
     {
+        if (!auth()->user()->can('index.reservations'))
+        abort(404);
+
         $table = 'reservations';
         $columns = [
             'reservations.*',
@@ -137,6 +140,9 @@ class ReservationController extends Controller
      */
     public function show($id)
     {
+        if (!auth()->user()->can('show.reservation'))
+        abort(404);
+
         $reservation = Reservation::find($id);
         $initial = 0;
         $suites_array = [];
@@ -204,6 +210,9 @@ class ReservationController extends Controller
      */
     public function destroy($id)
     {
+        if (!auth()->user()->can('destroy.reservations'))
+        abort(401);
+
         $reservation = Reservation::find($id);
 
         if ($reservation->user->id != auth()->user()->id)

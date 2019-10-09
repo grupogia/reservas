@@ -11,21 +11,35 @@
             <!-- Left Side Of Navbar -->
             @auth
                 <ul class="navbar-nav mr-auto">
-                    <li><a
-                        class="nav-link @if(request()->is('home')) active @endif"
-                        href="{{ route('home') }}">Sábana</a></li>
-                    <li><a
-                        class="nav-link @if(request()->routeIs('suites')) active @endif"
-                        href="{{ route('suites') }}">Habitaciones</a></li>
-                    <li><a
-                        class="nav-link @if(request()->RouteIs('log')) active @endif"
-                        href="{{ route('log') }}">Eventos</a></li>
-                    <li><a
-                        class="nav-link @if(request()->routeIs('users')) active @endif"
-                        href="{{ route('users') }}">Usuarios</a></li>
-                    <li><a
-                        class="nav-link @if(request()->routeIs('dashboard')) active @endif"
-                        href="{{ route('dashboard') }}">Panel de Control</a></li>
+                    @can('index.revervations')
+                        <li><a
+                            class="nav-link @if(request()->is('home')) active @endif"
+                            href="{{ route('home') }}">Sábana</a></li>
+                    @endcan
+
+                    @can('index.suites')
+                        <li><a
+                            class="nav-link @if(request()->routeIs('suites')) active @endif"
+                            href="{{ route('suites') }}">Habitaciones</a></li>
+                    @endcan
+
+                    @can('log.index')
+                        <li><a
+                            class="nav-link @if(request()->RouteIs('log')) active @endif"
+                            href="{{ route('log') }}">Eventos</a></li>
+                    @endcan
+
+                    @can('index.users')
+                        <li><a
+                            class="nav-link @if(request()->routeIs('users')) active @endif"
+                            href="{{ route('users') }}">Usuarios</a></li>
+                    @endcan
+
+                    @if(auth()->user()->hasRole('admin'))
+                        <li><a
+                            class="nav-link @if(request()->routeIs('dashboard')) active @endif"
+                            href="{{ route('dashboard') }}">Panel de Control</a></li>
+                    @endif
                 </ul>
             @endauth
 
@@ -43,13 +57,16 @@
                             <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                         </li>
                     @endif
+
                 @else
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            <i class="fas fa-user-circle fa-lg mr-1"></i> {{ Auth::user()->name }} <span class="caret"></span>
+                            <i class="fas fa-user-circle fa-lg mr-1"></i> {{ auth()->user()->name }} <span class="caret"></span>
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ route('profile') }}">Mi Perfil</a>
+
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                 onclick="event.preventDefault();
                                 document.getElementById('logout-form').submit();">
