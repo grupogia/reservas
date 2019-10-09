@@ -154,10 +154,15 @@ class SuiteController extends Controller
         if (!auth()->user()->can('edit.suite'))
         abort(401);
 
+        $request->validate([
+            'type' => 'required|string',
+            'price' => 'required|numeric',
+        ]);
+
         $data = $request->all();
 
         $suite->rates()->create([
-            'type'  => $data['type'],
+            'type'  => strtolower($data['type']),
             'price' => $data['price'],
         ]);
 
