@@ -87,7 +87,9 @@
                             </td>
                         </tr>
                     @empty
-                        
+                        <tr>
+                            <td colspan="3">No tiene tarifas asignadas</td>
+                        </tr>
                     @endforelse
                 </tbody>
             </table>
