@@ -10,11 +10,14 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth']);
     }
 
     public function index()
     {
+        if (!auth()->user()->can('index.users'))
+        abort(404);
+
         $users = User::paginate(10);
         return view('usuarios.index', compact('users'));
     }
@@ -62,6 +65,9 @@ class UserController extends Controller
             'slug' => 'required|string|exists:roles,slug',
         ]);
 
+        if (!auth()->user()->can('assign.role.user'))
+        abort(404);
+
         $data = $request->all();
 
         $user->assignRoles($data['slug']);
@@ -73,6 +79,9 @@ class UserController extends Controller
         $request->validate([
             'slug' => 'required|string|exists:roles,slug',
         ]);
+
+        if (!auth()->user()->can('assign.role.user'))
+        abort(404);
 
         $data = $request->all();
         $slug = $data['slug'];

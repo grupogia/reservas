@@ -15,8 +15,10 @@ class PermissionController extends Controller
 
     public function index()
     {
-        $permissions = Permission::all();
+        if (!auth()->user()->can('index.permissions'))
+        abort(404);
 
+        $permissions = Permission::all();
         return view('permisos.index', compact('permissions'));
     }
 

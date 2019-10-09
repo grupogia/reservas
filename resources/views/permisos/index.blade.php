@@ -22,7 +22,7 @@
                         <td>{{ $permission->slug }}</td>
                         <td>{{ $permission->name }}</td>
                         <td>{{ $permission->description }}</td>
-                        <td>
+                        <td class="p-1">
                             <form action="{{ route('permissions.destroy', [ 'permission' => $permission->id ]) }}" method="post">
                                 @csrf @method('delete')
                                 <button class="btn btn-danger" type="submit">Eliminar</button>

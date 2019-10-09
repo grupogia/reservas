@@ -14,6 +14,9 @@ class RoleController extends Controller
 
     public function index()
     {
+        if (!auth()->user()->can('index.role'))
+        abort(404);
+
         $roles = Role::all();
 
         return view('roles.index', compact('roles'));
@@ -31,6 +34,9 @@ class RoleController extends Controller
 
     public function edit(Role $role)
     {
+        if (!auth()->user()->can('edit.role'))
+        abort(404);
+
         return view('roles.edit-role', compact('role'));
     }
 
