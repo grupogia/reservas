@@ -5,6 +5,8 @@
 @section('content')
 
 <div class="container">
+    @include('habitaciones.assign-rate')
+
     <div class="d-flex justify-content-around">
         <form class="card mt-3 p-4 col-md-5" action="{{ route('suites.update', [ 'suite' => $suite->id ]) }}" method="post">
             @csrf @method('put')
@@ -53,27 +55,58 @@
                 @enderror
             </div>
     
-            <div class="row col-12">
+            <div class="w-12">
                 <button class="btn btn-warning col-5 col-md-3" type="submit">Actualizar</button>
-                <button class="btn btn-secondary col-5 col-md-3 ml-2" type="button" onclick="history.back()">Cancelar</button>
+                <a class="btn btn-secondary col-5 col-md-3 ml-2" href="{{ route('suites') }}">Cancelar</a>
             </div>
         </form>
     
         {{-- Formulario para eliminar --}}
-        <form class="card mt-3 p-4 col-md-5" action="{{ route('suites.destroy', [ 'suite' => $suite->id ]) }}" method="post">
-            @csrf @method('delete')
+        <div class="card col-md-6 p-4 mt-3">
+            <h4>Tarifas</h4>
 
-            @if ($errors->delete->any())
-                <div class="alert alert-danger" role="alert">
-                    {{ $errors->delete->first('permission') }}
+            <table class="table table-striped border-bottom text-center">
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Precio</th>
+                        <th class="p-1"><button class="btn btn-success" data-toggle="modal" data-target="#assignRateModal">Agregar</button></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @forelse ($suite->rates as $rate)
+                        <tr>
+                            <td>{{ $rate->type }}</td>
+                            <td>$ {{ number_format($rate->price, 2) }}</td>
+                            <td class="p-1">
+                                <form action="{{ route('remove.rate', ['rate' => $rate->id]) }}" method="post">
+                                    @csrf @method('delete')
+                                    <button class="btn btn-danger" type="submit">Quitar</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @empty
+                        
+                    @endforelse
+                </tbody>
+            </table>
+
+            <form action="{{ route('suites.destroy', [ 'suite' => $suite->id ]) }}" method="post">
+                @csrf @method('delete')
+    
+                @if ($errors->delete->any())
+                    <div class="alert alert-danger" role="alert">
+                        {{ $errors->delete->first('permission') }}
+                    </div>
+                @endif
+    
+                <div class="d-flex justify-content-between align-items-center">
+                    <label for="">Eliminar habitación</label>
+                    <button class="btn btn-danger" type="submit">Borrar habitación</button>
                 </div>
-            @endif
-
-            <div class="d-flex justify-content-between align-items-center">
-                <label for="">Eliminar habitación</label>
-                <button class="btn btn-danger" type="submit">Borrar habitación</button>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>
 @endsection

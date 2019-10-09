@@ -40,6 +40,9 @@ Route::get('/deptos', 'SuiteController@getArraySuites');
 
 Route::get('/eventos', 'LogController@logView')->name('log');
 
+Route::post('/asignar-tarifa/{suite}', 'SuiteController@assignRate')->name('assign.rate');
+Route::delete('/remover-tarifa/{rate}', 'SuiteController@removeRate')->name('remove.rate');
+
 Route::resource('suites', 'SuiteController');
 
 // Reservaciones

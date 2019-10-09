@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateSuite;
 use App\Http\Requests\UpdateSuite;
+use App\Rate;
 use App\Suite;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -145,5 +147,29 @@ class SuiteController extends Controller
 
         $suite->delete();
         return redirect()->route('suites')->with([ 'success' => 'Elemento borrado' ]);
+    }
+
+    public function assignRate(Request $request, Suite $suite)
+    {
+        if (!auth()->user()->can('edit.suite'))
+        abort(401);
+
+        $data = $request->all();
+
+        $suite->rates()->create([
+            'type'  => $data['type'],
+            'price' => $data['price'],
+        ]);
+
+        return redirect()->back()->with('success', 'Tarifa asignada');
+    }
+
+    public function removeRate(Rate $rate)
+    {
+        if (!auth()->user()->can('edit.suite'))
+        abort(401);
+
+        $rate->delete();
+        return redirect()->back()->with('success', 'Tarifa eliminada');
     }
 }
