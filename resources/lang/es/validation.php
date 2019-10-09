@@ -190,6 +190,7 @@ return [
         'bed_number'            => 'número de cama',
         'bed_type'              => 'Tipo de cama',
         'number'                => 'número',
+        'password_confirmation' => 'confirmación de contraseña',
     ],
 
 ];

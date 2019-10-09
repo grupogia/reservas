@@ -27,12 +27,12 @@
                             <td>{{ $user->email }}</td>
                             <td>
                                 @foreach ($user->roles as $role)
-                                {{ $role->name }}
+                                    {{ $role->name }}
                                 @endforeach
                             </td>
                             <td>
                                 @foreach ($user->permissions as $permission)
-                                {{ $permission->name }}
+                                    {{ $permission->name }}
                                 @endforeach
                             </td>
                             <td>{{ $user->special }}</td>
@@ -41,7 +41,6 @@
                     @endforeach
                 </tbody>
             </table>
-
             {{ $users->links() }}
         </div>
     </div>

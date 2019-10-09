@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateUser;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -20,12 +21,20 @@ class UserController extends Controller
 
     public function create()
     {
-        return '';
+        return view('usuarios.create-user');
     }
 
-    public function store(Request $request)
+    public function store(CreateUser $request)
     {
-        //
+        $data = $request->validated();
+
+        $user = new User();
+        $user->name = $data['name'];
+        $user->email = $data['email'];
+        $user->password = bcrypt($data['password']);
+        $user->save();
+
+        return redirect()->route('users')->with('success', 'Usuario creado con éxito');
     }
 
     public function edit(User $user)
@@ -38,9 +47,13 @@ class UserController extends Controller
         //
     }
 
-    public function destroy()
+    public function destroy(User $user)
     {
-        //
+        if (!auth()->user()->can('destroy.user'))
+        abort(404);
+
+        $user->delete();
+        return redirect()->route('users')->with('success', 'Se eliminó el usuario');
     }
 
     public function assignRoleUser(Request $request, User $user)
@@ -62,7 +75,6 @@ class UserController extends Controller
         ]);
 
         $data = $request->all();
-
         $slug = $data['slug'];
 
         $user->removeRoles($slug);

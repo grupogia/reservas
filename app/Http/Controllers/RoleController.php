@@ -16,6 +16,44 @@ class RoleController extends Controller
     {
         $roles = Role::all();
 
-        return response()->json([ 'roles' => $roles ]);
+        return view('roles.index', compact('roles'));
+    }
+
+    public function create()
+    {
+        return view('roles.create-role');
+    }
+
+    public function store()
+    {
+        return 'store';
+    }
+
+    public function edit(Role $role)
+    {
+        return view('roles.edit-role', compact('role'));
+    }
+
+    public function update()
+    {
+        return 'update';
+    }
+
+    public function delete()
+    {
+        return 'delete';
+    }
+
+    public function assignPermission(Request $request, Role $role)
+    {
+        $request->validate([
+            'slug' => 'required|exists:permissions,slug',
+        ]);
+
+        $data = $request->all();
+        $slug = $data['slug'];
+
+        $role->givePermissionTo($slug);
+        return redirect()->back();
     }
 }

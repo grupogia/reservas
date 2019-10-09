@@ -54,5 +54,18 @@ Route::post('/carrito-habitaciones/{product}', 'ShoppingCartController@add');
 Route::delete('/carrito-habitaciones/{product}', 'ShoppingCartController@remove');
 Route::get('/vaciar-carrito', 'ShoppingCartController@trash');
 
+// Permisos
+Route::get('/permisos', 'PermissionController@index')->name('permissions');
+Route::get('/permisos/create', 'PermissionController@create')->name('permissions.create');
+Route::post('/permisos', 'PermissionController@store')->name('permissions.store');
+Route::delete('/permisos/{permission}', 'PermissionController@destroy')->name('permissions.destroy');
+
 // Roles
 Route::get('/roles', 'RoleController@index')->name('roles');
+Route::get('/roles/create', 'RoleController@create')->name('roles.create');
+Route::post('/roles', 'RoleController@store')->name('roles.store');
+Route::get('/roles/{role}/edit', 'RoleController@edit')->name('roles.edit');
+Route::put('/roles/{role}', 'RoleController@update')->name('roles.update');
+Route::delete('/roles/{role}', 'RoleController@destroy')->name('roles.destroy');
+
+Route::post('/roles/asignar-permiso/{role}', 'RoleController@assignPermission')->name('roles.assign.permission');
