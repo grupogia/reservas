@@ -24,6 +24,9 @@ class UserController extends Controller
 
     public function create()
     {
+        if (!auth()->user()->can('create.user'))
+        abort(404);
+
         return view('usuarios.create-user');
     }
 
@@ -42,6 +45,9 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
+        if (!auth()->user()->can('edit.user'))
+        abort(404);
+
         return view('usuarios.edit-user', compact('user'));
     }
 
