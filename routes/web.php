@@ -20,6 +20,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 // Usuarios
 Route::get('/usuarios', 'UserController@index')->name('users');
 
+Route::get('/usuarios/{user}', 'UserController@show')->name('users.show');
 Route::get('/usuarios/create', 'UserController@create')->name('users.create');
 Route::post('/usuarios', 'UserController@store')->name('users.store');
 
@@ -78,3 +79,4 @@ Route::post('/roles/asignar-permiso/{role}', 'RoleController@assignPermission')-
 // Perfil
 Route::get('/perfil', 'Auth\ProfileController@index')->name('profile');
 Route::put('/perfil/actualizar', 'Auth\ProfileController@update')->name('profile.update');
+Route::get('/mis-reservaciones', 'Auth\ProfileController@reservations')->name('auth.reservations');

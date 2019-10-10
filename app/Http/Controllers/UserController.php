@@ -22,6 +22,12 @@ class UserController extends Controller
         return view('usuarios.index', compact('users'));
     }
 
+    public function show(User $user)
+    {
+        $reservations = $user->reservations;
+        return view('usuarios.show-user', compact('reservations'));
+    }
+
     public function create()
     {
         if (!auth()->user()->can('create.user'))

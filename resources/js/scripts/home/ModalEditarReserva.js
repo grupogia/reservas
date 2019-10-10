@@ -8,8 +8,8 @@ export class ModalEditarReserva {
         this.bootstrapModal = $('#' + modalName)
     }
 
-    show(dataJson) {
-        this.printReservationModal(dataJson)
+    show(event) {
+        this.printReservationModal(event)
         this.getDetailReserva(formEditarReserva)
         this.bootstrapModal.modal('show')
     }
@@ -93,10 +93,7 @@ export class ModalEditarReserva {
         let cartContent = json.data.detalle;
         let total = json.data.initial;
         let tbodyHTML = '';
-        let segmentation = json.data.segmentation; 
-        
-        console.log(json);
-        
+        let segmentation = json.data.segmentation;        
 
         for (let index in cartContent) {
             let prod = cartContent[index]

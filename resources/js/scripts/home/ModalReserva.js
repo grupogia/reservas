@@ -173,8 +173,8 @@ export class ModalReserva {
 
         $('#modalRegistrar input[name=hora_de_entrada]') .val(time_start)
         $('#modalRegistrar input[name=fecha_de_entrada]').val(date_start)
-        $('#modalRegistrar input[name=hora_de_salida]') .val(time_end)
-        $('#modalRegistrar input[name=fecha_de_salida]').val(date_end)
+        $('#modalRegistrar input[name=hora_de_salida]')  .val(time_end)
+        $('#modalRegistrar input[name=fecha_de_salida]') .val(date_end)
     }
 
     printModalUpdateEvent(event) {

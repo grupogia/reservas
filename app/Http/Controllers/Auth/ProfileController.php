@@ -33,4 +33,10 @@ class ProfileController extends Controller
         $user->save();
         return redirect()->route('profile')->with('success', 'Datos actualizados correctamente');
     }
+
+    public function reservations()
+    {
+        $user = auth()->user();
+        return response()->json(['reservations' => $user->reservations]);
+    }
 }
