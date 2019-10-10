@@ -33,22 +33,22 @@
             <div class="tarjeta-details" @if($reservation->payment_method !== 'tarjeta') style="display: none" @endif>
                 <div class="form-group">
                     <label for="numero_tarjeta">Numero de Tarjeta</label>
-                    <input class="form-control" type="text" name="numero_tarjeta" value="{{ $reservation->credit_card->number }}">
+                    <input class="form-control" type="text" name="numero_tarjeta" @if ($reservation->payment_method == 'tarjeta') value="{{ $reservation->credit_card->number }}" @endif>
                 </div>
                 
                 <div class="form-group">
                     <label for="vencimiento">Vencimiento</label>
-                    <input class="form-control" type="text" name="vencimiento" value="{{ $reservation->credit_card->expiration }}">
+                    <input class="form-control" type="text" name="vencimiento" @if ($reservation->payment_method == 'tarjeta') value="{{ $reservation->credit_card->expiration }}" @endif>
                 </div>
 
                 <div class="form-group">
                     <label for="codigo_seguridad">Código de seguridad</label>
-                    <input class="form-control" type="text" name="codigo_seguridad" value="{{ $reservation->credit_card->security_code }}">
+                    <input class="form-control" type="text" name="codigo_seguridad" @if ($reservation->payment_method == 'tarjeta') value="{{ $reservation->credit_card->security_code }}" @endif>
                 </div>
 
                 <div class="form-group">
                     <label for="titular">Titular</label>
-                    <input class="form-control" type="text" name="titular" value="{{ $reservation->credit_card->holder }}">
+                    <input class="form-control" type="text" name="titular" @if ($reservation->payment_method == 'tarjeta') value="{{ $reservation->credit_card->holder }}" @endif>
                 </div>
             </div>
 
