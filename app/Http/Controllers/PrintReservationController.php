@@ -21,7 +21,10 @@ class PrintReservationController extends Controller
      */
     public function __invoke(Reservation $reservacion, Html2Pdf $html2Pdf)
     {
-        $nights = $this->getNights($reservacion->start, $reservacion->end);
+        $start = explode(' ', $reservacion->checkin)[0];
+        $end = explode(' ', $reservacion->checkout)[0];
+
+        $nights = $this->getNights($start, $end);
 
         $page = view('pdf.reservacion', compact('reservacion', 'nights'));
 
@@ -38,8 +41,8 @@ class PrintReservationController extends Controller
      */
     public function getNights($start, $end)
     {
-        $start_date = date_create_from_format('Y-m-d H:i:s', $start);
-        $end_date   = date_create_from_format('Y-m-d H:i:s', $end);
+        $start_date = date_create_from_format('d/m/Y', $start);
+        $end_date   = date_create_from_format('d/m/Y', $end);
         
         $nights = $start_date->diff($end_date)->d;
         return $nights;
