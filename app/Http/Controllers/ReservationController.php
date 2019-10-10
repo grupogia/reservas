@@ -210,7 +210,7 @@ class ReservationController extends Controller
      */
     public function destroy($id)
     {
-        if (!auth()->user()->can('destroy.reservations'))
+        if (!auth()->user()->can('destroy.reservation'))
         abort(401);
 
         $reservation = Reservation::find($id);
