@@ -28,10 +28,10 @@ class CalculateReservation extends FormRequest
             /* 
              * Datos de la reserva
              */
-            'fecha_de_entrada' => 'required',
-            'fecha_de_salida'  => 'required',
-            'hora_de_entrada'  => 'required',
-            'hora_de_salida'   => 'required',
+            'fecha_de_entrada' => 'required|date_format:d/m/Y',
+            'fecha_de_salida'  => 'required|date_format:d/m/Y',
+            'hora_de_entrada'  => 'required|date_format:h:i A',
+            'hora_de_salida'   => 'required|date_format:h:i A',
 
             /*
              * Datos del pago
@@ -45,7 +45,7 @@ class CalculateReservation extends FormRequest
             'titular'          => 'required_if:tipo_pago,==,tarjeta|nullable|min:4',
 
             // Efectivo o depósito
-            'monto' => 'required_if:tipo_pago,==,efectivo|required_if:tipo_pago,==,deposito|nullable|numeric',
+            //'monto' => 'required_if:tipo_pago,==,efectivo|required_if:tipo_pago,==,deposito|nullable|numeric',
 
             /*
              * Datos de segmentación

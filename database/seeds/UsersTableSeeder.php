@@ -28,7 +28,9 @@ class UsersTableSeeder extends Seeder
                 'password' => bcrypt('password'),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),                
-            ]
-        ],);
+            ],
+        ]);
+
+        User::where('email', '=', 'desarrollo@lasmananitas.com.mx')->first()->assignRoles('admin');
     }
 }

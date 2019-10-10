@@ -14,4 +14,9 @@ class CreditCard extends Model
     {
         return $this->belongsTo('App\Client');
     }
+
+    public function reservation()
+    {
+        return $this->hasMany('App\Reservation');
+    }
 }

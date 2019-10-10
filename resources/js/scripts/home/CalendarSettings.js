@@ -14,7 +14,7 @@ export const CalendarSettings = {
     resourceAreaWidth: '310px',
     locale: esLocale,
     //slotWidth: 100,
-    titleFormat: { year: 'numeric', month: 'short' },
+    titleFormat: { year: 'numeric', month: 'long' },
 
     // Cabecera
     header: {
@@ -28,14 +28,14 @@ export const CalendarSettings = {
         resourceTimelineMonth: {
             slotLabelFormat: [
                 { month: 'long' },
-                { weekday: 'short', day: 'numeric' } // top of text
+                { weekday: 'long', day: 'numeric' } // top of text
             ]
         },
         resourceTimelineYear: {
             buttonText: 'Año',
             slotLabelFormat: [
                 { month: 'long' }, // top of text
-                { weekday: 'short', day: 'numeric' }
+                { weekday: 'long', day: 'numeric' }
             ]
         },
         resourceTimelineWeek: {

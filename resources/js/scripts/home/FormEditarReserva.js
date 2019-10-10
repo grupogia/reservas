@@ -21,6 +21,10 @@ export class FormEditarReserva
         let errors = msgObj.response.data.errors
         let errorText = ''
 
+        if (msgObj.response.status === 401) {
+            location.reload();
+        }
+
         for (let i in errors) {
             errorText += errors[i][0] + '<br>';
         }

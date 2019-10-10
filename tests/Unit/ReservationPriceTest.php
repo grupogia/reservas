@@ -25,7 +25,7 @@ class ReservationPriceTest extends TestCase
         $tipo_pago  = 'efectivo';
         $canal      = 'otas';
         $noches     = 4;
-        $success    = [ 'message' => 'No paga impuestos ni comisión', 'value' => '6,800.00' ];
+        $success    = [ 'message' => '4 noches, no paga impuestos ni comisión', 'value' => '6,800.00' ];
 
         Cart::add('1', '2 TULIPAN', 1, 1700, 0);
 
@@ -45,7 +45,7 @@ class ReservationPriceTest extends TestCase
         $controller = new ReservationController;
         $tipo_pago  = 'tarjeta';
         $canal      = 'directas';
-        $success    = [ 'message' => 'Paga IVA 16%, HSH 3.75%', 'value' => '2,035.75' ];
+        $success    = [ 'message' => '1 noche, paga IVA 16%, HSH 3.75%', 'value' => '2,035.75' ];
 
         Cart::add('1', '2 TULIPAN', 1, 1700, 0);
 
@@ -65,7 +65,7 @@ class ReservationPriceTest extends TestCase
         $controller = new ReservationController;
         $tipo_pago  = 'tarjeta';
         $canal      = 'otas';
-        $success    = [ 'message' => 'Paga IVA 16%, HSH 3.75% y 20% comisión por OTAs', 'value' => '2,375.75' ];
+        $success    = [ 'message' => '1 noche, paga IVA 16%, HSH 3.75% y 20% comisión por OTAs', 'value' => '2,375.75' ];
 
         Cart::add('1', '2 TULIPAN', 1, 1700, 0);
 

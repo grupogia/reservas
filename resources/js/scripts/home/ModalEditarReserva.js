@@ -87,7 +87,10 @@ export class ModalEditarReserva {
         let cartContent = json.data.detalle;
         let total = json.data.initial;
         let tbodyHTML = '';
-        let segmentation = json.data.segmentation;        
+        let segmentation = json.data.segmentation; 
+        
+        console.log(json);
+        
 
         for (let index in cartContent) {
             let prod = cartContent[index]
@@ -118,13 +121,23 @@ export class ModalEditarReserva {
         let isMethod   = $('#modalEditar input[name=_method]').length;
         let payment    = props.payment_method.toLowerCase();
 
-        if (payment === 'tarjeta') $('#modalEditar span[data-name=no_tarjeta]').html(props.number.substr(-4))
+        let no_tarjeta = $('#modalEditar span[data-name=no_tarjeta]');
+        let no_tarjeta_cont = $('#modalEditar div[data-name=no_tarjeta_cont]');
+
+        if (payment === 'tarjeta') {
+            no_tarjeta_cont[0].style.display = 'block';
+            no_tarjeta.html(props.number.substr(-4))
+        } else {
+            no_tarjeta_cont[0].style.display = 'none';
+        }
         
         form.reset();
         form.action = form.dataset.url + '/' + event.id;
 
         if (!isMethod)
         form.innerHTML += `<input type="hidden" name="_method" value="PUT"/>`;
+
+        btnChangePayment.href = btnChangePayment.dataset.url + '/' + event.id;
 
         $('#modalEditar a.btn-warning')[0].href = $('#modalEditar a.btn-warning')[0].dataset.url + '/' + event.id
         

@@ -51,11 +51,11 @@ class CreateReservation extends FormRequest
             // Tarjeta
             'numero_tarjeta'   => 'required_if:tipo_pago,==,tarjeta|nullable|digits_between:15,16',
             'vencimiento'      => 'required_if:tipo_pago,==,tarjeta|nullable|max:5',
-            'codigo_seguridad' => 'required_if:tipo_pago,==,tarjeta|nullable|digits:3',
+            'codigo_seguridad' => 'required_if:tipo_pago,==,tarjeta|nullable|digits_between:3,4',
             'titular'          => 'required_if:tipo_pago,==,tarjeta|nullable|min:4',
 
             // Efectivo o depósito
-            'monto' => 'required_if:tipo_pago,==,efectivo|required_if:tipo_pago,==,deposito|nullable|numeric',
+            //'monto' => 'required_if:tipo_pago,==,efectivo|required_if:tipo_pago,==,deposito|nullable|numeric',
 
             /*
              * Datos de segmentación

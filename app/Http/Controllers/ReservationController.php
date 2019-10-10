@@ -108,16 +108,16 @@ class ReservationController extends Controller
 
         // Registra la reservación
         $reservation = new Reservation();
-        $reservation->user_id   = auth()->user()->id;
-        $reservation->client_id = $client->id;
+        $reservation->user_id        = auth()->user()->id;
+        $reservation->client_id      = $client->id;
         $reservation->credit_card_id = $card_id;
-        $reservation->title     = 'Reservación';
-        $reservation->folio     = time();
-        $reservation->checkin   = $dates['checkin'];
-        $reservation->checkout  = $dates['checkout'];
-        $reservation->start     = $dates['start']->format('Y-m-d H:i:s');
-        $reservation->end       = $dates['end']  ->format('Y-m-d H:i:s');
-        $reservation->total     = str_replace(',', '', $arrTotal['value']);
+        $reservation->title          = $request->nombre . ' ' . $request->apellidos;
+        $reservation->folio          = time();
+        $reservation->checkin        = $dates['checkin'];
+        $reservation->checkout       = $dates['checkout'];
+        $reservation->start          = $dates['start']->format('Y-m-d H:i:s');
+        $reservation->end            = $dates['end']  ->format('Y-m-d H:i:s');
+        $reservation->total          = str_replace(',', '', $arrTotal['value']);
         $reservation->payment_method = $request->tipo_pago;
         $reservation->save();
 
@@ -153,11 +153,11 @@ class ReservationController extends Controller
         }
 
         $data = [
-            'reservation' => $reservation,
-            'detalle' => $reservation->details,
+            'reservation'  => $reservation,
+            'detalle'      => $reservation->details,
             //'suites' => $suites_array,
             'segmentation' => $reservation->segmentation,
-            'initial' => $initial,
+            'initial'      => $initial,
         ];
         return response()->json($data);
     }
@@ -182,7 +182,7 @@ class ReservationController extends Controller
         );
         
         // Actualiza la reservación
-        $reservation->title    = 'Reservación';
+        $reservation->title    = $request->nombre . ' ' . $request->apellidos;
         $reservation->checkin  = $dates['checkin'];
         $reservation->checkout = $dates['checkout'];
         $reservation->start    = $dates['start']->format('Y-m-d H:i:s');
@@ -233,7 +233,9 @@ class ReservationController extends Controller
      */
     public function calculatePrice(CalculateReservation $request)
     {
-        $arrTotal = $this->getArrayTotalReservation($request->tipo_pago, $request->tipo);
+        $data = $request->validated();
+        $nights = $this->getNights($data['fecha_de_entrada'], $data['fecha_de_salida']);
+        $arrTotal = $this->getArrayTotalReservation($data['tipo_pago'], $data['tipo'], $nights);
 
         return response()->json([
             'message' => $arrTotal['message'],
@@ -282,11 +284,11 @@ class ReservationController extends Controller
         foreach ($details as $suite) {
             $detail = new ReservationDetail();
             $detail->reservation_id = $reservation_id;
-            $detail->suite_id  = $suite->id;
-            $detail->rate_type = $suite->options->tarifa;
-            $detail->adults    = $suite->options->adultos;
-            $detail->children  = $suite->options->ninios;
-            $detail->subtotal  = $suite->subtotal;
+            $detail->suite_id       = $suite->id;
+            $detail->rate_type      = $suite->options->tarifa;
+            $detail->adults         = $suite->options->adultos;
+            $detail->children       = $suite->options->ninios;
+            $detail->subtotal       = $suite->subtotal;
             $detail->save();
         }
     }
@@ -295,9 +297,9 @@ class ReservationController extends Controller
     {
         $segmentation = new Segmentation();
         $segmentation->reservation_id = $reservation_id;
-        $segmentation->name = $request->tipo_de_segmentacion;
-        $segmentation->type = $request->tipo;
-        $segmentation->channel = $request->canal . $request->canal_grupal;
+        $segmentation->name           = $request->tipo_de_segmentacion;
+        $segmentation->type           = $request->tipo;
+        $segmentation->channel        = $request->canal . $request->canal_grupal;
         $segmentation->save();
 
         return $segmentation;
@@ -362,14 +364,20 @@ class ReservationController extends Controller
         $total_with_iva = str_replace(',', '', Cart::total());
         $other_taxes    = $total * $this->impuesto_sobre_hospedaje;
         $commissions    = $total * $this->comision_por_otas;
-        $msg            = 'No paga impuestos ni comisión';
+
+        if ($nights == 1)
+        $nights_msg = $nights . ' noche';
+        else
+        $nights_msg = $nights . ' noches';
+
+        $msg = $nights_msg . ', no paga impuestos ni comisión';
 
         // Valida si el tipo de págo es depósito o tarjeta
         if ($this->loadTax($payment_method)) {
 
             // Total mas impuestos
             $total = $total_with_iva + $other_taxes;
-            $msg   = 'Paga IVA 16%, HSH 3.75%';
+            $msg  = $nights_msg . ', paga IVA 16%, HSH 3.75%';
 
             if ($this->loadCommission($sementation_channel)) {
 

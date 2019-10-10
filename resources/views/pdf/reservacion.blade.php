@@ -2,10 +2,11 @@
     <style>
         table { border-collapse: collapse }
         table tr th { text-transform: uppercase }
+        table th { background: #000; color: #ffffff }
         table tr td, table tr th {
             padding: 4px 6px;
             text-align: center;
-            border: solid 1px #000;
+            border-bottom: solid 1px #000;
         }
     </style>
 <page_header>   
@@ -13,13 +14,17 @@
 <page_footer>
 </page_footer>
 
-<h1>Datos de Reservación</h1>
+<h1>Jardín Meliar Reservación</h1>
 <h3>Folio - {{ $reservacion->folio }}</h3>
 
 <hr>
 
 <p>
     Cliente: <strong>{{ strToUpper($reservacion->client->name . ' ' . $reservacion->client->surname) }}</strong>
+</p>
+
+<p>
+    Noches: <strong>{{ $nights }}</strong>
 </p>
 
 <p>
@@ -40,13 +45,13 @@
 
 <br><br>
 
-<table>
+<table style="width: 100px">
     <tr>
-        <th>habitacion</th>
-        <th>tarifa</th>
-        <th>adultos</th>
-        <th>niños</th>
-        <th>subtotal</th>
+        <th style="width: 100px">habitacion</th>
+        <th style="width: 100px">tarifa</th>
+        <th style="width: 100px">adultos</th>
+        <th style="width: 100px">niños</th>
+        <th style="width: 100px">subtotal</th>
     </tr>
     @foreach ($reservacion->details as $detail)
         <tr>

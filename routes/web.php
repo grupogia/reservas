@@ -46,7 +46,9 @@ Route::delete('/remover-tarifa/{rate}', 'SuiteController@removeRate')->name('rem
 Route::resource('suites', 'SuiteController');
 
 // Reservaciones
-Route::post('/calcular-precio', 'ReservationController@calculatePrice');
+Route::post('/calcular-precio', 'ReservationController@calculatePrice')->name('calculate-price');
+Route::get('/cambiar-metodo-pago/{reservation}', 'ChangePaymentController@index')->name('change.payment');
+Route::put('/cambiar-metodo-pago/{reservation}', 'ChangePaymentController@update')->name('change.payment.update');
 Route::apiResource('reservaciones', 'ReservationController');
 
 Route::get('/imprimir-reservacion/{reservacion}', 'PrintReservationController');

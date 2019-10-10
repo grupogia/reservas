@@ -22,6 +22,10 @@ export class FormCargar
     errorMessage(res) {
         let msg = res.response.data;
         let errorsText = ''
+
+        if (msgObj.response.status === 401) {
+            location.reload();
+        }
         
         for (let i in msg.errors) {
             errorsText += msg.errors[i]

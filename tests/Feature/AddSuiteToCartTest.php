@@ -22,9 +22,10 @@ class AddSuiteToCartTest extends TestCase
     {
         $this->seed();
         $user  = User::where('email', '=', 'desarrollo@lasmananitas.com.mx')->first();
+        $user->assignRoles('admin');
         $suite = Suite::first();
         $body  = [
-            'habitacion' => 'TULIPAN',
+            'habitacion' => 1,
             'tarifa' => 'rack',
             'adultos' => 2,
             'ninios' => 0,
@@ -49,16 +50,17 @@ class AddSuiteToCartTest extends TestCase
     {
         $this->seed();
         $user  = User::where('email', '=', 'desarrollo@lasmananitas.com.mx')->first();
+        $user->assignRoles('admin');
         $suite = Suite::first();
         $body  = [
-            'habitacion' => 'TULIPAN',
+            'habitacion' => 1,
             'tarifa' => 'rack',
             'adultos' => 3,
             'ninios' => 0,
         ];
 
         $response = $this->actingAs($user)->json('post', '/carrito-habitaciones/' . $suite->id, $body);
-        //$response->dump();
+        // $response->dump();
         $response->assertStatus(200)
         ->assertJson([
             'message' => 'Habitación asignada',

@@ -24,6 +24,7 @@ class createReservationTest extends TestCase
         $this->seed();
         $uri = '/reservaciones';
         $user = User::where('email', '=', 'desarrollo@lasmananitas.com.mx')->first();
+        $user->assignRoles('admin');
         $options = [
             'tarifa'   => 'rack',
             'bed_type' => 'queen',
