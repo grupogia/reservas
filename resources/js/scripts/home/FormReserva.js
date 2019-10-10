@@ -18,7 +18,7 @@ export class FormReserva
         let errors = errorObj.response.data.errors
         let errorText = ''
 
-        if (msgObj.response.status === 401) {
+        if (errorObj.response.status === 401) {
             location.reload();
         }
 
