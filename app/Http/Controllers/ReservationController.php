@@ -140,7 +140,7 @@ class ReservationController extends Controller
      */
     public function show($id)
     {
-        if (!auth()->user()->can('show.reservation'))
+        if (!auth()->user()->can('index.reservations'))
         abort(404);
 
         $reservation = Reservation::find($id);
@@ -211,12 +211,12 @@ class ReservationController extends Controller
     public function destroy($id)
     {
         if (!auth()->user()->can('destroy.reservation'))
-        abort(401);
+        return response()->json(['message' => 'Usuario no autorizado'], 401);
 
         $reservation = Reservation::find($id);
 
         if ($reservation->user->id != auth()->user()->id)
-        return response()->json(['message' => 'Usuario no autorizado'], 401);
+        return response()->json(['message' => 'No autorizado, no eres propietario de este evento'], 401);
 
         $reservation->details()->delete();
         $reservation->segmentation()->delete();

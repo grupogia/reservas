@@ -32,6 +32,12 @@ export class ModalEditarReserva {
                     })
                     .then(() => location.reload())
                 })
+                .catch(error => {                    
+                    Swal.fire({
+                        type: 'error',
+                        title: error.response.data.message
+                    })
+                })
             }
         })
     }

@@ -32,6 +32,17 @@
         <div class="card col-md-6 p-3 mt-3">
             <h4>Permisos</h4>
 
+            @if ($errors->any())
+                <div class="alert alert-danger aler-dismissible fade show" role="alert">
+                    @foreach ($errors->all() as $error)
+                        {{ $error }}
+                    @endforeach
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
+
             <table class="table table-striped text-center border-bottom">
                 <thead>
                     <th>Slug</th>
