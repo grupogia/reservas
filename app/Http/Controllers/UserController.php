@@ -28,7 +28,7 @@ class UserController extends Controller
         abort(401);
 
         $reservations = $user->reservations;
-        return view('usuarios.show-user', compact('reservations'));
+        return view('usuarios.show-user', compact('reservations', 'user'));
     }
 
     public function create()

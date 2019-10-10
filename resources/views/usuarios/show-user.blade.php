@@ -3,9 +3,11 @@
 @section('content')
 <div class="container">
     <div class="card p-3 mt-3">
-        <h1>Detalle de usuario</h1>
+        <h1>Usuario {{ $user->name }}</h1>
 
         <hr>
+
+        <h3>Reservaciones</h3>
         <ul>            
             @forelse ($reservations as $reservation)
                 <li>{{ $reservation->title }} {{ $reservation->start }}</li>
