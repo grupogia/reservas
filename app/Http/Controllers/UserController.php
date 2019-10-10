@@ -24,6 +24,9 @@ class UserController extends Controller
 
     public function show(User $user)
     {
+        if (!auth()->user()->can('index.user'))
+        abort(401);
+
         $reservations = $user->reservations;
         return view('usuarios.show-user', compact('reservations'));
     }
