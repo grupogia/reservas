@@ -13,8 +13,8 @@ class ChangePaymentReservation extends FormRequest
      */
     public function authorize()
     {
-        $reservation = Reservation::find($this->route('reservacion'));
-        return $this->user()->id == $reservation->user_id;
+        $reservation = $this->route('reservation');
+        return $this->user()->id == $reservation->user->id;
     }
 
     /**

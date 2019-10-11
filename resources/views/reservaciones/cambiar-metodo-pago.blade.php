@@ -32,7 +32,7 @@
 
             <div class="tarjeta-details" @if($reservation->payment_method !== 'tarjeta') style="display: none" @endif>
                 <div class="form-group">
-                    <label for="numero_tarjeta">Numero de Tarjeta</label>
+                    <label for="numero_tarjeta">Numero de tarjeta</label>
                     <input class="form-control" type="text" name="numero_tarjeta" @if ($reservation->payment_method == 'tarjeta') value="{{ $reservation->credit_card->number }}" @endif>
                 </div>
                 

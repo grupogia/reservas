@@ -9,8 +9,14 @@ use Illuminate\Http\Request;
 
 class ChangePaymentController extends Controller
 {
+    private $impuesto_sobre_hospedaje;
+    private $comision_por_otas;
+
     public function __construct()
     {
+        $this->comision_por_otas = 0.2;
+        $this->impuesto_sobre_hospedaje = 0.0375;
+
         $this->middleware('auth');
     }
 
@@ -33,7 +39,7 @@ class ChangePaymentController extends Controller
     public function update(ChangePaymentReservation $request, Reservation $reservation)
     {
         $data = $request->validated();
-        $channel = $reservation->segmentation()->channel;
+        $channel = $reservation->segmentation->channel;
 
         if ($data['tipo_pago'] == 'tarjeta') {
             $card_id = $this->getCardId($data['numero_tarjeta'], $data, $reservation->client_id);
@@ -42,11 +48,13 @@ class ChangePaymentController extends Controller
         }
 
         $total = $this->getOldTotal($reservation);
-
+        $nights = $this->getNights(explode(' ', $reservation->checkin)[0], explode(' ', $reservation->checkout)[0]);
+        
         // Actualizar el total de la reservación tras el cambio del método de pago
-        $new_total = $this->getArrayTotalReservation($reservation->payment_method, $channel, $total);
+        $new_total = $this->getArrayTotalReservation($reservation->payment_method, $channel, $total, $nights);
 
         $reservation->payment_method = $data['tipo_pago'];
+        $reservation->total = str_replace(',', '', $new_total['value']);
         $reservation->save();
 
         return redirect()->back()->with('success', 'Método de pago actualizado');
@@ -62,7 +70,7 @@ class ChangePaymentController extends Controller
         if (count($cards) <= 0)
         $card = $this->insertCreditCard($data, $client_id);
         else
-        $card = $cards->firts();
+        $card = $cards->first();
 
         return $card->id;
     }
@@ -90,10 +98,10 @@ class ChangePaymentController extends Controller
      * @var string $payment_method, $sementation_channel
      * @return array
      */
-    public function getArrayTotalReservation($payment_method, $sementation_channel, $total)
+    public function getArrayTotalReservation($payment_method, $sementation_channel, $total, $night = 1)
     {
         // Inicializa variables básicas
-        $total_with_iva = $total * env('CART_TAX', 21);
+        $total_with_iva = $total * ((env('CART_TAX', 21) / 100) + 1);
         $other_taxes    = $total * $this->impuesto_sobre_hospedaje;
         $commissions    = $total * $this->comision_por_otas;
 
@@ -104,7 +112,7 @@ class ChangePaymentController extends Controller
 
             // Total mas impuestos
             $total = $total_with_iva + $other_taxes;
-            $msg  = 'Paga IVA 16%, HSH 3.75%';
+            $msg   = 'Paga IVA 16%, ISH 3.75%';
 
             if ($this->loadCommission($sementation_channel)) {
 
@@ -113,12 +121,13 @@ class ChangePaymentController extends Controller
                 $msg  .= ' y 20% comisión por OTAs';
             }
         }
+        $total = $total * $night;
         return [ 'message' => $msg, 'value' => number_format($total, 2) ];
     }
 
     public function getOldTotal($reservation)
     {
-        $details = $reservation->details();
+        $details = $reservation->details;
         $subtotal = 0;
 
         foreach ($details as $detail) {
@@ -151,5 +160,20 @@ class ChangePaymentController extends Controller
         if ($channel == 'otas')
         return true;
         else return false;
+    }
+
+    /**
+     * Obtiene el número de noches dependiendo de un rango de fechas.
+     * 
+     * @param $start
+     * @param $end
+     */
+    public function getNights($start, $end)
+    {
+        $start_date = date_create_from_format('d/m/Y', $start);
+        $end_date   = date_create_from_format('d/m/Y', $end);
+        
+        $nights = $start_date->diff($end_date)->d;
+        return $nights;
     }
 }
