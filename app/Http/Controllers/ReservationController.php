@@ -119,7 +119,7 @@ class ReservationController extends Controller
         $reservation->end            = $dates['end']  ->format('Y-m-d H:i:s');
         $reservation->total          = str_replace(',', '', $arrTotal['value']);
         $reservation->payment_method = $request->tipo_pago;
-        $reservation->notas          = $data['notas'];
+        $reservation->notes          = $data['notas'];
         $reservation->save();
 
         // Registra datos de segmentación
@@ -188,7 +188,7 @@ class ReservationController extends Controller
         $reservation->checkout = $dates['checkout'];
         $reservation->start    = $dates['start']->format('Y-m-d H:i:s');
         $reservation->end      = $dates['end']  ->format('Y-m-d H:i:s');
-        $reservation->notas    = $request->notas;
+        $reservation->notes    = $request->notas;
         
         //$reservation->segmentation = $request->segmentation;
         $reservation->save();

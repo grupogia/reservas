@@ -12,14 +12,14 @@
         </div>
     </div>
     
-    <div class="tarjeta-selected tipo-pago" style="display: block">     
+    <div class="tarjeta-selected tipo-pago col-6" style="display: block">     
         <div class="form-row">
-            <div class="col-12" data-name="no_tarjeta_cont">
+            <div class="col-4" data-name="no_tarjeta_cont">
                 <label for="numero_tarjeta">Terminación</label>
                 <span class="form-control" data-name="no_tarjeta" disabled></span>
             </div>
 
-            <div class="col-12" data-name="no_tarjeta_cont">
+            <div class="col-8">
                 <label for="">Extra</label>
                 <a id="btnChangePayment" class="btn btn-link d-block" href="" data-url="{{ url('cambiar-metodo-pago/') }}"><i class="fas fa-exchange-alt"></i> Cambiar forma de pago</a>
             </div>
