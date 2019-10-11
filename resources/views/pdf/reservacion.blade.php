@@ -14,10 +14,10 @@
 <page_footer>
 </page_footer>
 
-<h1>Jardín Meliar Reservación</h1>
-<h3>Folio - {{ $reservacion->folio }}</h3>
-
+<p style="text-align: right; margin-bottom: -38px; padding-bottom: 0">{{ $reservacion->created_at->format('d') }} de {{ $reservacion->created_at->format('M, Y') }}</p>
+<h1>Reservación Jardín Meliar</h1>
 <hr>
+<h4>Folio - {{ $reservacion->folio }}</h4>
 
 <p>
     Cliente: <strong>{{ strToUpper($reservacion->client->name . ' ' . $reservacion->client->surname) }}</strong>
