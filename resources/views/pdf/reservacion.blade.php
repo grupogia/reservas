@@ -47,19 +47,21 @@
 
 <table style="width: 100px">
     <tr>
-        <th style="width: 110px">habitacion</th>
-        <th style="width: 110px">tarifa</th>
-        <th style="width: 110px">adultos</th>
-        <th style="width: 110px">niños</th>
-        <th style="width: 110px">subtotal</th>
+        <th style="width: 89px">habitacion</th>
+        <th style="width: 89px">tarifa</th>
+        <th style="width: 89px">adultos</th>
+        <th style="width: 89px">P.U.</th>
+        <th style="width: 89px">noches</th>
+        <th style="width: 89px">totales</th>
     </tr>
     @foreach ($reservacion->details as $detail)
         <tr>
             <td>{{ $detail->suite->number . ' ' . $detail->suite->title }}</td>
             <td>{{ strToUpper($detail->rate_type) }}</td>
             <td>{{ $detail->adults }}</td>
-            <td>{{ $detail->children }}</td>
             <td>$ {{ number_format($detail->subtotal, 2) }}</td>
+            <td>{{ $nights }}</td>
+            <td>$ {{ number_format($detail->subtotal * $nights, 2) }}</td>
         </tr>
     @endforeach
 </table>

@@ -41,10 +41,10 @@ class ChangePaymentController extends Controller
             $reservation->credit_card_id = $card_id;
         }
 
-        // $total = $this->getOldTotal($reservation);
+        $total = $this->getOldTotal($reservation);
 
-        // // Actualizar el total de la reservación tras el cambio del método de pago
-        // $new_total = $this->getArrayTotalReservation($reservation->payment_method, $channel, $total);
+        // Actualizar el total de la reservación tras el cambio del método de pago
+        $new_total = $this->getArrayTotalReservation($reservation->payment_method, $channel, $total);
 
         $reservation->payment_method = $data['tipo_pago'];
         $reservation->save();
