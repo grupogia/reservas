@@ -1,19 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    @can('index.reservations')
-        @include('reservaciones.modal')
-        @include('reservaciones.modal-editar')
+@can('index.reservations')
+    @include('reservaciones.modal')
+    @include('reservaciones.modal-editar')
 
-        <div id="hotelCalendar"></div>
-    @else
-        <div class="card p-3 mt-3 text-center">
-            <h1>Sistema de reservaciones</h1>
-            <h2>Jardín Meliar</h2>
-        </div>
-    @endcan
-</div>
+    <div id="hotelCalendar"></div>
+@else
+    <div class="card p-3 mt-3 text-center">
+        <h1>Sistema de reservaciones</h1>
+        <h2>Jardín Meliar</h2>
+    </div>
+@endcan
 @endsection
 
 @push('styles')
