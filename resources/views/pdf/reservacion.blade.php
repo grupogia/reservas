@@ -52,7 +52,7 @@
         <th style="width: 89px">adultos</th>
         <th style="width: 89px">P.U.</th>
         <th style="width: 89px">noches</th>
-        <th style="width: 89px">totales</th>
+        <th style="width: 89px">subtotal</th>
     </tr>
     @foreach ($reservacion->details as $detail)
         <tr>
