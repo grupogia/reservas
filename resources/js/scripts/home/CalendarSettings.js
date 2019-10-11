@@ -55,17 +55,17 @@ export const CalendarSettings = {
     // Habitaciones
     resourceColumns: [
         {
-          labelText: 'Nº HAB',
+          labelText: 'HABITACIÓN',
           field: 'number'
-        },
-        {
-          labelText: 'CAMAS',
-          field: 'bed_number'
         },
         {
             labelText: 'TIPO CAMA',
             field: 'bed_type'
-        }
+        },
+        {
+            labelText: '# CAMAS',
+            field: 'bed_number'
+        },
     ],
 
     resourceGroupField: 'title',
