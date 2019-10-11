@@ -11,13 +11,15 @@
             <table id="tableSuites" class="table table-striped text-center table-bordered table-sm">
                 <thead class="thead-dark">
                     <tr>
-                        <th>Numero</th>
+                        <th>#</th>
                         <th>Tipo</th>
                         <th>Camas</th>
                         <th>N. C.</th>
                         <th>Creación</th>
                         <th>Actualizado</th>
-                        <th><a class="btn btn-success py-1" href="{{ route('suites.create') }}">Crear</a></th>
+                        <th>
+                            <a class="btn btn-success py-1" href="{{ route('suites.create') }}"><i class="fas fa-plus-circle"></i></a>
+                        </th>
                     </tr>
                 </thead>
     

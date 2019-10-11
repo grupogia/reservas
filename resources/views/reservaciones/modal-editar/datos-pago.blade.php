@@ -23,13 +23,11 @@
         <div class="form-row align-items-center">
             <div class="col-12" data-name="no_tarjeta_cont">
                 <label for="">Extra</label>
-                <a id="btnChangePayment" class="btn btn-link d-block" href="" data-url="{{ url('cambiar-metodo-pago/') }}">Cambiar forma de pago</a>
+                <a id="btnChangePayment" class="btn btn-link d-block" href="" data-url="{{ url('cambiar-metodo-pago/') }}"><i class="fas fa-exchange-alt"></i> Cambiar forma de pago</a>
             </div>
         </div>
     </div>
 
     <div class="efectivo-selected deposito-selected tipo-pago" style="display: none">
-        <label for="monto">Monto</label>
-        <input class="form-control" type="text" name="monto" placeholder="$ 0.00">
     </div>
 </div>

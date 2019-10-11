@@ -6,7 +6,7 @@
         <h1>Seguimiento</h1>
 
         <table class="table table-striped mt-3">
-            <thead>
+            <thead class="thead-dark">
                 <tr>
                     <th>Fecha</th>
                     <th>Hora</th>

@@ -70,8 +70,9 @@
                     </div>
 
                     <div class="pt-3">
-                        <button type="submit" class="btn btn-warning">Actualizar reservación</button>
-                        <button id="btnDeleteReservacion" type="button" class="btn btn-danger">Eliminar reservación</button>
+                        <button type="submit" class="btn btn-warning"><i class="fas fa-share"></i> Actualizar</button>
+                        <button id="btnDeleteReservacion" type="button" class="btn btn-danger"><i class="fas fa-times"></i> Eliminar</button>
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cerrar</button>
                         <input class="py-1 px-2" id="totalConImpuestos" type="text" disabled>
                         <a type="button" class="btn btn-warning" href="" data-url="{{ url('/imprimir-reservacion') }}" target="_black">
                             <i class="fas fa-print"></i>

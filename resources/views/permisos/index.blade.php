@@ -12,7 +12,9 @@
                     <th>Slug</th>
                     <th>Nombre</th>
                     <th>Descripcion</th>
-                    <th class="p-1"><a class="btn btn-success" href="{{ route('permissions.create') }}">Crear</a></th>
+                    <th class="p-1">
+                        <a class="btn btn-success" href="{{ route('permissions.create') }}"><i class="fas fa-plus-circle"></i></a>
+                    </th>
                 </tr>
             </thead>
 
@@ -25,7 +27,7 @@
                         <td class="p-1">
                             <form action="{{ route('permissions.destroy', [ 'permission' => $permission->id ]) }}" method="post">
                                 @csrf @method('delete')
-                                <button class="btn btn-danger" type="submit">Eliminar</button>
+                                <button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button>
                             </form>
                         </td>
                     </tr>

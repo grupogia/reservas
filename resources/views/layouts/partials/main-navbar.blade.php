@@ -14,31 +14,31 @@
                     @can('index.revervations')
                         <li><a
                             class="nav-link @if(request()->is('home')) active @endif"
-                            href="{{ route('home') }}">Sábana</a></li>
+                            href="{{ route('home') }}"><i class="fas fa-calendar-week"></i> Sábana</a></li>
                     @endcan
 
                     @can('index.suites')
                         <li><a
                             class="nav-link @if(request()->routeIs('suites')) active @endif"
-                            href="{{ route('suites') }}">Habitaciones</a></li>
+                            href="{{ route('suites') }}"><i class="fas fa-door-closed"></i> Habitaciones</a></li>
                     @endcan
 
                     @can('log.index')
                         <li><a
                             class="nav-link @if(request()->RouteIs('log')) active @endif"
-                            href="{{ route('log') }}">Eventos</a></li>
+                            href="{{ route('log') }}"><i class="fas fa-list-ul"></i> Historial</a></li>
                     @endcan
 
                     @can('index.users')
                         <li><a
                             class="nav-link @if(request()->routeIs('users')) active @endif"
-                            href="{{ route('users') }}">Usuarios</a></li>
+                            href="{{ route('users') }}"><i class="fas fa-users"></i> Usuarios</a></li>
                     @endcan
 
                     @if(auth()->user()->hasRole('admin'))
                         <li><a
                             class="nav-link @if(request()->routeIs('dashboard')) active @endif"
-                            href="{{ route('dashboard') }}">Panel de Control</a></li>
+                            href="{{ route('dashboard') }}"><i class="fas fa-tachometer-alt"></i> Panel de Control</a></li>
                     @endif
                 </ul>
             @endauth
@@ -66,6 +66,10 @@
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{{ route('profile') }}">Mi Perfil</a>
+
+                            @if (auth()->user()->has('reservations')->count())
+                                <a class="dropdown-item" href="{{ route('auth.reservations') }}">Reservaciones</a>
+                            @endif
 
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                 onclick="event.preventDefault();

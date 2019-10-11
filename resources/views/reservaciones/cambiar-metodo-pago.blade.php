@@ -52,7 +52,7 @@
                 </div>
             </div>
 
-            <button class="btn btn-warning" type="submit">Editar</button>
+            <button class="btn btn-warning" type="submit"><i class="fas fa-share"></i> Editar</button>
             <a class="btn btn-secondary" href="{{ route('home') }}">Cancelar</a>
         </form>
     </div>

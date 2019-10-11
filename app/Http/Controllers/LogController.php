@@ -14,7 +14,7 @@ class LogController extends Controller
     public function logView()
     {
         if (!auth()->user()->can('index.log'))
-        abort(404);
+        abort(401);
 
         return view('seguimiento.index');
     }

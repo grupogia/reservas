@@ -15,7 +15,9 @@
                         <th>Roles</th>
                         <th>Permisos</th>
                         <th>Especiales</th>
-                        <th class="py-1"><a class="btn btn-success" href="{{ route('users.create') }}">Crear</a></th>
+                        <th class="py-1">
+                            <a class="btn btn-success" href="{{ route('users.create') }}"><i class="fas fa-user-plus"></i></a>
+                        </th>
                     </tr>
                 </thead>
 
@@ -36,7 +38,9 @@
                                 @endforeach
                             </td>
                             <td>{{ $user->special }}</td>
-                            <td class="py-1"><a class="btn btn-warning" href="{{ route('users.edit', [ 'user' => $user->id ]) }}">Cambiar</a></td>
+                            <td class="py-1">
+                                <a class="btn btn-warning" href="{{ route('users.edit', [ 'user' => $user->id ]) }}"><i class="fas fa-edit"></i></a>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>

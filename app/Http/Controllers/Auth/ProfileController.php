@@ -36,7 +36,6 @@ class ProfileController extends Controller
 
     public function reservations()
     {
-        $user = auth()->user();
-        return response()->json(['reservations' => $user->reservations]);
+        return view('auth.reservations');
     }
 }
