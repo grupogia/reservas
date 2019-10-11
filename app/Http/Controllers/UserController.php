@@ -16,7 +16,7 @@ class UserController extends Controller
     public function index()
     {
         if (!auth()->user()->can('index.users'))
-        abort(404);
+        abort(401);
 
         $users = User::paginate(10);
         return view('usuarios.index', compact('users'));

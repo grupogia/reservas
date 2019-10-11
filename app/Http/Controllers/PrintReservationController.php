@@ -28,6 +28,7 @@ class PrintReservationController extends Controller
 
         $page = view('pdf.reservacion', compact('reservacion', 'nights'));
 
+        $html2Pdf->pdf->SetTitle(ucwords($reservacion->title) . ' PDF');
         $html2Pdf->writeHTML($page);
 
         return $html2Pdf->output('reservacion'. $reservacion->folio .'_'. date('d-m-Y') .'.pdf');
