@@ -119,6 +119,7 @@ class ReservationController extends Controller
         $reservation->end            = $dates['end']  ->format('Y-m-d H:i:s');
         $reservation->total          = str_replace(',', '', $arrTotal['value']);
         $reservation->payment_method = $request->tipo_pago;
+        $reservation->notas          = $data['notas'];
         $reservation->save();
 
         // Registra datos de segmentación
@@ -187,6 +188,8 @@ class ReservationController extends Controller
         $reservation->checkout = $dates['checkout'];
         $reservation->start    = $dates['start']->format('Y-m-d H:i:s');
         $reservation->end      = $dates['end']  ->format('Y-m-d H:i:s');
+        $reservation->notas    = $request->notas;
+        
         //$reservation->segmentation = $request->segmentation;
         $reservation->save();
 
@@ -377,7 +380,7 @@ class ReservationController extends Controller
 
             // Total mas impuestos
             $total = $total_with_iva + $other_taxes;
-            $msg  = $nights_msg . ', paga IVA 16%, HSH 3.75%';
+            $msg  = $nights_msg . ', paga IVA 16%, ISH 3.75%';
 
             if ($this->loadCommission($sementation_channel)) {
 
