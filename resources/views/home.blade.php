@@ -36,5 +36,6 @@
             min-width: 700px;
             margin: 40px auto;
         }
+        .fc-event { color: #ffff !important }
     </style>
 @endpush
