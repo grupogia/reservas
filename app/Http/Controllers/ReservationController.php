@@ -85,7 +85,7 @@ class ReservationController extends Controller
         $is_client = $this->getClientsByEmail($request->email);
         $nights    = $this->getNights($data['fecha_de_entrada'], $data['fecha_de_salida']);
         $card_id   = null;
-        $arrTotal  = $this->getArrayTotalReservation($request->tipo_pago, $request->tipo, $nights);
+        $arrTotal  = $this->createArrayTotalReservation($request->tipo_pago, $request->tipo, $nights);
         
         $dates = $this->getArrayDates(
             $request->fecha_de_entrada, $request->fecha_de_salida,
@@ -170,10 +170,14 @@ class ReservationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateReservation $request, $id)
+    public function update(UpdateReservation $request, Reservation $reservacione)
     {
         // Inicializa variables básicas
-        $reservation = Reservation::find($id);
+        $data = $request->validated();
+
+        $segmentation = $reservacione->segmentation;
+        $nights = $this->getNights($data['fecha_de_entrada'], $data['fecha_de_salida']);
+        $total = $this->calculateTotal($reservacione);
 
         $dates = $this->getArrayDates(
             $request->fecha_de_entrada,
@@ -181,19 +185,23 @@ class ReservationController extends Controller
             $request->hora_de_entrada,
             $request->hora_de_salida
         );
+
+        // Obtener nuevo total
+        $new_total = $this->getArrayTotalReservation($reservacione->payment_method, $segmentation->channel, $total, $nights);
         
         // Actualiza la reservación
-        $reservation->title    = $request->nombre . ' ' . $request->apellidos;
-        $reservation->checkin  = $dates['checkin'];
-        $reservation->checkout = $dates['checkout'];
-        $reservation->start    = $dates['start']->format('Y-m-d H:i:s');
-        $reservation->end      = $dates['end']  ->format('Y-m-d H:i:s');
-        $reservation->notes    = $request->notas;
+        $reservacione->title    = $request->nombre . ' ' . $request->apellidos;
+        $reservacione->checkin  = $dates['checkin'];
+        $reservacione->checkout = $dates['checkout'];
+        $reservacione->start    = $dates['start']->format('Y-m-d H:i:s');
+        $reservacione->end      = $dates['end']  ->format('Y-m-d H:i:s');
+        $reservacione->notes    = $request->notas;
+        $reservacione->total    = str_replace(',', '', $new_total['value']);
         
-        //$reservation->segmentation = $request->segmentation;
-        $reservation->save();
+        //$reservacione->segmentation = $request->segmentation;
+        $reservacione->save();
 
-        $reservation->client->update([
+        $reservacione->client->update([
             'name'     => $request->nombre,
             'surname'  => $request->apellidos,
             'email'    => $request->email,
@@ -238,7 +246,7 @@ class ReservationController extends Controller
     {
         $data = $request->validated();
         $nights = $this->getNights($data['fecha_de_entrada'], $data['fecha_de_salida']);
-        $arrTotal = $this->getArrayTotalReservation($data['tipo_pago'], $data['tipo'], $nights);
+        $arrTotal = $this->createArrayTotalReservation($data['tipo_pago'], $data['tipo'], $nights);
 
         return response()->json([
             'message' => $arrTotal['message'],
@@ -360,7 +368,7 @@ class ReservationController extends Controller
      * @var string $payment_method, $sementation_channel
      * @return array
      */
-    public function getArrayTotalReservation($payment_method, $sementation_channel, $nights = 1)
+    public function createArrayTotalReservation($payment_method, $sementation_channel, $nights = 1)
     {
         // Inicializa variables básicas
         $total          = str_replace(',', '', Cart::initial());
@@ -395,6 +403,40 @@ class ReservationController extends Controller
     }
 
     /**
+     * Devuelve un array con el total de una reservación
+     * dependiendo el método de pago y el canal de segmentación
+     * 
+     * @param string $payment_method, $sementation_channel
+     * @return array
+     */
+    public function getArrayTotalReservation(string $payment_method, string $sementation_channel, $total, $night = 1)
+    {
+        // Inicializa variables básicas
+        $total_with_iva = $total * ((env('CART_TAX', 21) / 100) + 1);
+        $other_taxes    = $total * (env('ISH', 3.75) / 100);
+        $commissions    = $total * (env('COMISION_OTAS', 20) / 100);
+
+        $msg = 'No paga impuestos ni comisión';
+
+        // Valida si el tipo de págo es depósito o tarjeta
+        if ($this->loadTax($payment_method)) {
+
+            // Total mas impuestos
+            $total = $total_with_iva + $other_taxes;
+            $msg   = 'Paga IVA 16%, ISH 3.75%';
+
+            if ($this->loadCommission($sementation_channel)) {
+
+                // Total mas impuestos mas comisión
+                $total = $total + $commissions;
+                $msg  .= ' y 20% comisión por OTAs';
+            }
+        }
+        $total = $total * $night;
+        return [ 'message' => $msg, 'value' => number_format($total, 2) ];
+    }
+
+    /**
      * Obtiene el número de noches dependiendo de un rango de fechas.
      * 
      * @param $start
@@ -407,5 +449,21 @@ class ReservationController extends Controller
         
         $nights = $start_date->diff($end_date)->d;
         return $nights;
+    }
+
+    /**
+     * Devuelve el total de sumar todos los conceptos de una reservación
+     * 
+     * @param \App\Reservation $reservation
+     */
+    public function calculateTotal(Reservation $reservation)
+    {
+        $details = $reservation->details;
+        $subtotal = 0;
+
+        foreach ($details as $detail) {
+            $subtotal += $detail->subtotal;
+        }
+        return $subtotal;
     }
 }

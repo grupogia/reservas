@@ -33,10 +33,12 @@
         <thead>
             <tr>
                 <th>Habitación</th>
+                <th>Tarifa</th>
                 <th>Adultos</th>
                 <th>Niños</th>
                 <th>Tipo cama</th>
                 <th>Precio</th>
+                <th>Opción</th>
             </tr>
         </thead>
     
@@ -46,9 +48,10 @@
     
         <tfoot>
             <tr>
-                <td colspan="3"></td>
-                <td><strong>TOTAL</strong></td>
+                <td colspan="4"></td>
+                <td><strong>TOTAL / NOCHE</strong></td>
                 <td id="total_editar_carga" class="bg-success">$ 0.00</td>
+                <td></td>
             </tr>
         </tfoot>
     </table>

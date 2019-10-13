@@ -16,6 +16,12 @@
             </div>
         @endif
 
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
         <form action="{{ route('change.payment.update', ['reservation' => $reservation->id]) }}" method="post" autocomplete="off">
             @csrf @method('PUT')
             

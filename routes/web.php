@@ -54,6 +54,10 @@ Route::apiResource('reservaciones', 'ReservationController');
 
 Route::get('/imprimir-reservacion/{reservacion}', 'PrintReservationController');
 
+// Detalle de reservaciones
+Route::get('/actualizar-habitaciones/{detail}/edit', 'ReservationDetailController@edit')->name('reservation.detail.edit');
+Route::put('/actualizar-habitacion/{detail}', 'ReservationDetailController@update')->name('reservation.detail.update');
+
 // Carrito
 Route::get('/carrito-habitaciones', 'ShoppingCartController@index');
 Route::post('/carrito-habitaciones/{product}', 'ShoppingCartController@add');

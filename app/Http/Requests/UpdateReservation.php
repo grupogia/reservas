@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Reservation;
 use Illuminate\Auth\Access\Gate;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -15,8 +14,7 @@ class UpdateReservation extends FormRequest
      */
     public function authorize()
     {
-        $reservation = Reservation::find($this->route('reservacione'));
-        return $this->user()->id == $reservation->user_id;
+        return $this->user()->id == $this->route('reservacione')->user_id;
     }
 
     /**

@@ -96,18 +96,22 @@ export class ModalEditarReserva {
         let segmentation = json.data.segmentation;        
 
         for (let index in cartContent) {
-            let prod = cartContent[index]
+            let prod = cartContent[index]           
             
             tbodyHTML += `<tr>
             <td>${prod.suite.number + ' ' + prod.suite.title}</td>
+            <td>${prod.rate_type.toUpperCase()}</td>
             <td>${prod.adults}</td>
             <td>${prod.children}</td>
             <td>${prod.suite.bed_type.toUpperCase()}</td>
             <td>$ ${new Intl.NumberFormat().format(prod.subtotal)}</td>
+            <td>
+            <a href="actualizar-habitaciones/${prod.id}/edit">Editar</a>
+            </td>
             </tr>`;
         }
         tbody.innerHTML = tbodyHTML;
-        total_editar_carga.innerHTML = '$ ' + total;
+        total_editar_carga.innerHTML = '$ ' + new Intl.NumberFormat().format(total);
 
         $('#modalEditar select[name=tipo_de_reserva]').val(segmentation.name)
         $('#modalEditar select[name=canal]').val(segmentation.channel)
@@ -160,6 +164,7 @@ export class ModalEditarReserva {
         $('#modalEditar input[name=fecha_de_entrada]').val(start_date)
         $('#modalEditar input[name=fecha_de_salida]').val(end_date)
         $('#modalEditar textarea[name=notas]').html(props.notes)
-        $('#totalConImpuestos').val('Total $ ' + props.total)
+        $('#totalConImpuestos').val('Total $ ' + new Intl.NumberFormat().format(props.total))
+        //$('#totalConImpuestos').val('Total $ ' + props.total)
     }
 }

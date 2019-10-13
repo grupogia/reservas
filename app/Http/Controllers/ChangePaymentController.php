@@ -9,14 +9,8 @@ use Illuminate\Http\Request;
 
 class ChangePaymentController extends Controller
 {
-    private $impuesto_sobre_hospedaje;
-    private $comision_por_otas;
-
     public function __construct()
     {
-        $this->comision_por_otas = 0.2;
-        $this->impuesto_sobre_hospedaje = 0.0375;
-
         $this->middleware('auth');
     }
 
@@ -102,8 +96,8 @@ class ChangePaymentController extends Controller
     {
         // Inicializa variables básicas
         $total_with_iva = $total * ((env('CART_TAX', 21) / 100) + 1);
-        $other_taxes    = $total * $this->impuesto_sobre_hospedaje;
-        $commissions    = $total * $this->comision_por_otas;
+        $other_taxes    = $total * (env('ISH', 3.75) / 100);
+        $commissions    = $total * (env('COMISION_OTAS', 20) / 100);
 
         $msg = 'No paga impuestos ni comisión';
 
