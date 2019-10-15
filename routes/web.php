@@ -20,8 +20,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 // Usuarios
 Route::get('/usuarios', 'UserController@index')->name('users');
 
-Route::get('/usuarios/{user}', 'UserController@show')->name('users.show');
 Route::get('/usuarios/create', 'UserController@create')->name('users.create');
+Route::get('/usuarios/{user}', 'UserController@show')->name('users.show');
 Route::post('/usuarios', 'UserController@store')->name('users.store');
 
 Route::get('/usuarios/{user}/edit', 'UserController@edit')->name('users.edit');
