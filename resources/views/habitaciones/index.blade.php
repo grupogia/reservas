@@ -2,7 +2,9 @@
 
 @section('content')
 <div class="container">
-    <div class="card mt-3 p-4">
+    @include('habitaciones.modal-suite')
+
+    <div class="card mt-3 p-4 shadow">
         <h1>Habitaciones</h1>
 
         @include('alerts.show-response')
@@ -18,7 +20,8 @@
                         <th>Creación</th>
                         <th>Actualizado</th>
                         <th>
-                            <a class="btn btn-success py-1" href="{{ route('suites.create') }}"><i class="fas fa-plus-circle"></i></a>
+                            {{-- <a class="btn btn-success py-1" href="{{ route('suites.create') }}"><i class="fas fa-plus-circle"></i></a> --}}
+                            <button class="btn btn-success py-1" type="button" data-toggle="modal" data-target="#modalSuite"><i class="fas fa-plus-circle"></i></button>
                         </th>
                     </tr>
                 </thead>
@@ -38,3 +41,13 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+    <script>
+        addEventListener('DOMContentLoaded', () => {
+            $('#modalSuite').on('hidden.bs.modal', function (e) {
+                $('#formAddSuite')[0].reset();
+            })
+        })
+    </script>
+@endpush

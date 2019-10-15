@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="container">
-    <div class="card mt-4">
-        <div class="card-header">Dashboard</div>
+    <div class="card mt-4 shadow">
+        <div class="card-header"><i class="fas fa-tachometer-alt fa-lg mr-2"></i> Dashboard</div>
 
         <div class="card-body">
             <ul>

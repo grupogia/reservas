@@ -2,10 +2,14 @@
 
 @section('content')
 <div class="container">
-    <div class="card mt-4">
+    @include('usuarios.modal-user')
+    
+    <div class="card mt-4 shadow">
         <div class="card-header">Usuarios</div>
-
+        
         <div class="card-body">
+            @include('alerts.show-errors')
+            
             <table id="table_users" class="table table-striped text-center border-bottom">
                 <thead class="thead-dark">
                     <tr>
@@ -16,7 +20,8 @@
                         <th>Permisos</th>
                         <th>Especiales</th>
                         <th class="py-1">
-                            <a class="btn btn-success" href="{{ route('users.create') }}"><i class="fas fa-user-plus"></i></a>
+                            {{-- <a class="btn btn-success" href="{{ route('users.create') }}"><i class="fas fa-user-plus"></i></a> --}}
+                            <a class="btn btn-success py-1" data-toggle="modal" data-target="#modalUsuario"><i class="fas fa-plus-circle"></i></a>
                         </th>
                     </tr>
                 </thead>
@@ -60,4 +65,16 @@
             text-transform: uppercase;
         }
     </style>
+@endpush
+
+@push('scripts')
+    <script>
+        addEventListener('DOMContentLoaded', () => {
+            let modalEl = $('#modalUsuario');
+
+            modalEl.on('hidden.bs.modal', function (e) {
+                modalEl[0].querySelector('form').reset();
+            })
+        })
+    </script>
 @endpush

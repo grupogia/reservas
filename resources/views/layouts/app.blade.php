@@ -10,7 +10,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script async src="{{ mix('js/app.js') }}"></script>
+    <script defer src="{{ mix('js/app.js') }}"></script>
     @stack('scripts')
 
     <!-- Fonts -->
