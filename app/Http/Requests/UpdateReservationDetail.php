@@ -14,7 +14,8 @@ class UpdateReservationDetail extends FormRequest
     public function authorize()
     {
         $is_user = $this->route('detail')->reservation->user->id === $this->user()->id;
-        return $this->user()->can('edit.reservation') && $is_user;
+        $can_admin = $this->user()->can('admin.reservations');
+        return ($this->user()->can('edit.reservation') && $is_user) || $can_admin;
     }
 
     /**

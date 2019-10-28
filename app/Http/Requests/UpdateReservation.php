@@ -14,7 +14,9 @@ class UpdateReservation extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->id == $this->route('reservacione')->user_id;
+        $is_user = $this->user()->id == $this->route('reservacione')->user_id;
+        $can_admin = $this->user()->can('admin.reservations');
+        return $is_user || $can_admin;
     }
 
     /**
