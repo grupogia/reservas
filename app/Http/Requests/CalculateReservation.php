@@ -29,7 +29,7 @@ class CalculateReservation extends FormRequest
              * Datos de la reserva
              */
             'fecha_de_entrada' => 'required|date_format:d/m/Y',
-            'fecha_de_salida'  => 'required|date_format:d/m/Y',
+            'fecha_de_salida'  => 'required|date_format:d/m/Y|after:fecha_de_entrada',
             'hora_de_entrada'  => 'required|date_format:h:i A',
             'hora_de_salida'   => 'required|date_format:h:i A',
 

@@ -3,9 +3,10 @@ import Axios from 'axios';
 import Swal from 'sweetalert2';
 
 export class ModalEditarReserva {
-    constructor(modalName) {
+    constructor(modalName, fullcalendar) {
         this.modal = document.getElementById(modalName);
         this.bootstrapModal = $('#' + modalName)
+        this.calendar = fullcalendar;
     }
 
     show(event) {
@@ -30,9 +31,12 @@ export class ModalEditarReserva {
                         type: 'success',
                         title: res.data.message
                     })
-                    .then(() => location.reload())
+                    .then(() => {
+                        this.calendar.refetchEvents()
+                        this.bootstrapModal.modal('hide')
+                    })
                 })
-                .catch(error => {                    
+                .catch(error => {               
                     Swal.fire({
                         type: 'error',
                         title: error.response.data.message

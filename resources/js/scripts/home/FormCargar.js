@@ -9,14 +9,16 @@ export class FormCargar
 
     successMessage(res) {               
         Swal.fire({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
             type: 'success',
             title: res.data.message
         })
-        .then(() => {
-            this.getShoppingCartContent()
-            $('#submodalHabitacion').submodal('hide')
-            this.form.reset()
-        })
+        this.getShoppingCartContent()
+        $('#submodalHabitacion').submodal('hide')
+        this.form.reset()
     }
 
     errorMessage(res) {
@@ -43,7 +45,7 @@ export class FormCargar
         .then(res => {
             if (res.data.price == '')
             console.log(res.data.price);
-            
+ 
             this.successMessage(res)
         })
         .catch(res => {

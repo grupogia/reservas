@@ -16,26 +16,12 @@
 
                     <div class="accordion" id="accordionExample">
                         <div class="card">
-                            <div class="card-header bg-dark p-1" id="headingOne">
-                                <button class="btn text-light w-100" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    Datos del Cliente
-                                </button>
-                            </div>
-                        
-                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-                                <div class="card-body">
-                                    @include('reservaciones.datos-cliente')
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card">
-                            <div class="card-header bg-dark p-1" id="headingTwo">
-                                <button class="btn w-100 text-light collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            <div class="card-header bg-meliar p-0" id="headingOne">
+                                <button class="btn w-100 text-light collapsed" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                                     Datos de Reservación
                                 </button>
                             </div>
-                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
                                 <div class="card-body">
                                     @include('reservaciones.datos-reservacion') 
                                 </div>
@@ -43,13 +29,13 @@
                         </div>
 
                         <div class="card">
-                            <div class="card-header bg-dark p-1" id="headingThree">
-                                <button class="btn w-100 text-light collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            <div class="card-header bg-meliar p-0" id="headingTwo">
+                                <button class="btn w-100 text-light collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                     Datos de Pago
                                 </button>
                             </div>
 
-                            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                                 <div class="card-body">
                                     @include('reservaciones.datos-pago') 
                                 </div>
@@ -57,15 +43,29 @@
                         </div>
 
                         <div class="card">
-                            <div class="card-header bg-dark p-1" id="headingFour">
-                                <button class="btn w-100 text-light collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                    Datos de Segmentación
+                            <div class="card-header bg-meliar p-0" id="headingThree">
+                                <button class="btn w-100 text-light collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    Segmentación
                                 </button>
                             </div>
 
-                            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+                            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
                                 <div class="card-body">
                                     @include('reservaciones.datos-segmentacion') 
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header bg-meliar p-0" id="headingFour">
+                                <button class="btn text-light w-100" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                                    Datos del Cliente
+                                </button>
+                            </div>
+                        
+                            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    @include('reservaciones.datos-cliente')
                                 </div>
                             </div>
                         </div>

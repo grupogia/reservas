@@ -20,6 +20,10 @@ export class ModalReserva {
         this.bootstrapModal.modal('show');
     }
 
+    hide() {
+        this.bootstrapModal.modal('hide')
+    }
+
     /** Devuelve las habitaciones cargadas en el carrito */
     getShoppingCartContent() {
         Axios.get('carrito-habitaciones')
@@ -42,10 +46,14 @@ export class ModalReserva {
                 Axios.get(url)
                 .then(() => {
                     Swal.fire({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
                         type: 'success',
                         title: 'El carrito está vacío'
                     })
-                    .then(() => this.getShoppingCartContent())
+                    this.getShoppingCartContent();
                 })
             }
         })

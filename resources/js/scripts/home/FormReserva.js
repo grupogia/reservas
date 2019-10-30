@@ -3,15 +3,23 @@ import Swal from "sweetalert2";
 
 export class FormReserva
 {
-    constructor(formName) {
-        this.form = document.getElementById(formName)
+    constructor(formName, fullcalendar, modalReserva) {
+        this.form = document.getElementById(formName);
+        this.calendar = fullcalendar;
+        this.modal = modalReserva;
     }
 
     successMessage(response) {
         Swal.fire({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
             type: 'success',
             title: response.data.success
-        }).then(() => location.reload())
+        });
+        this.calendar.refetchEvents();
+        this.modal.hide();
     }
 
     errorMessage(errorObj) {

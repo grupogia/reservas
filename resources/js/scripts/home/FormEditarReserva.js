@@ -3,8 +3,10 @@ import Swal from "sweetalert2";
 
 export class FormEditarReserva
 {
-    constructor(formName) {
+    constructor(formName, fullcalendar, modalEditar) {
         this.form = document.getElementById(formName)
+        this.calendar = fullcalendar
+        this.modal = modalEditar
     }
 
     successMessage(msgObj) {
@@ -13,7 +15,8 @@ export class FormEditarReserva
             title: msgObj.message
         })
         .then(() => {
-            location.reload();
+            this.calendar.refetchEvents();
+            this.modal.hide();
         })
     }
 

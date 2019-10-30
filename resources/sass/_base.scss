@@ -5,3 +5,17 @@
 #hotelCalendar {
     cursor: default;
 }
+
+.bg-meliar {
+    background: #353535;
+}
+
+.navbar-meliar .navbar-brand, .navbar-meliar .nav-link {
+    color: rgba(200, 207, 62, 0.8);
+}
+
+.navbar-meliar:hover,
+.navbar-meliar .nav-link:hover,
+.navbar-meliar .nav-link.active {
+    color: #c8cf3b;
+}

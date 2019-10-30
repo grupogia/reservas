@@ -15,9 +15,9 @@ const calendar = new Calendar(calendarEl, CalendarSettings);
 
 // Mis librerias
 const modal       = new ModalReserva('modalRegistrar');
-const modalEditar = new ModalEditarReserva('modalEditar');
-const formAdd     = new FormReserva('formReserva');
-const formEditar  = new FormEditarReserva('formEditarReserva');
+const modalEditar = new ModalEditarReserva('modalEditar', calendar);
+const formAdd     = new FormReserva('formReserva', calendar, modal);
+const formEditar  = new FormEditarReserva('formEditarReserva', calendar, modal);
 const formCargar  = new FormCargar('formCargarHab');
 
 /** 

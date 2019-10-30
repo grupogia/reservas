@@ -33,6 +33,10 @@ class AddSuiteToCart extends FormRequest
         ];
     }
 
+    /**
+     * Segunda validación
+     * 
+     */
     public function withValidator($validator)
     {
         $id     = $this->route('product');

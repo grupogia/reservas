@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AddSuiteToCart;
 use App\Suite;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Symfony\Component\HttpFoundation\Request;
 
 class ShoppingCartController extends Controller
 {
@@ -87,5 +88,13 @@ class ShoppingCartController extends Controller
         }
 
         return $price_per_person;
+    }
+
+    public function validateDisponibility(Request $request)
+    {
+        $data = $request->all();
+
+        
+        return $data;
     }
 }
