@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Foundation\Http\FormRequest;
 
-class AddSuiteToCart extends FormRequest
+class AddSuiteToCart2 extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
