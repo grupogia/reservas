@@ -74,9 +74,9 @@ class AddSuiteToCart extends FormRequest
         ->whereBetween('start', [ $date_start->format($to_format), $date_end->format($to_format) ])
         ->orWhereBetween('end', [ $date_start->format($to_format), $date_end->format($to_format) ])
         ->orWhereDate('start', '<', $date_start->format($to_format))
-        ->orWhereDate('end', '>', $date_start->format($to_format))
+        ->whereDate('end', '>', $date_start->format($to_format))
         ->orWhereDate('start', '<', $date_end->format($to_format))
-        ->orWhereDate('end', '>', $date_end->format($to_format))
+        ->whereDate('end', '>', $date_end->format($to_format))
         ->get();
 
         return $reservations;
