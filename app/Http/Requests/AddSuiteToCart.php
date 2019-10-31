@@ -86,13 +86,13 @@ class AddSuiteToCart extends FormRequest
     {
         foreach ($reservations as $reserv) {
             $res = [];
-            $reservation = Reservation::find($reserv->id);
+            $reservation = Reservation::where($reserv->id);
     
             foreach ($reservation->details as $detail) {
-                $suite_id = $detail->suite->id;
-                $res[] = $suite_id;
+                $suite_number = $detail->suite->number;
+                $res[] = $suite_number;
     
-                if ($suite_id == $product_id)
+                if ($suite_number == $product_id)
                 $validator->errors()->add('disp', '<br>La habitación ya está ocupada en la fecha solicitada.');
             }
         }
