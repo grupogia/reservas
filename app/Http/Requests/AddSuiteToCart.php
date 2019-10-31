@@ -89,7 +89,7 @@ class AddSuiteToCart extends FormRequest
             $reservation = Reservation::where('id', '=', $reserv->id)->first();
     
             foreach ($reservation->details as $detail) {
-                $suite_number = $detail->suite->number;
+                $suite_number = $detail->suite->id;
                 $res[] = $suite_number;
     
                 if ($suite_number == $product_id)
