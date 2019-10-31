@@ -84,3 +84,6 @@ Route::post('/roles/asignar-permiso/{role}', 'RoleController@assignPermission')-
 Route::get('/perfil', 'Auth\ProfileController@index')->name('profile');
 Route::put('/perfil/actualizar', 'Auth\ProfileController@update')->name('profile.update');
 Route::get('/mis-reservaciones', 'Auth\ProfileController@reservations')->name('auth.reservations');
+
+// Pruebas
+//Route::post('/prueba/{product}', 'ShoppingCartController@prueba');

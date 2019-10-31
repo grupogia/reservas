@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AddSuiteToCart;
 use App\Suite;
+use App\Http\Requests\AddSuiteToCart;
 use Gloudemans\Shoppingcart\Facades\Cart;
-use Symfony\Component\HttpFoundation\Request;
 
 class ShoppingCartController extends Controller
 {
@@ -79,22 +78,12 @@ class ShoppingCartController extends Controller
         return response()->json(['success' => 'Carrito vacio']);
     }
 
-    public function getPricePerPerson($persons)
+    public function getPricePerPerson($persons, $price_per_person = 0)
     {
-        $price_per_person = 0;
-
         if ($persons > 2) {
             $price_per_person = 700 * ($persons - 2);
         }
-
-        return $price_per_person;
-    }
-
-    public function validateDisponibility(Request $request)
-    {
-        $data = $request->all();
-
         
-        return $data;
+        return $price_per_person;
     }
 }

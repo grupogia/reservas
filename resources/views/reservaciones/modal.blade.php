@@ -14,7 +14,7 @@
                 <form id="formReserva" action="#" method="post" autocomplete="off" data-url="{{ url('reservaciones') }}">
                     @csrf
 
-                    <div class="accordion" id="accordionExample">
+                    <div class="accordion shadow" id="accordionExample">
                         <div class="card">
                             <div class="card-header bg-meliar p-0" id="headingOne">
                                 <button class="btn w-100 text-light collapsed" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">

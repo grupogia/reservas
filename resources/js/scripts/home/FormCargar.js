@@ -25,7 +25,7 @@ export class FormCargar
         let msg = res.response.data;
         let errorsText = ''
 
-        if (res.response.status === 401) {
+        if (res.response.status === 419) {
             location.reload();
         }
         
@@ -43,9 +43,8 @@ export class FormCargar
     sendData(habitacionId, formData) {
         Axios.post('carrito-habitaciones/' + habitacionId, formData)
         .then(res => {
-            if (res.data.price == '')
-            console.log(res.data.price);
- 
+            // if (res.data.price == '')
+            // console.log(res.data.price);
             this.successMessage(res)
         })
         .catch(res => {
@@ -59,6 +58,9 @@ export class FormCargar
             e.preventDefault();
             let datosDeHabitacion = new FormData(this.form)
             let habId = this.form.querySelector('select[name=habitacion]').value
+
+            datosDeHabitacion.append('fecha_de_entrada', document.querySelector('#modalRegistrar [name=fecha_de_entrada]').value);
+            datosDeHabitacion.append('fecha_de_salida', document.querySelector('#modalRegistrar [name=fecha_de_salida]').value);
 
             this.sendData(habId, datosDeHabitacion)
         })
