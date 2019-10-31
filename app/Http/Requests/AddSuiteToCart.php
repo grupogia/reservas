@@ -93,7 +93,7 @@ class AddSuiteToCart extends FormRequest
                 $res[] = $suite_number;
 
                 
-                if ($suite_number == $product_id)
+                if ($suite_number === $product_id)
                 $validator->errors()->add('disp', '<br>La habitación ya está ocupada en la fecha solicitada.' . $suite_number);
             }
             var_dump($res); die;
