@@ -18,7 +18,7 @@
 
                     <div class="form-group">
                         <label for="tarifa">Tarifa</label>
-                        <select class="form-control" name="tarifa">
+                        <select class="form-control" name="tarifa" required>
                             <option value="">- Elegir -</option>
                             <option value="rack">Rack</option>
                             <option value="bar 1">Bar 1</option>
