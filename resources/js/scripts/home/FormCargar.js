@@ -41,6 +41,8 @@ export class FormCargar
     }
 
     sendData(habitacionId, formData) {
+        Swal.showLoading()
+        
         Axios.post('carrito-habitaciones/' + habitacionId, formData)
         .then(res => {
             // if (res.data.price == '')
