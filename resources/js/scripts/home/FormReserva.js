@@ -23,10 +23,12 @@ export class FormReserva
     }
 
     errorMessage(errorObj) {
-        let errors = errorObj.response.data.errors
-        let errorText = ''
+        let errors = errorObj.response.data.errors;
+        let errorText = '';
 
-        if (errorObj.response.status === 401) {
+        this.calendar.refetchEvents();
+
+        if (errorObj.response.status === 419) {
             location.reload();
         }
 
