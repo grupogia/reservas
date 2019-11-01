@@ -170,7 +170,7 @@ export class ModalReserva {
         let time_start = '12:00 AM';
         let date_start = moment(date.dateStr).format('DD/MM/YYYY')
         let time_end = '11:00 PM ';
-        let date_end = moment(date.dateStr).format('DD/MM/YYYY')
+        let date_end = moment(date.dateStr).add(1, 'days').format('DD/MM/YYYY')
         let form     = $('#modalRegistrar #formReserva')[0]
         
         form.reset();
