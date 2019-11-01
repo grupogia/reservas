@@ -43,6 +43,8 @@ export class ModalReserva {
             if (classList.contains('btn-danger')) {
                 let url = e.target.href;
                 
+                Swal.showLoading();
+                
                 Axios.get(url)
                 .then(() => {
                     Swal.fire({
