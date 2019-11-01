@@ -62,7 +62,7 @@ Route::put('/actualizar-habitacion/{detail}', 'ReservationDetailController@updat
 Route::get('/carrito-habitaciones', 'ShoppingCartController@index');
 Route::post('/carrito-habitaciones/{product}', 'ShoppingCartController@add');
 Route::delete('/carrito-habitaciones/{product}', 'ShoppingCartController@remove');
-Route::get('/vaciar-carrito', 'ShoppingCartController@trash');
+Route::get('/vaciar-carrito', 'ShoppingCartController@trash')->name('cart.destroy');
 
 // Permisos
 Route::get('/permisos', 'PermissionController@index')->name('permissions');

@@ -28,7 +28,7 @@
     </div>
 </div>
 
-<a id="btnVaciarReservas" class="btn btn-danger float-right" href="vaciar-carrito"><i class="fas fa-trash-alt"></i> Vaciar</a>
+<a id="btnVaciarReservas" class="btn btn-danger float-right" href="{{ route('cart.destroy') }}"><i class="fas fa-trash-alt"></i> Vaciar</a>
 <a class="btn btn-primary float-right mr-1 mb-2" href="#submodalHabitacion" data-toggle="submodal"><i class="far fa-calendar-plus"></i> Cargar habitación</a>
 
 <div class="table-responsive text-center">
