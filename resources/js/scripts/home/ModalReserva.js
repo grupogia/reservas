@@ -91,14 +91,6 @@ export class ModalReserva {
             let name = e.target.name;
             let value = e.target.value;
 
-            // if (name == 'habitacion') {
-            //     console.log(value);
-            // }
-            
-            // if (name == 'tarifa') {
-            //     console.log(value)
-            // }
-
             if (name == 'tipo_pago') {
                 this.toggleInputs(value, 'tipo-pago');
             }
@@ -168,6 +160,9 @@ export class ModalReserva {
         total_carga.innerHTML = '$ ' + total
     }
 
+    /**
+     * Muestra los datos de un evento en el modal
+     */
     printModalStoreEvent(date) {
         let time_start = '12:00 AM';
         let date_start = moment(date.dateStr).format('DD/MM/YYYY')

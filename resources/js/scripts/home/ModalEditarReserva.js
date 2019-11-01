@@ -24,6 +24,8 @@ export class ModalEditarReserva {
             
             if (classList.contains('btn-danger')) {
                 let url = document.getElementById('formEditarReserva').action;
+
+                Swal.showLoading();
                 
                 Axios.delete(url)
                 .then(res => {                    
@@ -36,7 +38,7 @@ export class ModalEditarReserva {
                         this.bootstrapModal.modal('hide')
                     })
                 })
-                .catch(error => {               
+                .catch(error => {             
                     Swal.fire({
                         type: 'error',
                         title: error.response.data.message
@@ -51,13 +53,13 @@ export class ModalEditarReserva {
             let name = e.target.name;
             let value = e.target.value;
 
-            if (name == 'habitacion') {
-                console.log(value);
-            }
+            // if (name == 'habitacion') {
+            //     console.log(value);
+            // }
             
-            if (name == 'tarifa') {
-                console.log(value)
-            }
+            // if (name == 'tarifa') {
+            //     console.log(value)
+            // }
 
             if (name == 'tipo_pago') {
                 this.toggleInputs(value, 'tipo-pago');

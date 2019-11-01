@@ -68,6 +68,10 @@ class AddSuiteToCart extends FormRequest
         });
     }
 
+    /**
+     * Obtiene todas las reservaciones que hay entre un rango de fechas
+     * 
+     */
     public function getReservationsFromDates($date_start, $date_end, $to_format = 'Y-m-d H:i:s')
     {
         $start = $date_start->format($to_format);
@@ -95,10 +99,6 @@ class AddSuiteToCart extends FormRequest
                 $suite_number = $detail->suite->id;
                 $res[] = $suite_number;
 
-                // echo $suite_number;
-                // echo $product_id;
-                // var_dump($suite_number === $product_id);
-                // die;
                 if ($suite_number === $product_id)
                 $validator->errors()->add('disp', '<br>La habitación ya está ocupada en la fecha solicitada.');
             }
