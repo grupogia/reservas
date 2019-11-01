@@ -44,9 +44,11 @@ export class ModalReserva {
                 let url = e.target.href;
                 
                 Swal.showLoading();
-                
+
                 Axios.get(url)
                 .then(() => {
+                    this.getShoppingCartContent();
+                    
                     Swal.fire({
                         toast: true,
                         position: 'top-end',
@@ -55,7 +57,6 @@ export class ModalReserva {
                         type: 'success',
                         title: 'El carrito está vacío'
                     })
-                    this.getShoppingCartContent();
                 })
             }
         })

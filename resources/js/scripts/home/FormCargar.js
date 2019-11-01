@@ -7,7 +7,11 @@ export class FormCargar
         this.form = document.getElementById(formName)
     }
 
-    successMessage(res) {               
+    successMessage(res) {  
+        this.getShoppingCartContent()
+        $('#submodalHabitacion').submodal('hide')
+        this.form.reset()
+
         Swal.fire({
             toast: true,
             position: 'top-end',
@@ -16,9 +20,6 @@ export class FormCargar
             type: 'success',
             title: res.data.message
         })
-        this.getShoppingCartContent()
-        $('#submodalHabitacion').submodal('hide')
-        this.form.reset()
     }
 
     errorMessage(res) {
@@ -40,13 +41,14 @@ export class FormCargar
         })
     }
 
+    /**
+     * Envía los datos de la habitacion a cargar
+     */
     sendData(habitacionId, formData) {
         Swal.showLoading()
         
         Axios.post('carrito-habitaciones/' + habitacionId, formData)
         .then(res => {
-            // if (res.data.price == '')
-            // console.log(res.data.price);
             this.successMessage(res)
         })
         .catch(res => {
@@ -55,6 +57,9 @@ export class FormCargar
         })
     }
 
+    /**
+     * Se ejecuta una vez que se envía el formulario
+     */
     submitEventListener() {
         this.form.addEventListener('submit', e => {
             e.preventDefault();
@@ -68,6 +73,9 @@ export class FormCargar
         })
     }
 
+    /**
+     * Actualiza el estado del carrito
+     */
     getShoppingCartContent() {
         Axios.get('carrito-habitaciones')
         .then(res => {
