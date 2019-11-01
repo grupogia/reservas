@@ -6,6 +6,7 @@ export class ModalReserva {
     constructor(modalName) {
         this.modal = document.getElementById(modalName);
         this.bootstrapModal = $('#' + modalName)
+        this.events()
     }
 
     /** Muestra el modal */
@@ -21,7 +22,20 @@ export class ModalReserva {
     }
 
     hide() {
-        this.bootstrapModal.modal('hide')
+        this.bootstrapModal.modal('hide')        
+    }
+
+    events() {
+        let url = document.getElementById('btnVaciarReservas').href;
+
+        // Escucha cuando se cierra el modal
+        this.bootstrapModal.on('hidden.bs.modal', () => {
+            // Vacía el carrito
+            Axios.get(url)
+            .then(() => {
+                this.getShoppingCartContent();
+            })
+        })
     }
 
     /** Devuelve las habitaciones cargadas en el carrito */
