@@ -25,7 +25,7 @@ export class FormCargar
         let msg = res.response.data;
         let errorsText = ''
 
-        if (res.response.status === 419) {
+        if (res.response.status === 419 || res.response.status === 401) {
             location.reload();
         }
         

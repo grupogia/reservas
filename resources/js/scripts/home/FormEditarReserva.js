@@ -28,6 +28,10 @@ export class FormEditarReserva
             errorText += errors[i][0] + '<br>';
         }
 
+        if (msgObj.response.status === 401 || msgObj.response.status === 419) {
+            location.reload()
+        }
+
         if (msgObj.response.status === 403) {
             errorText = 'No tiene permisos sobre este registro.';
         }

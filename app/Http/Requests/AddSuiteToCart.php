@@ -43,7 +43,7 @@ class AddSuiteToCart extends FormRequest
      */
     public function withValidator($validator)
     {
-        $id     = $this->route('product');
+        $id     = (int) $this->route('product');
         $tarifa = strtolower($this->input('tarifa'));
 
         $is_product = Cart::content()
@@ -70,22 +70,25 @@ class AddSuiteToCart extends FormRequest
 
     public function getReservationsFromDates($date_start, $date_end, $to_format = 'Y-m-d H:i:s')
     {
-        $reservations = DB::table('reservations')->select()
-        ->whereBetween('start', [ $date_start->format($to_format), $date_end->format($to_format) ])
-        ->orWhereBetween('end', [ $date_start->format($to_format), $date_end->format($to_format) ])
-        ->orWhereDate('start', '<', $date_start->format($to_format))
-        ->whereDate('end', '>', $date_start->format($to_format))
-        ->orWhereDate('start', '<', $date_end->format($to_format))
-        ->whereDate('end', '>', $date_end->format($to_format))
-        ->get();
+        $start = $date_start->format($to_format);
+        $end = $date_end->format($to_format);
 
+        $sql = "SELECT id FROM reservations
+        WHERE (start BETWEEN ? AND ?) OR (end BETWEEN ? AND ?)
+        OR (? BETWEEN start AND end) OR (? BETWEEN start AND end)";
+
+        $binds = [
+            $start, $end, $start, $end, $start, $end,
+        ];
+
+        $reservations = DB::select($sql, $binds);
         return $reservations;
     }
 
-    public function validateArrayReservations($validator, $reservations, $product_id)
+    public function validateArrayReservations($validator, $reservations, int $product_id)
     {
+        $res = [];
         foreach ($reservations as $reserv) {
-            $res = [];
             $reservation = Reservation::where('id', '=', $reserv->id)->first();
     
             foreach ($reservation->details as $detail) {
@@ -97,7 +100,7 @@ class AddSuiteToCart extends FormRequest
                 // var_dump($suite_number === $product_id);
                 // die;
                 if ($suite_number === $product_id)
-                $validator->errors()->add('disp', '<br>La habitación ya está ocupada en la fecha solicitada.' . $suite_number);
+                $validator->errors()->add('disp', '<br>La habitación ya está ocupada en la fecha solicitada.');
             }
         }
     }

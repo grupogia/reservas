@@ -28,7 +28,7 @@ export class FormReserva
 
         this.calendar.refetchEvents();
 
-        if (errorObj.response.status === 419) {
+        if (errorObj.response.status === 419 || errorObj.response.status === 401) {
             location.reload();
         }
 
