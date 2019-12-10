@@ -1,5 +1,4 @@
 import Swal from 'sweetalert2';
-import Axios from 'axios';
 
 export class FormCargar
 {
@@ -47,7 +46,7 @@ export class FormCargar
     sendData(habitacionId, formData) {
         Swal.showLoading()
         
-        Axios.post('carrito-habitaciones/' + habitacionId, formData)
+        axios.post('carrito-habitaciones/' + habitacionId, formData)
         .then(res => {
             this.successMessage(res)
         })
@@ -77,7 +76,7 @@ export class FormCargar
      * Actualiza el estado del carrito
      */
     getShoppingCartContent() {
-        Axios.get('carrito-habitaciones')
+        axios.get('carrito-habitaciones')
         .then(res => {
             this.printTbodyHab(res)
         })

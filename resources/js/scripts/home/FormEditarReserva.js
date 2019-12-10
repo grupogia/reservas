@@ -1,4 +1,3 @@
-import Axios from "axios";
 import Swal from "sweetalert2";
 
 export class FormEditarReserva
@@ -43,7 +42,7 @@ export class FormEditarReserva
     }
 
     sendData(url, data) {
-        Axios.post(url, data)
+        axios.post(url, data)
         .then(response => {
             this.successMessage(response.data)
         })

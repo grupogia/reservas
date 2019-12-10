@@ -1,4 +1,3 @@
-import Axios from "axios";
 import Swal from "sweetalert2";
 
 export class FormReserva
@@ -45,7 +44,7 @@ export class FormReserva
     sendData(url, data) {
         Swal.showLoading()
 
-        Axios.post(url, data)
+        axios.post(url, data)
         .then(response => {
             this.successMessage(response)
         })

@@ -1,5 +1,4 @@
 import moment from 'moment';
-import Axios from 'axios';
 import Swal from 'sweetalert2';
 
 export class ModalReserva {
@@ -31,7 +30,7 @@ export class ModalReserva {
         // Escucha cuando se cierra el modal
         this.bootstrapModal.on('hidden.bs.modal', () => {
             // Vacía el carrito
-            Axios.get(url)
+            axios.get(url)
             .then(() => {
                 this.getShoppingCartContent();
             })
@@ -40,7 +39,7 @@ export class ModalReserva {
 
     /** Devuelve las habitaciones cargadas en el carrito */
     getShoppingCartContent() {
-        Axios.get('carrito-habitaciones')
+        axios.get('carrito-habitaciones')
         .then(res => {
             this.printTbodyHab(res)
         })
@@ -59,7 +58,7 @@ export class ModalReserva {
                 
                 Swal.showLoading();
 
-                Axios.get(url)
+                axios.get(url)
                 .then(() => {
                     this.getShoppingCartContent();
                     
@@ -78,7 +77,7 @@ export class ModalReserva {
         this.modal.querySelector('.calculate').addEventListener('click', () => {
             let data = new FormData(formReserva);
             
-            Axios.post('/calcular-precio', data)
+            axios.post('/calcular-precio', data)
             .then(response => {
                 Swal.fire({
                     type: 'success',

@@ -1,5 +1,4 @@
 import moment from 'moment';
-import Axios from 'axios';
 import Swal from 'sweetalert2';
 
 export class ModalEditarReserva {
@@ -27,7 +26,7 @@ export class ModalEditarReserva {
 
                 Swal.showLoading();
                 
-                Axios.delete(url)
+                axios.delete(url)
                 .then(res => {                    
                     Swal.fire({
                         type: 'success',
@@ -86,7 +85,7 @@ export class ModalEditarReserva {
     getDetailReserva(form) {
         let url = form.action;
         
-        Axios.get(url)
+        axios.get(url)
         .then(res => {
             this.printTbodyHab(res)
         })
