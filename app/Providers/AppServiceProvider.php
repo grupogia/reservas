@@ -26,10 +26,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // if($this->app->environment('production')) {
-        //     URL::forceScheme('https');
-        // }
-        URL::forceSchema('https');
+        if($this->app->environment('production')) {
+            URL::forceScheme('https');
+        }
 
         Validator::extend('alpha_spaces', function ($attribute, $value) {
             // If you want to accept hyphens use: /^[\pL\s-]+$/u.
