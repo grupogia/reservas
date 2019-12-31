@@ -11,7 +11,9 @@
 |
 */
 
-Route::get('/', 'HomeController@index')->name('index');
+Route::get('/', function() {
+    return redirect('/home');
+})->name('index');
 
 Auth::routes();
 
