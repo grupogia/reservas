@@ -226,7 +226,7 @@ class ReservationController extends Controller
 
         $reservation = Reservation::find($id);
 
-        if ($reservation->user->id != auth()->user()->id)
+        if ($reservation->user->id != auth()->user()->id && !auth()->user()->hasRole('admin'))
         return response()->json(['message' => 'No autorizado, no eres propietario de este evento'], 401);
 
         $reservation->details()->delete();
