@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 
@@ -28,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
         // if($this->app->environment('production')) {
         //     URL::forceScheme('https');
         // }
+        URL::forceSchema('https');
 
         Validator::extend('alpha_spaces', function ($attribute, $value) {
             // If you want to accept hyphens use: /^[\pL\s-]+$/u.
