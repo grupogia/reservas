@@ -1,4 +1,4 @@
-import Swal from "sweetalert2";
+import swal from "sweetalert2";
 
 export class FormReserva
 {
@@ -9,7 +9,7 @@ export class FormReserva
     }
 
     successMessage(response) {
-        Swal.fire({
+        swal.fire({
             toast: true,
             position: 'top-end',
             showConfirmButton: false,
@@ -27,14 +27,10 @@ export class FormReserva
 
         this.calendar.refetchEvents();
 
-        if (errorObj.response.status === 419 || errorObj.response.status === 401) {
-            location.reload();
-        }
-
         for (let i in errors) {
             errorText += errors[i][0] + '<br>'
         }
-        Swal.fire({
+        swal.fire({
             type: 'error',
             title: 'Datos inválidos',
             html: errorText
@@ -42,13 +38,14 @@ export class FormReserva
     }
 
     sendData(url, data) {
-        Swal.showLoading()
+        swal.showLoading()
 
         axios.post(url, data)
         .then(response => {
             this.successMessage(response)
         })
         .catch(errors => {
+            if (errors.response.status === 422)
             this.errorMessage(errors)
         })
     }

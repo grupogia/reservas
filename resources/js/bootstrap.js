@@ -8,7 +8,8 @@ window._ = require('lodash');
 
 try {
     window.Popper = require('popper.js').default;
-    window.$ = window.jQuery = require('jquery');
+    window.$      = window.jQuery = require('jquery');
+    window.swal   = require('sweetalert2');
 
     require('bootstrap');
     require('../bower_components/submodaljs/dist/bs.sm')
@@ -23,6 +24,30 @@ try {
 window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+/** Acciones predeterminadas de axios
+ *
+ * Se difine el comportamiento global de las peticiones HTTP.
+ * Definiendo interceptores.
+ */
+
+const onSuccess = (response) => {
+    return response
+}
+
+const onError = (fail) => {
+    var message = 'Datos incorrectos'                
+    let status  = fail.response.status
+
+    if (status === 401 || status === 403) message = 'Acceso no autorizado'
+    if (status === 404) message = '404 - El recurso no existe'
+    if (status === 419) message = 'La página ha expirado, favor de recargar'
+
+    if (message != 'Datos incorrectos') swal.fire({ type: 'error', title: message })
+    return Promise.reject(fail)
+}
+
+window.axios.interceptors.response.use(onSuccess, onError)
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
