@@ -11,7 +11,6 @@ try {
     window.$ = window.jQuery = require('jquery');
 
     require('bootstrap');
-    require('@fortawesome/fontawesome-free/js/all');
     require('../bower_components/submodaljs/dist/bs.sm')
 } catch (e) {}
 
