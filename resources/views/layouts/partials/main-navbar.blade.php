@@ -4,7 +4,15 @@
             {{ config('app.name', 'Laravel') }}
         </a>
         
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="{{ __('Toggle navigation') }}"
+        >
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -12,33 +20,27 @@
             <!-- Left Side Of Navbar -->
             @auth
                 <ul class="navbar-nav mr-auto">
-                    @can('index.revervations')
+                    @can ('index.reservations')
                         <li><a
-                            class="nav-link @if(request()->is('home')) active @endif"
+                            class="nav-link @if (request()->is('home')) active @endif"
                             href="{{ route('home') }}"><i class="fas fa-calendar-week"></i> Sábana</a></li>
                     @endcan
 
-                    @can('index.suites')
+                    @can ('index.suites')
                         <li><a
-                            class="nav-link @if(request()->routeIs('suites')) active @endif"
+                            class="nav-link @if (request()->routeIs('suites')) active @endif"
                             href="{{ route('suites') }}"><i class="fas fa-door-closed"></i> Habitaciones</a></li>
                     @endcan
 
-                    @can('log.index')
+                    @can ('log.index')
                         <li><a
-                            class="nav-link @if(request()->RouteIs('log')) active @endif"
+                            class="nav-link @if (request()->RouteIs('log')) active @endif"
                             href="{{ route('log') }}"><i class="fas fa-list-ul"></i> Historial</a></li>
                     @endcan
 
-                    @can('index.users')
+                    @if (auth()->user()->hasRole('admin'))
                         <li><a
-                            class="nav-link @if(request()->routeIs('users')) active @endif"
-                            href="{{ route('users') }}"><i class="fas fa-users"></i> Usuarios</a></li>
-                    @endcan
-
-                    @if(auth()->user()->hasRole('admin'))
-                        <li><a
-                            class="nav-link @if(request()->routeIs('dashboard')) active @endif"
+                            class="nav-link @if (request()->routeIs('dashboard')) active @endif"
                             href="{{ route('dashboard') }}"><i class="fas fa-tachometer-alt"></i> Panel de Control</a></li>
                     @endif
                 </ul>
@@ -61,7 +63,15 @@
 
                 @else
                     <li class="nav-item dropdown">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        <a
+                            id="navbarDropdown"
+                            class="nav-link dropdown-toggle"
+                            href="#" role="button"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                            v-pre
+                        >
                             <i class="fas fa-user-circle fa-lg mr-1"></i> {{ auth()->user()->name }} <span class="caret"></span>
                         </a>
 

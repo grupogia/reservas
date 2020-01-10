@@ -14,6 +14,10 @@
                 <li>
                     <a href="{{ route('permissions') }}">Permisos</a>
                 </li>
+
+                <li>
+                    <a href="{{ route('users') }}"><i class="fas fa-users"></i> Usuarios</a>
+                </li>
             </ul>
         </div>
     </div>
