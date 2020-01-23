@@ -67,7 +67,7 @@ export class FormCargar
 
             datosDeHabitacion.append('fecha_de_entrada', document.querySelector('#modalRegistrar [name=fecha_de_entrada]').value)
             datosDeHabitacion.append('fecha_de_salida', document.querySelector('#modalRegistrar [name=fecha_de_salida]').value)
-            datosDeHabitacion.append('hora_de_salida', document.querySelector('#modalRegistrar [name=hora_de_salida]').value)
+            datosDeHabitacion.append('hora_de_entrada', document.querySelector('#modalRegistrar [name=hora_de_entrada]').value)
             datosDeHabitacion.append('hora_de_salida', document.querySelector('#modalRegistrar [name=hora_de_salida]').value)
 
             this.sendData(habId, datosDeHabitacion)
