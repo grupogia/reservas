@@ -59,9 +59,9 @@ class AddSuiteToCart extends FormRequest
             if ($rates <= 0)
             $validator->errors()->add('rate', 'No se encontró una tarifa para esta habitación');
 
-            $from_format = 'd/m/Y';
-            $date_start  = date_create_from_format($from_format, $this->input('fecha_de_entrada'));
-            $date_end    = date_create_from_format($from_format, $this->input('fecha_de_salida'));
+            $from_format = 'd/m/Y h:i A';
+            $date_start  = date_create_from_format($from_format, $this->input('fecha_de_entrada') .' '. $this->input('hora_de_entrada'));
+            $date_end    = date_create_from_format($from_format, $this->input('fecha_de_salida') .' '. $this->input('hora_de_salida'));
 
             $reservations = $this->getReservationsFromDates($date_start, $date_end);
             $this->validateArrayReservations($validator, $reservations, $id);
@@ -89,6 +89,7 @@ class AddSuiteToCart extends FormRequest
         return $reservations;
     }
 
+    /** Validamos que la fecha no esté ocupada */
     public function validateArrayReservations($validator, $reservations, int $product_id)
     {
         $res = [];
