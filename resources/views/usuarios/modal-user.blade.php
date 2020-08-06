@@ -35,7 +35,7 @@
         
                     <div class="form-group">
                         <label for="password">Contraseña</label>
-                        <input class="form-control @error('password') is-invalid @enderror" type="password" name="password" placeholder="*****">
+                        <input class="form-control @error('password') is-invalid @enderror" type="password" name="password" placeholder="* * * * *">
             
                         @error('password')
                             <span class="invalid-feedback" role="alert">
@@ -46,7 +46,7 @@
         
                     <div class="form-group">
                         <label for="password_confirmation">Confirmar contraseña</label>
-                        <input class="form-control @error('password_confirmation') is-invalid @enderror" type="password" name="password_confirmation" placeholder="*****">
+                        <input class="form-control @error('password_confirmation') is-invalid @enderror" type="password" name="password_confirmation" placeholder="* * * * *">
             
                         @error('password_confirmation')
                             <span class="invalid-feedback" role="alert">

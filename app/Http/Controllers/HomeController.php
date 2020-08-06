@@ -27,4 +27,9 @@ class HomeController extends Controller
         $suites = Suite::all();
         return view('home', ['suites' => $suites]);
     }
+
+    public function toHome()
+    {
+        return redirect('/home');
+    }
 }

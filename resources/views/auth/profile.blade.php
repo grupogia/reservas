@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <div class="card p-3 col-md-5 mt-3">
+    <div class="card p-3 col-md-5 my-3">
         <h1>Perfil</h1>
 
         @if(session('success'))
@@ -38,7 +38,7 @@
 
             <div class="form-group">
                 <label for="password">Nueva contraseña</label>
-                <input class="form-control @error('password') is-invalid @enderror" type="password" name="password" id="" placeholder="*****">
+                <input class="form-control @error('password') is-invalid @enderror" type="password" name="password" id="" placeholder="* * * * *">
 
                 @error('password')
                     <span class="invalid-feedback" role="alert">
@@ -49,7 +49,7 @@
 
             <div class="form-group">
                 <label for="password_confirmation">Confirmar contraseña</label>
-                <input class="form-control @error('password_confirmation') is-invalid @enderror" type="password" name="password_confirmation" id="" placeholder="*****">
+                <input class="form-control @error('password_confirmation') is-invalid @enderror" type="password" name="password_confirmation" id="" placeholder="* * * * *">
 
                 @error('password_confirmation')
                     <span class="invalid-feedback" role="alert">

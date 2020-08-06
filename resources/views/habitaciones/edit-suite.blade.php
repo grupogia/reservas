@@ -5,10 +5,8 @@
 @section('content')
 
 <div class="container">
-    @include('habitaciones.assign-rate')
-
     <div class="d-flex justify-content-around">
-        <form class="card mt-3 p-4 col-md-5" action="{{ route('suites.update', [ 'suite' => $suite->id ]) }}" method="post">
+        <form class="card my-3 p-4 col-md-5" action="{{ route('suites.update', [ 'suite' => $suite->id ]) }}" method="post">
             @csrf @method('put')
     
             <div class="form-group">
@@ -62,7 +60,7 @@
         </form>
     
         {{-- Formulario para eliminar --}}
-        <div class="card col-md-6 p-4 mt-3">
+        <div class="card col-md-6 p-4 my-3">
             <h4>Tarifas</h4>
 
             <table class="table table-striped border-bottom text-center">
@@ -110,5 +108,6 @@
             </form>
         </div>
     </div>
+    @include('habitaciones.assign-rate')
 </div>
 @endsection

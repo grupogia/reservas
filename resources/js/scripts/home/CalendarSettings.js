@@ -10,8 +10,9 @@ export const CalendarSettings = {
      */
     plugins: [ resourceTimelinePlugin, interactionPlugin ],
     defaultView: 'resourceTimelineMonth',
-    contentHeight: 450,
+    //contentHeight: "auto",
     resourceAreaWidth: '310px',
+    aspectRatio: 2.8,
     locale: esLocale,
     //slotWidth: 100,
     titleFormat: { year: 'numeric', month: 'long' },

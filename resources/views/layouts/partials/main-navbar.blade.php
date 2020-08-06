@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-meliar bg-meliar shadow-sm">
+<nav class="navbar navbar-expand-md navbar-meliar bg-meliar shadow-sm main-header">
     <div class="container-fluid">
         <a class="navbar-brand" href="{{ route('index') }}">
             {{ config('app.name', 'Laravel') }}

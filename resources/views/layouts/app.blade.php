@@ -13,9 +13,6 @@
     <script defer src="{{ mix('js/app.js') }}"></script>
     @stack('scripts')
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     @stack('styles')
@@ -27,6 +24,8 @@
         <main>
             @yield('content')
         </main>
+
+        <footer></footer>
     </div>
 </body>
 </html>
