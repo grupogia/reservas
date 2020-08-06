@@ -3,7 +3,12 @@
 @section('content')
 
 <div class="container">
-    @include('usuarios.asignar-role')
+    @if (session('success'))
+        <div class="alert alert-success mt-4" role="alert">
+            <strong>Correcto.</strong> {{ session('success') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</button>
+        </div>
+    @endif
 
     <div class="d-flex justify-content-around">
         <form class="card mt-3 p-4 col-md-5" action="{{ route('users.update', [ 'user' => $user->id ]) }}" method="post">
@@ -12,7 +17,6 @@
             <div class="form-group">
                 <label for="name">Nombre completo</label>
                 <input class="form-control @error('name') is-invalid @enderror" type="text" name="name" value="{{ $user->name }}">
-    
                 @error('name')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -23,8 +27,26 @@
             <div class="form-group">
                 <label for="email">Correo electrónico</label>
                 <input class="form-control @error('email') is-invalid @enderror" type="text" name="email" value="{{ $user->email }}" placeholder="@">
-    
                 @error('email')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <label for="password">Contraseña (Opcional)</label>
+                <input class="form-control @error('password') is-invalid @enderror" type="password" name="password" placeholder="* * * * *">
+                @error('password')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <input class="form-control @error('password_confirmation') is-invalid @enderror" type="password" name="password_confirmation" placeholder="* * * * *">
+                @error('password_confirmation')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
@@ -32,7 +54,7 @@
             </div>
     
             <div class="w-100 p-0 m-0">
-                <button class="btn btn-warning col-5 col-md-3" type="submit">Editar</button>
+                <button class="btn btn-warning col-5 col-md-3" type="submit">Actualizar</button>
                 <a class="btn btn-secondary col-5 col-md-3 ml-2" href="{{ route('users') }}">Cancelar</a>
             </div>
         </form>
@@ -53,7 +75,9 @@
                         <th>Slug</th>
                         <th>Nombre</th>
                         <th>Descripción</th>
-                        <th class="p-1"><button class="btn btn-success" data-toggle="modal" data-target="#rolesModal">Asignar</button></th>
+                        <th class="p-1">
+                            <button class="btn btn-success" data-toggle="modal" data-target="#rolesModal">Asignar</button>
+                        </th>
                     </tr>
                 </thead>
 
@@ -99,6 +123,7 @@
             </form>
         </div>
     </div>
+    
+    @include('usuarios.asignar-role')
 </div>
-
 @endsection
