@@ -31,7 +31,7 @@
         "@fullcalendar/interaction": "^4.4.2",
         "@fullcalendar/resource-timeline": "^4.4.2",
         "@fullcalendar/timegrid": "^4.4.2",
-        "datatables.net": "^1.10.21",
+        "datatables.net": "^1.11.3",
         "datatables.net-dt": "^1.10.21",
         "jquery-ui": "^1.12.1",
         "moment": "^2.27.0",
