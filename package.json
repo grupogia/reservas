@@ -34,7 +34,7 @@
         "datatables.net": "^1.10.21",
         "datatables.net-dt": "^1.10.21",
         "jquery-ui": "^1.12.1",
-        "moment": "^2.27.0",
+        "moment": "^2.29.4",
         "sweetalert2": "^8.19.0",
         "timepicker": "^1.13.14"
     }
