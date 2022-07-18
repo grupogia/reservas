@@ -33,7 +33,7 @@
         "@fullcalendar/timegrid": "^4.4.2",
         "datatables.net": "^1.10.21",
         "datatables.net-dt": "^1.10.21",
-        "jquery-ui": "^1.12.1",
+        "jquery-ui": "^1.13.2",
         "moment": "^2.27.0",
         "sweetalert2": "^8.19.0",
         "timepicker": "^1.13.14"
